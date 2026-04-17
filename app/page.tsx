@@ -44,12 +44,12 @@ export default function WaveTheWhite() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mt-4 mb-10 z-20 relative">
-            <a
-              href="#how-it-works"
+            <Link
+              href="/login?mode=signup"
               className="inline-flex items-center justify-center bg-white/90 backdrop-blur-md text-black font-semibold py-4 px-8 rounded-full text-lg shadow-[0_8px_30px_rgb(255,255,255,0.12)] hover:bg-white hover:scale-105 transition-all w-full sm:w-auto border border-white/20"
             >
               Join the Movement
-            </a>
+            </Link>
             <a
               href="#listen"
               className="inline-flex items-center justify-center bg-black/20 backdrop-blur-xl border border-white/30 text-white font-semibold py-4 px-8 rounded-full text-lg hover:bg-white/10 hover:border-white/50 transition-all w-full sm:w-auto shadow-[0_4px_30px_rgba(0,0,0,0.1)]"
@@ -159,12 +159,12 @@ export default function WaveTheWhite() {
             </div>
 
             <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a
-                href="#how-it-works"
+              <Link
+                href="/login?mode=signup"
                 className="bg-white/90 backdrop-blur-md text-black font-semibold py-3.5 px-8 rounded-full text-lg shadow-lg hover:bg-white hover:scale-105 transition-all w-full sm:w-auto"
               >
                 Join the Movement
-              </a>
+              </Link>
               <a
                 href="#listen"
                 className="bg-white/10 backdrop-blur-lg border border-white/20 text-white hover:bg-white/20 font-medium py-3.5 px-8 rounded-full flex items-center justify-center gap-2 transition-all shadow-md w-full sm:w-auto"
@@ -195,7 +195,7 @@ export default function WaveTheWhite() {
                 src="https://open.spotify.com/embed/track/4T9DqjaeGSb4c71boHRNgj?utm_source=generator"
                 width="100%"
                 height="352"
-                allowFullScreen={true as any}
+                allowFullScreen
                 allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                 loading="lazy">
               </iframe>

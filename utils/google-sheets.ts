@@ -23,7 +23,7 @@ export async function fetchLeaderboardData(): Promise<LeaderboardEntry[]> {
             let quote = false;
             let col = '';
             for (let c = 0; c < str.length; c++) {
-                let ch = str[c];
+                const ch = str[c];
                 if (ch === '"') {
                     quote = !quote;
                 } else if (ch === ',' && !quote) {
@@ -59,14 +59,14 @@ export async function fetchLeaderboardData(): Promise<LeaderboardEntry[]> {
         }
 
         // Map rows to objects
-        const data = rows.slice(1).map((cells, i) => {
+        const data = rows.slice(1).map((cells) => {
             // Ensure we have enough cells, if not, fill with empty strings
             if (cells.length < headers.length) {
                 const diff = headers.length - cells.length
                 for (let j = 0; j < diff; j++) cells.push('')
             }
 
-            let scoreVal = cells[scoreIdx] || '0'
+            const scoreVal = cells[scoreIdx] || '0'
             // Remove explicit + signs if present (though usually fine)
 
             return {

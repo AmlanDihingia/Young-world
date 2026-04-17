@@ -33,8 +33,8 @@ export default function PaymentSuccessPage() {
                     <div className="bg-white/5 border border-white/10 rounded-3xl p-8 md:p-12 mb-16 backdrop-blur-md max-w-2xl mx-auto transform hover:scale-[1.02] transition-transform duration-500">
                         <Trophy className="w-12 h-12 sm:w-16 sm:h-16 text-primary mx-auto mb-6" />
                         <p className="text-lg sm:text-xl text-white/90 font-medium leading-relaxed">
-                            You're in. Your spot is secured. <br />
-                            <span className="text-white/50 text-base mt-2 block">Now it's time to show the world what you've got.</span>
+                            You&apos;re in. Your spot is secured. <br />
+                            <span className="text-white/50 text-base mt-2 block">Now it&apos;s time to show the world what you&apos;ve got.</span>
                         </p>
                     </div>
 

@@ -5,7 +5,7 @@ import Footer from '@/components/footer'
 import GrainOverlay from '@/components/grain-overlay'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-import Link from 'next/link'
+
 import PaypalButton from '@/components/paypal-button'
 import { Check, Globe, Music, Smartphone, Trophy } from 'lucide-react'
 import HowItWorks from '@/components/how-it-works'
@@ -131,7 +131,7 @@ export default function ChallengePage() {
                                     </div>
                                 </div>
                                 <div className="mt-8 text-center">
-                                    <p className="text-primary/80 font-medium italic">"All you need is one reel — your style, your heat."</p>
+                                    <p className="text-primary/80 font-medium italic">&quot;All you need is one reel — your style, your heat.&quot;</p>
                                 </div>
                             </div>
                         </motion.div>

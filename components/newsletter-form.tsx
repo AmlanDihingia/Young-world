@@ -32,9 +32,10 @@ export default function NewsletterForm() {
                 setMessage({ type: 'success', text: 'Welcome to the movement.' })
                 setEmail('')
             }
-        } catch (error: any) {
-            console.error('Newsletter Error:', error)
-            setMessage({ type: 'error', text: error.message || 'Something went wrong. Try again.' })
+        } catch (error) {
+            const err = error as Error;
+            console.error('Newsletter Error:', err)
+            setMessage({ type: 'error', text: err.message || 'Something went wrong. Try again.' })
         } finally {
             setLoading(false)
         }
