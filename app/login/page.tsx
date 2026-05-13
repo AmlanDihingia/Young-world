@@ -18,32 +18,32 @@ export default function LoginPage({
     const [isLogin, setIsLogin] = useState(mode !== 'signup')
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-black relative overflow-hidden px-4 selection:bg-[var(--primary)] selection:text-black">
+        <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-white to-sky-50 relative overflow-hidden px-4 selection:bg-sky-200 selection:text-sky-900">
             {/* Background Effects */}
-            <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[var(--primary)]/10 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2 pointer-events-none animate-pulse" />
-            <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[var(--secondary)]/10 rounded-full blur-[120px] translate-x-1/2 translate-y-1/2 pointer-events-none animate-pulse" style={{ animationDelay: '2s' }} />
+            <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-sky-100/50 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2 pointer-events-none animate-pulse" />
+            <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-white rounded-full blur-[120px] translate-x-1/2 translate-y-1/2 pointer-events-none animate-pulse" style={{ animationDelay: '2s' }} />
 
             <div className="w-full max-w-md space-y-8 relative z-10">
                 <div className="text-center">
                     <Link href="/" className="inline-flex items-center gap-2 mb-8 hover:opacity-80 transition-opacity group">
-                        <div className="relative w-24 h-24">
+                        <div className="relative w-80 h-40">
                             <Image
                                 src="/logo.png"
                                 alt="Young World Logo"
                                 fill
-                                className="object-contain group-hover:scale-110 transition-transform duration-300"
+                                className="object-contain group-hover:scale-105 transition-transform duration-300"
                             />
                         </div>
                     </Link>
-                    <h1 className="text-4xl font-black uppercase tracking-tighter text-primary mb-2">
+                    <h1 className="text-4xl font-light uppercase tracking-tight text-slate-800 mb-2">
                         {isLogin ? 'Welcome Back' : 'Join the Movement'}
                     </h1>
-                    <p className="text-primary/60 text-sm font-bold tracking-widest uppercase">
+                    <p className="text-slate-500 text-sm font-medium tracking-widest uppercase">
                         {isLogin ? 'Enter your credentials to access your account' : 'Create your creator profile today'}
                     </p>
                 </div>
 
-                <form className="space-y-4 bg-white/5 backdrop-blur-md p-8 rounded-2xl border border-white/10 shadow-2xl">
+                <form className="space-y-4 bg-white/80 backdrop-blur-md p-8 rounded-2xl border border-sky-100 shadow-[0_8px_40px_rgba(14,165,233,0.06)]">
                     <AnimatePresence mode="popLayout">
                         {!isLogin && (
                             <motion.div
@@ -53,7 +53,7 @@ export default function LoginPage({
                                 className="space-y-4 overflow-hidden"
                             >
                                 <div>
-                                    <label htmlFor="full_name" className="block text-xs font-bold uppercase tracking-widest text-primary/60 mb-2">
+                                    <label htmlFor="full_name" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">
                                         Full Name
                                     </label>
                                     <input
@@ -61,12 +61,12 @@ export default function LoginPage({
                                         name="full_name"
                                         type="text"
                                         required={!isLogin}
-                                        className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-primary placeholder-primary/20 focus:outline-none focus:border-[var(--primary)] transition-colors font-bold"
+                                        className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 placeholder-slate-400 focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400 transition-colors font-medium"
                                         placeholder="YOUR NAME"
                                     />
                                 </div>
                                 <div>
-                                    <label htmlFor="country" className="block text-xs font-bold uppercase tracking-widest text-primary/60 mb-2">
+                                    <label htmlFor="country" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">
                                         Country
                                     </label>
                                     <input
@@ -74,12 +74,12 @@ export default function LoginPage({
                                         name="country"
                                         type="text"
                                         required={!isLogin}
-                                        className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-primary placeholder-primary/20 focus:outline-none focus:border-[var(--primary)] transition-colors font-bold"
+                                        className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 placeholder-slate-400 focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400 transition-colors font-medium"
                                         placeholder="YOUR COUNTRY"
                                     />
                                 </div>
                                 <div>
-                                    <label htmlFor="social_url" className="block text-xs font-bold uppercase tracking-widest text-primary/60 mb-2">
+                                    <label htmlFor="social_url" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">
                                         Social Profile URL
                                     </label>
                                     <input
@@ -87,7 +87,7 @@ export default function LoginPage({
                                         name="social_url"
                                         type="url"
                                         required={!isLogin}
-                                        className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-primary placeholder-primary/20 focus:outline-none focus:border-[var(--primary)] transition-colors font-bold"
+                                        className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 placeholder-slate-400 focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400 transition-colors font-medium"
                                         placeholder="HTTPS://TIKTOK.COM/@YOU"
                                     />
                                 </div>
@@ -96,7 +96,7 @@ export default function LoginPage({
                     </AnimatePresence>
 
                     <div>
-                        <label htmlFor="email" className="block text-xs font-bold uppercase tracking-widest text-primary/60 mb-2">
+                        <label htmlFor="email" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">
                             Email
                         </label>
                         <input
@@ -104,13 +104,13 @@ export default function LoginPage({
                             name="email"
                             type="email"
                             required
-                            className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-[var(--primary)] transition-colors font-bold"
+                            className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 placeholder-slate-400 focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400 transition-colors font-medium"
                             placeholder="YOU@EXAMPLE.COM"
                         />
                     </div>
 
                     <div>
-                        <label htmlFor="password" className="block text-xs font-bold uppercase tracking-widest text-primary/60 mb-2">
+                        <label htmlFor="password" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">
                             Password
                         </label>
                         <input
@@ -118,7 +118,7 @@ export default function LoginPage({
                             name="password"
                             type="password"
                             required
-                            className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-[var(--primary)] transition-colors font-bold"
+                            className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 placeholder-slate-400 focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400 transition-colors font-medium"
                             placeholder="••••••••"
                         />
                     </div>
@@ -137,7 +137,7 @@ export default function LoginPage({
                     <div className="pt-4">
                         <button
                             formAction={isLogin ? login : signup}
-                            className="w-full bg-[var(--color-button)] text-white hover:scale-[1.02] active:scale-[0.98] transition-all py-4 rounded-xl text-sm font-black uppercase tracking-widest shadow-[0_0_20px_rgba(253,7,4,0.3)] hover:shadow-[0_0_30px_rgba(253,7,4,0.5)]"
+                            className="w-full bg-sky-500 text-white hover:bg-sky-600 active:scale-[0.98] transition-all py-4 rounded-xl text-sm font-medium uppercase tracking-widest shadow-[0_4px_14px_rgba(14,165,233,0.39)]"
                         >
                             {isLogin ? 'Log in' : 'Create Account'}
                         </button>
@@ -147,7 +147,7 @@ export default function LoginPage({
                         <button
                             type="button"
                             onClick={() => setIsLogin(!isLogin)}
-                            className="text-primary/60 hover:text-primary text-xs font-bold uppercase tracking-widest transition-colors"
+                            className="text-slate-500 hover:text-sky-600 text-xs font-medium uppercase tracking-widest transition-colors"
                         >
                             {isLogin ? "Don't have an account? Sign up" : "Already have an account? Log in"}
                         </button>

@@ -7,10 +7,9 @@ export const dynamic = 'force-dynamic'
 
 export default function LeaderboardPage() {
     return (
-        <main className="min-h-screen flex flex-col relative bg-black selection:bg-primary selection:text-black">
+        <main className="min-h-screen flex flex-col relative bg-gradient-to-br from-white to-sky-50 text-slate-800 selection:bg-sky-200 selection:text-sky-900">
             <Navbar />
-            <GrainOverlay />
-
+            
             <div className="pt-20">
                 <LeaderboardSection />
             </div>

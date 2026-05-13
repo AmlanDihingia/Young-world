@@ -7,11 +7,11 @@
 }
 
 @theme {
-  --color-primary: #FFC500;
-  --color-secondary: #ff0099;
-  --color-background: #0a0a0a;
-  --color-foreground: #ededed;
-  --color-button: #FD0704;
+  --color-primary: #0ea5e9; /* Sky blue 500 */
+  --color-secondary: #bae6fd; /* Sky blue 200 */
+  --color-background: #ffffff; /* Pure white background for cleanliness */
+  --color-foreground: #0f172a; /* Slate 900 for soft, readable text */
+  --color-button: #0ea5e9; /* Sky blue button */
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-oswald), ui-sans-serif, system-ui, sans-serif;
@@ -63,10 +63,10 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #333;
+  background: #cbd5e1; /* slate-300 */
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #94a3b8; /* slate-400 */
 }
