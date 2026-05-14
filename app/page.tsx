@@ -103,16 +103,70 @@ export default function WaveTheWhite() {
           <p className="text-xl md:text-2xl text-slate-500 font-light leading-relaxed mb-16 max-w-3xl mx-auto">
             Wave the White is a global creator movement built around unity, creativity, humanity, and participation.
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10">
-            <div className="p-10 bg-sky-50/30 rounded-3xl shadow-[0_4px_40px_rgba(14,165,233,0.03)] border border-sky-100/50 flex flex-col items-center justify-center min-h-[180px] hover:shadow-[0_8px_40px_rgba(14,165,233,0.08)] hover:-translate-y-1 transition-all duration-500">
-              <h3 className="text-xl md:text-2xl font-normal text-slate-700 tracking-tight">Wave something white.</h3>
+
+        </div>
+      </section>
+
+      {/* 
+        ========================================
+        HOW IT WORKS SECTION
+        ========================================
+      */}
+      <section id="how-it-works" className="relative w-full py-28 md:py-40 bg-sky-50/30 text-slate-800 border-t border-white overflow-hidden">
+        {/* Subtle Background Glows */}
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-white rounded-full blur-[100px] pointer-events-none"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-sky-100/50 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+
+          <div className="text-center mb-16 md:mb-24">
+            <h2 className="text-4xl md:text-5xl font-light uppercase tracking-tight mb-4 text-slate-800 drop-shadow-sm">
+              How It Works
+            </h2>
+            <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto font-light">
+              Three simple steps. No rules. No experience needed.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+
+            {/* Step 1 */}
+            <div className="flex flex-col items-center text-center group bg-white border border-sky-50 rounded-3xl p-10 hover:shadow-[0_8px_40px_rgba(14,165,233,0.06)] hover:border-sky-100 transition-all duration-500">
+              <div className="w-16 h-16 bg-sky-50 border border-sky-100 rounded-full flex items-center justify-center mb-6 text-sky-600 group-hover:scale-110 group-hover:bg-sky-500 group-hover:text-white transition-all duration-500">
+                <Shirt className="w-6 h-6" />
+              </div>
+              <h3 className="text-2xl font-normal mb-4 tracking-tight text-slate-700">Wear or hold something white</h3>
+              <p className="text-slate-500 font-light leading-relaxed text-[15px]">
+                A white t-shirt, a towel, a scarf, a flag — anything works.<br />
+                There&apos;s no dress code. Just bring white into the frame.
+              </p>
             </div>
-            <div className="p-10 bg-sky-50/30 rounded-3xl shadow-[0_4px_40px_rgba(14,165,233,0.03)] border border-sky-100/50 flex flex-col items-center justify-center min-h-[180px] hover:shadow-[0_8px_40px_rgba(14,165,233,0.08)] hover:-translate-y-1 transition-all duration-500">
-              <h3 className="text-xl md:text-2xl font-normal text-slate-700 tracking-tight">Represent your city.</h3>
+
+            {/* Step 2 */}
+            <div className="flex flex-col items-center text-center group bg-white border border-sky-50 rounded-3xl p-10 hover:shadow-[0_8px_40px_rgba(14,165,233,0.06)] hover:border-sky-100 transition-all duration-500">
+              <div className="w-16 h-16 bg-sky-50 border border-sky-100 rounded-full flex items-center justify-center mb-6 text-sky-600 group-hover:scale-110 group-hover:bg-sky-500 group-hover:text-white transition-all duration-500">
+                <Music className="w-6 h-6" />
+              </div>
+              <h3 className="text-2xl font-normal mb-4 tracking-tight text-slate-700">Use &quot;Wave the White&quot;</h3>
+              <p className="text-slate-500 font-light leading-relaxed text-[15px]">
+                Play the track on your speaker, headphones, or in the background.<br />
+                Move however you feel — dance, skate, walk, paint, smile.
+              </p>
             </div>
-            <div className="p-10 bg-sky-50/30 rounded-3xl shadow-[0_4px_40px_rgba(14,165,233,0.03)] border border-sky-100/50 flex flex-col items-center justify-center min-h-[180px] hover:shadow-[0_8px_40px_rgba(14,165,233,0.08)] hover:-translate-y-1 transition-all duration-500">
-              <h3 className="text-xl md:text-2xl font-normal text-slate-700 tracking-tight">Pass the wave forward.</h3>
+
+            {/* Step 3 */}
+            <div className="flex flex-col items-center text-center group bg-white border border-sky-50 rounded-3xl p-10 hover:shadow-[0_8px_40px_rgba(14,165,233,0.06)] hover:border-sky-100 transition-all duration-500">
+              <div className="w-16 h-16 bg-sky-50 border border-sky-100 rounded-full flex items-center justify-center mb-6 text-sky-600 group-hover:scale-110 group-hover:bg-sky-500 group-hover:text-white transition-all duration-500">
+                <Camera className="w-6 h-6" />
+              </div>
+              <h3 className="text-2xl font-normal mb-4 tracking-tight text-slate-700">Post with #WaveTheWhite</h3>
+              <p className="text-slate-500 font-light leading-relaxed text-[15px]">
+                Film your clip.<br />
+                Share it on Instagram, TikTok, or YouTube.<br />
+                Tag <span className="text-sky-600 font-medium">#WaveTheWhite</span> so we can find you.
+              </p>
             </div>
+
           </div>
         </div>
       </section>
@@ -139,19 +193,19 @@ export default function WaveTheWhite() {
           {/* City Wall Grid */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-8">
             {[
-              { name: "Kathmandu", delay: "0s" },
-              { name: "Shillong", delay: "0.2s" },
-              { name: "Colombo", delay: "0.4s" },
-              { name: "Bali", delay: "0.6s" },
-              { name: "Guwahati", delay: "0.8s" },
+              { name: "Kathmandu", delay: "0s", image: "https://images.unsplash.com/photo-1623492701902-47dc207df5dc?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+              { name: "Shillong", delay: "0.2s", image: "https://images.unsplash.com/photo-1625826415766-001bd75aaf52?q=80&w=1035&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+              { name: "Colombo", delay: "0.4s", image: "https://images.unsplash.com/photo-1623595289196-007a22dd8560?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+              { name: "Bali", delay: "0.6s", image: "https://images.unsplash.com/photo-1577717903315-1691ae25ab3f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+              { name: "Guwahati", delay: "0.8s", image: "https://images.unsplash.com/photo-1611336814186-914161b9bdb6?q=80&w=3135&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
             ].map((city, idx) => (
               <div key={idx} className="flex flex-col gap-3 group">
                 <div className="relative aspect-[9/16] bg-sky-100/50 rounded-3xl overflow-hidden shadow-sm border border-sky-100 group-hover:shadow-[0_8px_30px_rgba(14,165,233,0.15)] group-hover:-translate-y-1 transition-all duration-500">
-                  {/* Placeholder for Reel/Thumbnail */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-sky-900/40 to-transparent z-10"></div>
+                  {/* City Background Image */}
+                  <img src={city.image} alt={city.name} className="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-105 transition-transform duration-700" />
                   
-                  {/* Skeleton Loading Effect */}
-                  <div className="absolute inset-0 bg-sky-200/30 animate-pulse" style={{ animationDelay: city.delay }}></div>
+                  {/* Gradient Overlay for Text Readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-sky-900/80 via-sky-900/10 to-transparent z-10"></div>
 
                   <div className="absolute inset-0 flex items-center justify-center opacity-40 z-10 text-white group-hover:opacity-80 transition-opacity">
                     <svg className="w-12 h-12 drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -249,65 +303,15 @@ export default function WaveTheWhite() {
 
       {/* 
         ========================================
-        HOW IT WORKS SECTION
+        JOIN THE MOVEMENT SECTION
         ========================================
       */}
-      <section id="how-it-works" className="relative w-full py-28 md:py-40 bg-sky-50/30 text-slate-800 border-t border-white overflow-hidden">
+      <section id="join" className="relative w-full py-28 md:py-40 bg-sky-50/30 text-slate-800 border-t border-white overflow-hidden">
         {/* Subtle Background Glows */}
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-white rounded-full blur-[100px] pointer-events-none"></div>
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-sky-100/50 rounded-full blur-[100px] pointer-events-none"></div>
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
-
-          <div className="text-center mb-16 md:mb-24">
-            <h2 className="text-4xl md:text-5xl font-light uppercase tracking-tight mb-4 text-slate-800 drop-shadow-sm">
-              How It Works
-            </h2>
-            <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto font-light">
-              Three simple steps. No rules. No experience needed.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-24">
-
-            {/* Step 1 */}
-            <div className="flex flex-col items-center text-center group bg-white border border-sky-50 rounded-3xl p-10 hover:shadow-[0_8px_40px_rgba(14,165,233,0.06)] hover:border-sky-100 transition-all duration-500">
-              <div className="w-16 h-16 bg-sky-50 border border-sky-100 rounded-full flex items-center justify-center mb-6 text-sky-600 group-hover:scale-110 group-hover:bg-sky-500 group-hover:text-white transition-all duration-500">
-                <Shirt className="w-6 h-6" />
-              </div>
-              <h3 className="text-2xl font-normal mb-4 tracking-tight text-slate-700">Wear or hold something white</h3>
-              <p className="text-slate-500 font-light leading-relaxed text-[15px]">
-                A white t-shirt, a towel, a scarf, a flag — anything works.<br />
-                There&apos;s no dress code. Just bring white into the frame.
-              </p>
-            </div>
-
-            {/* Step 2 */}
-            <div className="flex flex-col items-center text-center group bg-white border border-sky-50 rounded-3xl p-10 hover:shadow-[0_8px_40px_rgba(14,165,233,0.06)] hover:border-sky-100 transition-all duration-500">
-              <div className="w-16 h-16 bg-sky-50 border border-sky-100 rounded-full flex items-center justify-center mb-6 text-sky-600 group-hover:scale-110 group-hover:bg-sky-500 group-hover:text-white transition-all duration-500">
-                <Music className="w-6 h-6" />
-              </div>
-              <h3 className="text-2xl font-normal mb-4 tracking-tight text-slate-700">Use &quot;Wave the White&quot;</h3>
-              <p className="text-slate-500 font-light leading-relaxed text-[15px]">
-                Play the track on your speaker, headphones, or in the background.<br />
-                Move however you feel — dance, skate, walk, paint, smile.
-              </p>
-            </div>
-
-            {/* Step 3 */}
-            <div className="flex flex-col items-center text-center group bg-white border border-sky-50 rounded-3xl p-10 hover:shadow-[0_8px_40px_rgba(14,165,233,0.06)] hover:border-sky-100 transition-all duration-500">
-              <div className="w-16 h-16 bg-sky-50 border border-sky-100 rounded-full flex items-center justify-center mb-6 text-sky-600 group-hover:scale-110 group-hover:bg-sky-500 group-hover:text-white transition-all duration-500">
-                <Camera className="w-6 h-6" />
-              </div>
-              <h3 className="text-2xl font-normal mb-4 tracking-tight text-slate-700">Post with #WaveTheWhite</h3>
-              <p className="text-slate-500 font-light leading-relaxed text-[15px]">
-                Film your clip.<br />
-                Share it on Instagram, TikTok, or YouTube.<br />
-                Tag <span className="text-sky-600 font-medium">#WaveTheWhite</span> so we can find you.
-              </p>
-            </div>
-
-          </div>
 
           {/* Reinforcement Block */}
           <div className="max-w-4xl mx-auto text-center border border-sky-50 shadow-[0_8px_40px_rgba(14,165,233,0.06)] rounded-3xl p-10 md:p-14 mb-16 bg-white relative overflow-hidden">

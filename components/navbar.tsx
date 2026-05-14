@@ -48,22 +48,7 @@ export default function Navbar() {
                             </div>
                         </Link>
 
-                        <div className="hidden md:flex items-center space-x-8">
-                            {[
-                                { name: 'Home', href: '/' },
-                                { name: 'Leaderboard', href: '/leaderboard' },
-                                { name: 'Heat Check Challenge', href: '/challenge' }
-                            ].map((item) => (
-                                <Link
-                                    key={item.name}
-                                    href={item.href}
-                                    className="text-sm font-bold uppercase tracking-widest text-slate-800 hover:text-sky-600 transition-colors relative group"
-                                >
-                                    {item.name}
-                                    <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-sky-500 transition-all group-hover:w-full" />
-                                </Link>
-                            ))}
-                        </div>
+
 
                         <div className="hidden md:flex items-center gap-4">
                             <Link
@@ -112,20 +97,7 @@ export default function Navbar() {
                         </button>
 
                         <div className="flex flex-col gap-8 text-center relative z-10 w-full px-6">
-                            {[
-                                { name: 'Home', href: '/' },
-                                { name: 'Leaderboard', href: '/leaderboard' },
-                                { name: 'Heat Check Challenge', href: '/challenge' }
-                            ].map((item) => (
-                                <Link
-                                    key={item.name}
-                                    href={item.href}
-                                    onClick={() => setMobileMenuOpen(false)}
-                                    className="text-2xl sm:text-3xl font-bold uppercase tracking-widest text-slate-800 hover:text-sky-600 transition-colors py-2"
-                                >
-                                    {item.name}
-                                </Link>
-                            ))}
+
 
                             <div className="flex flex-col gap-4 w-full mt-10">
                                 <Link
