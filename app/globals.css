@@ -7,11 +7,15 @@
 }
 
 @theme {
-  --color-primary: #0ea5e9; /* Sky blue 500 */
-  --color-secondary: #bae6fd; /* Sky blue 200 */
-  --color-background: #ffffff; /* Pure white background for cleanliness */
-  --color-foreground: #0f172a; /* Slate 900 for soft, readable text */
-  --color-button: #0ea5e9; /* Sky blue button */
+  --color-primary: #6bc5fa; 
+  --color-secondary: #bae6fd; 
+  --color-background: #ffffff; 
+  --color-foreground: #0f172a; 
+  --color-button: #6bc5fa; 
+  
+  --color-sky-400: #82d2fb;
+  --color-sky-500: #6bc5fa;
+  --color-sky-600: #52aade;
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-oswald), ui-sans-serif, system-ui, sans-serif;
