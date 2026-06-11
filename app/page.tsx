@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowDown, Shirt, Music, Camera } from "lucide-react";
+import { ArrowDown, Shirt, Music, Camera, Users, Hash, UserPlus, Share2 } from "lucide-react";
 import Navbar from '@/components/navbar';
 
 export default function WaveTheWhite() {
@@ -35,12 +35,12 @@ export default function WaveTheWhite() {
           </h1>
 
           <h2 className="text-xl sm:text-2xl md:text-4xl font-normal mb-6 sm:mb-8 max-w-full sm:max-w-3xl text-slate-600 px-2 leading-relaxed">
-            A global movement for peace, unity, and joy powered by music.
+            The World&apos;s Biggest Friendship Roll Call
           </h2>
 
-          <div className="text-base sm:text-lg md:text-xl text-slate-500 font-light max-w-full sm:max-w-2xl mx-auto mb-10 sm:mb-14 text-center leading-relaxed px-2">
-            <p className="inline sm:block">Wear or hold something white. Play the song. </p>
-            <p className="inline sm:block">Move freely and share your moment. That&apos;s it.</p>
+          <div className="text-base sm:text-lg md:text-xl text-slate-500 font-light max-w-full sm:max-w-2xl mx-auto mb-10 sm:mb-14 text-center leading-relaxed px-4 flex flex-col gap-3">
+            <p>Where Communities from all corners of the world check in on friendship day to make sure that nobody gets left out.</p>
+            <p>Wear or hold something white, capture your moment, and pass it on.</p>
           </div>
 
           <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 w-full sm:w-auto mt-4 mb-16 z-20 relative">
@@ -48,9 +48,9 @@ export default function WaveTheWhite() {
               href="/login?mode=signup"
               className="inline-flex items-center justify-center bg-sky-500 text-white font-medium py-4 px-10 rounded-full text-lg shadow-[0_4px_20px_rgba(14,165,233,0.3)] hover:bg-sky-600 hover:scale-105 transition-all w-full sm:w-auto border border-sky-400"
             >
-              Join the Movement
+              JOIN THE ROLL CALL
             </Link>
-            <a
+            {/* <a
               href="#listen"
               className="inline-flex items-center justify-center bg-white/80 backdrop-blur-xl border border-gray-200 text-slate-800 font-medium py-4 px-10 rounded-full text-lg hover:bg-white hover:border-sky-200 hover:text-sky-700 transition-all w-full sm:w-auto shadow-sm"
             >
@@ -61,7 +61,7 @@ export default function WaveTheWhite() {
               className="inline-flex items-center justify-center bg-white/80 backdrop-blur-xl border border-gray-200 text-slate-800 font-medium py-4 px-10 rounded-full text-lg hover:bg-white hover:border-sky-200 hover:text-sky-700 transition-all w-full sm:w-auto shadow-sm"
             >
               Watch the Wave
-            </a>
+            </a> */}
           </div>
 
           <div className="mb-20 z-20 relative">
@@ -98,10 +98,10 @@ export default function WaveTheWhite() {
       <section id="the-movement" className="w-full py-28 md:py-40 bg-white text-slate-800 border-t border-sky-50">
         <div className="container mx-auto px-4 md:px-6 max-w-5xl text-center">
           <h2 className="text-4xl md:text-5xl font-light uppercase tracking-tight mb-8 text-slate-800">
-            The Movement
+            What is Wave the White?
           </h2>
           <p className="text-xl md:text-2xl text-slate-500 font-light leading-relaxed mb-16 max-w-3xl mx-auto">
-            Wave the White is a global creator movement built around unity, creativity, humanity, and participation.
+            Wave The White is a global Friendship Day tradition where communities check in to make sure nobody gets left out.
           </p>
 
         </div>
@@ -124,7 +124,7 @@ export default function WaveTheWhite() {
               How It Works
             </h2>
             <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto font-light">
-              Three simple steps. No rules. No experience needed.
+              Six simple steps. No rules. No experience needed.
             </p>
           </div>
 
@@ -133,24 +133,22 @@ export default function WaveTheWhite() {
             {/* Step 1 */}
             <div className="flex flex-col items-center text-center group bg-white border border-sky-50 rounded-3xl p-10 hover:shadow-[0_8px_40px_rgba(14,165,233,0.06)] hover:border-sky-100 transition-all duration-500">
               <div className="w-16 h-16 bg-sky-50 border border-sky-100 rounded-full flex items-center justify-center mb-6 text-sky-600 group-hover:scale-110 group-hover:bg-sky-500 group-hover:text-white transition-all duration-500">
-                <Shirt className="w-6 h-6" />
+                <Users className="w-6 h-6" />
               </div>
-              <h3 className="text-2xl font-normal mb-4 tracking-tight text-slate-700">Wear or hold something white</h3>
+              <h3 className="text-2xl font-normal mb-4 tracking-tight text-slate-700">Gather Your Community</h3>
               <p className="text-slate-500 font-light leading-relaxed text-[15px]">
-                A white t-shirt, a towel, a scarf, a flag — anything works.<br />
-                There&apos;s no dress code. Just bring white into the frame.
+                Bring together your club, crew, team, class, group or circle.
               </p>
             </div>
 
             {/* Step 2 */}
             <div className="flex flex-col items-center text-center group bg-white border border-sky-50 rounded-3xl p-10 hover:shadow-[0_8px_40px_rgba(14,165,233,0.06)] hover:border-sky-100 transition-all duration-500">
               <div className="w-16 h-16 bg-sky-50 border border-sky-100 rounded-full flex items-center justify-center mb-6 text-sky-600 group-hover:scale-110 group-hover:bg-sky-500 group-hover:text-white transition-all duration-500">
-                <Music className="w-6 h-6" />
+                <Shirt className="w-6 h-6" />
               </div>
-              <h3 className="text-2xl font-normal mb-4 tracking-tight text-slate-700">Use &quot;Wave the White&quot;</h3>
+              <h3 className="text-2xl font-normal mb-4 tracking-tight text-slate-700">Wave Something White</h3>
               <p className="text-slate-500 font-light leading-relaxed text-[15px]">
-                Play the track on your speaker, headphones, or in the background.<br />
-                Move however you feel — dance, skate, walk, paint, smile.
+                A t-shirt, towel, bandana, handkerchief, flag or anything white.
               </p>
             </div>
 
@@ -159,24 +157,72 @@ export default function WaveTheWhite() {
               <div className="w-16 h-16 bg-sky-50 border border-sky-100 rounded-full flex items-center justify-center mb-6 text-sky-600 group-hover:scale-110 group-hover:bg-sky-500 group-hover:text-white transition-all duration-500">
                 <Camera className="w-6 h-6" />
               </div>
-              <h3 className="text-2xl font-normal mb-4 tracking-tight text-slate-700">Post with #WaveTheWhite</h3>
+              <h3 className="text-2xl font-normal mb-4 tracking-tight text-slate-700">Check In</h3>
               <p className="text-slate-500 font-light leading-relaxed text-[15px]">
-                Film your clip.<br />
-                Share it on Instagram, TikTok, or YouTube.<br />
-                Tag <span className="text-sky-600 font-medium">#WaveTheWhite</span> so we can find you.
+                Post a reel on Friendship Day across Instagram, Youtube, Tiktok.
               </p>
             </div>
 
+            {/* Step 4 */}
+            <div className="flex flex-col items-center text-center group bg-white border border-sky-50 rounded-3xl p-10 hover:shadow-[0_8px_40px_rgba(14,165,233,0.06)] hover:border-sky-100 transition-all duration-500">
+              <div className="w-16 h-16 bg-sky-50 border border-sky-100 rounded-full flex items-center justify-center mb-6 text-sky-600 group-hover:scale-110 group-hover:bg-sky-500 group-hover:text-white transition-all duration-500">
+                <Hash className="w-6 h-6" />
+              </div>
+              <h3 className="text-2xl font-normal mb-4 tracking-tight text-slate-700">Use #WaveTheWhite</h3>
+              <p className="text-slate-500 font-light leading-relaxed text-[15px]">
+                So the world can find your community.
+              </p>
+            </div>
+
+            {/* Step 5 */}
+            <div className="flex flex-col items-center text-center group bg-white border border-sky-50 rounded-3xl p-10 hover:shadow-[0_8px_40px_rgba(14,165,233,0.06)] hover:border-sky-100 transition-all duration-500">
+              <div className="w-16 h-16 bg-sky-50 border border-sky-100 rounded-full flex items-center justify-center mb-6 text-sky-600 group-hover:scale-110 group-hover:bg-sky-500 group-hover:text-white transition-all duration-500">
+                <UserPlus className="w-6 h-6" />
+              </div>
+              <h3 className="text-2xl font-normal mb-4 tracking-tight text-slate-700">Tag 3 Communities That Shouldn&apos;t Be Left Out</h3>
+              <p className="text-slate-500 font-light leading-relaxed text-[15px]">
+                Help the wave grow.
+              </p>
+            </div>
+
+            {/* Step 6 */}
+            <div className="flex flex-col items-center text-center group bg-white border border-sky-50 rounded-3xl p-10 hover:shadow-[0_8px_40px_rgba(14,165,233,0.06)] hover:border-sky-100 transition-all duration-500">
+              <div className="w-16 h-16 bg-sky-50 border border-sky-100 rounded-full flex items-center justify-center mb-6 text-sky-600 group-hover:scale-110 group-hover:bg-sky-500 group-hover:text-white transition-all duration-500">
+                <Share2 className="w-6 h-6" />
+              </div>
+              <h3 className="text-2xl font-normal mb-4 tracking-tight text-slate-700">Pass It On</h3>
+              <p className="text-slate-500 font-light leading-relaxed text-[15px]">
+                Because nobody should be left out.
+              </p>
+            </div>
+
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-4 w-full mt-16 relative z-20">
+            <Link
+              href="/login?mode=signup"
+              className="inline-flex items-center justify-center bg-sky-500 text-white font-medium py-4 px-10 rounded-full text-lg shadow-[0_4px_20px_rgba(14,165,233,0.3)] hover:bg-sky-600 hover:scale-105 transition-all w-full sm:w-auto border border-sky-400"
+            >
+              Join the Wave
+            </Link>
+            <a
+              href="#listen"
+              className="inline-flex items-center justify-center bg-white border border-sky-200 text-slate-800 font-medium py-4 px-10 rounded-full text-lg hover:bg-sky-50 hover:border-sky-300 hover:text-sky-700 transition-all w-full sm:w-auto shadow-sm"
+            >
+              Download the Anthem
+            </a>
           </div>
         </div>
       </section>
 
       {/* 
         ========================================
-        LIVE CITY WALL SECTION
+        LIVE CITY WALL SECTION (HIDDEN)
         ========================================
       */}
-      <section className="w-full py-28 md:py-40 bg-gradient-to-b from-white to-sky-50/50 border-t border-sky-50">
+      {false && (<>
+        <section className="w-full py-28 md:py-40 bg-gradient-to-b from-white to-sky-50/50 border-t border-sky-50">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center text-center mb-20">
             <div className="inline-block bg-sky-100 text-sky-800 px-5 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6 animate-pulse">
@@ -300,6 +346,7 @@ export default function WaveTheWhite() {
           </div>
         </div>
       </section>
+      </>)}
 
       {/* 
         ========================================
@@ -330,7 +377,7 @@ export default function WaveTheWhite() {
                 href="/login?mode=signup"
                 className="bg-sky-500 text-white font-medium py-3.5 px-8 rounded-full text-lg shadow-[0_4px_14px_rgba(14,165,233,0.39)] hover:bg-sky-600 hover:scale-105 transition-all w-full sm:w-auto"
               >
-                Join the Movement
+                JOIN THE ROLL CALL
               </Link>
               <a
                 href="#listen"
