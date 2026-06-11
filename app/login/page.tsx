@@ -16,6 +16,8 @@ export default function LoginPage({
 }) {
     const { message, error, mode } = use(searchParams)
     const [isLogin, setIsLogin] = useState(mode !== 'signup')
+    const [step, setStep] = useState(1)
+    const [joinType, setJoinType] = useState<'creator' | 'community' | null>(null)
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-white to-sky-50 relative overflow-x-hidden px-4 selection:bg-sky-200 selection:text-sky-900">
@@ -64,155 +66,152 @@ export default function LoginPage({
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="space-y-12"
+                            className="space-y-6"
                         >
-                            {/* SECTION: YOUR DETAILS */}
-                            <section>
-                                <h3 className="text-sm font-bold uppercase tracking-widest text-sky-600 mb-6 border-b border-sky-100 pb-2">Your Details</h3>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div>
-                                        <label htmlFor="full_name" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Full Name</label>
-                                        <input id="full_name" name="full_name" type="text" required className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="email" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Email Address</label>
-                                        <input id="email" name="email" type="email" required className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="password" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Password</label>
-                                        <input id="password" name="password" type="password" required className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="mobile" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Mobile Number (Optional)</label>
-                                        <input id="mobile" name="mobile" type="tel" className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="city" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">City</label>
-                                        <input id="city" name="city" type="text" required className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="country" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Country</label>
-                                        <input id="country" name="country" type="text" required className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="insta_url" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Instagram URL</label>
-                                        <input id="insta_url" name="insta_url" type="url" required className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="other_url" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Other Social Media URL (Optional)</label>
-                                        <input id="other_url" name="other_url" type="url" className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
-                                    </div>
+                            {/* Step Indicator */}
+                            <div className="flex justify-between items-center mb-8">
+                                <div className="flex gap-2 w-full">
+                                    <div className={`h-1.5 w-full rounded-full ${step >= 1 ? 'bg-sky-500' : 'bg-slate-100'}`}></div>
+                                    <div className={`h-1.5 w-full rounded-full ${step >= 2 ? 'bg-sky-500' : 'bg-slate-100'}`}></div>
+                                    <div className={`h-1.5 w-full rounded-full ${step >= 3 ? 'bg-sky-500' : 'bg-slate-100'}`}></div>
                                 </div>
-                            </section>
+                            </div>
 
-                            {/* SECTION: YOUR COMMUNITY */}
-                            <section>
-                                <h3 className="text-sm font-bold uppercase tracking-widest text-sky-600 mb-6 border-b border-sky-100 pb-2">Your Community</h3>
-                                <div className="space-y-4">
-                                    <div>
-                                        <label htmlFor="community_type" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">What community are you representing?</label>
-                                        <p className="text-[11px] text-slate-400 mb-2">Examples: Run Club, Dance Academy, Nursing Students, Photography Club, University, DJ Collective, Hospitality Team, Creator Community, Cabin Crew, Model Agency, Other etc.</p>
-                                        <input id="community_type" name="community_type" type="text" required className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
-                                    </div>
+                            {/* STEP 1: YOUR DETAILS */}
+                            <div className={step === 1 ? 'space-y-12' : 'hidden'}>
+                                <section>
+                                    <h3 className="text-sm font-bold uppercase tracking-widest text-sky-600 mb-6 border-b border-sky-100 pb-2">Step 1: Your Details</h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <div>
-                                            <label htmlFor="community_insta" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Community Instagram URL</label>
-                                            <input id="community_insta" name="community_insta" type="url" className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
+                                            <label htmlFor="full_name" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Full Name</label>
+                                            <input id="full_name" name="full_name" type="text" className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
                                         </div>
                                         <div>
-                                            <label htmlFor="community_other" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Other Social Media URL</label>
-                                            <input id="community_other" name="community_other" type="url" className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
+                                            <label htmlFor="email" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Email Address</label>
+                                            <input id="email" name="email" type="email" className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
+                                        </div>
+                                        <div>
+                                            <label htmlFor="password" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Password</label>
+                                            <input id="password" name="password" type="password" className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
+                                        </div>
+                                        <div>
+                                            <label htmlFor="mobile" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Mobile Number (Optional)</label>
+                                            <input id="mobile" name="mobile" type="tel" className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
+                                        </div>
+                                        <div>
+                                            <label htmlFor="city" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">City</label>
+                                            <input id="city" name="city" type="text" className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
+                                        </div>
+                                        <div>
+                                            <label htmlFor="country" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Country</label>
+                                            <input id="country" name="country" type="text" className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
+                                        </div>
+                                        <div>
+                                            <label htmlFor="insta_url" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Instagram URL</label>
+                                            <input id="insta_url" name="insta_url" type="url" className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
+                                        </div>
+                                        <div>
+                                            <label htmlFor="other_url" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Other Social Media URL (Optional)</label>
+                                            <input id="other_url" name="other_url" type="url" className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
                                         </div>
                                     </div>
-                                    <div>
-                                        <label htmlFor="community_role" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Your Role</label>
-                                        <p className="text-[11px] text-slate-400 mb-2">Examples: Founder, Captain, Cultural Secretary, Community Leader, Member, Creator, Trainer, Owner, Other</p>
-                                        <input id="community_role" name="community_role" type="text" required className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
+                                </section>
+                            </div>
+
+                            {/* STEP 2: YOUR COMMUNITY & STORY */}
+                            <div className={step === 2 ? 'space-y-12' : 'hidden'}>
+                                <section>
+                                    <h3 className="text-sm font-bold uppercase tracking-widest text-sky-600 mb-6 border-b border-sky-100 pb-2">Step 2: How are you joining?</h3>
+                                    <div className="flex flex-col sm:flex-row gap-4 mb-2">
+                                        <button
+                                            type="button"
+                                            onClick={() => setJoinType('creator')}
+                                            className={`flex-1 p-6 rounded-2xl border-2 transition-all text-center ${joinType === 'creator' ? 'border-sky-500 bg-sky-50 text-sky-700 shadow-md' : 'border-sky-100 bg-white text-slate-500 hover:border-sky-200'}`}
+                                        >
+                                            <span className="block font-bold text-lg mb-1">Join as a Creator</span>
+                                            <span className="text-xs font-light">I am joining as an individual creator.</span>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => setJoinType('community')}
+                                            className={`flex-1 p-6 rounded-2xl border-2 transition-all text-center ${joinType === 'community' ? 'border-sky-500 bg-sky-50 text-sky-700 shadow-md' : 'border-sky-100 bg-white text-slate-500 hover:border-sky-200'}`}
+                                        >
+                                            <span className="block font-bold text-lg mb-1">Join as a Community</span>
+                                            <span className="text-xs font-light">I am representing a larger group.</span>
+                                        </button>
                                     </div>
-                                </div>
-                            </section>
+                                </section>
 
-                            {/* SECTION: YOUR STORY */}
-                            <section>
-                                <h3 className="text-sm font-bold uppercase tracking-widest text-sky-600 mb-6 border-b border-sky-100 pb-2">Your Story</h3>
-                                <div>
-                                    <label htmlFor="story" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">In one sentence: Why does your community matter to you?</label>
-                                    <textarea id="story" name="story" rows={3} required className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium resize-none"></textarea>
-                                </div>
-                            </section>
-
-                            {/* SECTION: CHECKING IN */}
-                            <section>
-                                <h3 className="text-sm font-bold uppercase tracking-widest text-sky-600 mb-6 border-b border-sky-100 pb-2">Checking In</h3>
-                                <div>
-                                    <label className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-4">How many people do you think may participate from your community?</label>
-                                    <div className="flex flex-wrap gap-4">
-                                        {['1–10', '10–25', '25–50', '50–100', '100+'].map((size) => (
-                                            <label key={size} className="flex items-center gap-2 cursor-pointer group">
-                                                <div className="relative flex items-center justify-center w-5 h-5 rounded-full border border-sky-300 bg-sky-50 group-hover:border-sky-500 transition-colors">
-                                                    <input type="radio" name="participation_size" value={size} required className="peer sr-only" />
-                                                    <div className="w-2.5 h-2.5 rounded-full bg-sky-500 opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+                                {joinType === 'community' && (
+                                    <div className="space-y-12 animate-in fade-in duration-500">
+                                        <section>
+                                            <h3 className="text-sm font-bold uppercase tracking-widest text-sky-600 mb-6 border-b border-sky-100 pb-2">Your Community</h3>
+                                            <div className="space-y-4">
+                                                <div>
+                                                    <label htmlFor="community_type" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">What community are you representing?</label>
+                                                    <p className="text-[11px] text-slate-400 mb-2">Examples: Run Club, Dance Academy, Nursing Students, Photography Club, University, DJ Collective, Hospitality Team, Creator Community, Cabin Crew, Model Agency, Other etc.</p>
+                                                    <input id="community_type" name="community_type" type="text" className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
                                                 </div>
-                                                <span className="text-sm font-medium text-slate-600">{size}</span>
-                                            </label>
-                                        ))}
-                                    </div>
-                                </div>
-                            </section>
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                    <div>
+                                                        <label htmlFor="community_insta" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Community Instagram URL</label>
+                                                        <input id="community_insta" name="community_insta" type="url" className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
+                                                    </div>
+                                                    <div>
+                                                        <label htmlFor="community_other" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Other Social Media URL</label>
+                                                        <input id="community_other" name="community_other" type="url" className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <label htmlFor="community_role" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Your Role</label>
+                                                    <p className="text-[11px] text-slate-400 mb-2">Examples: Founder, Captain, Cultural Secretary, Community Leader, Member, Creator, Trainer, Owner, Other</p>
+                                                    <input id="community_role" name="community_role" type="text" className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
+                                                </div>
+                                            </div>
+                                        </section>
 
-                            {/* SECTION: WHO'S MISSING? */}
-                            <section>
-                                <h3 className="text-sm font-bold uppercase tracking-widest text-sky-600 mb-6 border-b border-sky-100 pb-2">Who&apos;s Missing?</h3>
-                                <div>
-                                    <label className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-4">Nominate 3 people, communities or cities that shouldn&apos;t be left out when the world checks in.</label>
-                                    <div className="space-y-3">
-                                        <div className="flex items-center gap-3">
-                                            <span className="text-sky-400 font-bold">1.</span>
-                                            <input name="nominee_1" type="text" required className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-2 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
+                                        <section>
+                                            <h3 className="text-sm font-bold uppercase tracking-widest text-sky-600 mb-6 border-b border-sky-100 pb-2">Your Story</h3>
+                                            <div>
+                                                <label htmlFor="story" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">In one sentence: Why does your community matter to you?</label>
+                                                <textarea id="story" name="story" rows={3} className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium resize-none"></textarea>
+                                            </div>
+                                        </section>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* STEP 3: MEDIA & STAY CONNECTED */}
+                            <div className={step === 3 ? 'space-y-12' : 'hidden'}>
+                                <section>
+                                    <h3 className="text-sm font-bold uppercase tracking-widest text-sky-600 mb-6 border-b border-sky-100 pb-2">Step 3: Media</h3>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div>
+                                            <label className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Upload a profile photo (Optional)</label>
+                                            <input type="file" name="profile_photo" accept="image/*" className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-sky-50 file:text-sky-700 hover:file:bg-sky-100 transition-colors" />
                                         </div>
-                                        <div className="flex items-center gap-3">
-                                            <span className="text-sky-400 font-bold">2.</span>
-                                            <input name="nominee_2" type="text" required className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-2 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
-                                        </div>
-                                        <div className="flex items-center gap-3">
-                                            <span className="text-sky-400 font-bold">3.</span>
-                                            <input name="nominee_3" type="text" required className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-2 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
+                                        <div>
+                                            <label className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Upload a community photo (Optional)</label>
+                                            <input type="file" name="community_photo" accept="image/*" className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-sky-50 file:text-sky-700 hover:file:bg-sky-100 transition-colors" />
                                         </div>
                                     </div>
-                                </div>
-                            </section>
+                                </section>
 
-                            {/* SECTION: MEDIA */}
-                            <section>
-                                <h3 className="text-sm font-bold uppercase tracking-widest text-sky-600 mb-6 border-b border-sky-100 pb-2">Media</h3>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Upload a profile photo (Optional)</label>
-                                        <input type="file" name="profile_photo" accept="image/*" className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-sky-50 file:text-sky-700 hover:file:bg-sky-100 transition-colors" />
-                                    </div>
-                                    <div>
-                                        <label className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Upload a community photo (Optional)</label>
-                                        <input type="file" name="community_photo" accept="image/*" className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-sky-50 file:text-sky-700 hover:file:bg-sky-100 transition-colors" />
-                                    </div>
-                                </div>
-                            </section>
-
-                            {/* SECTION: STAY CONNECTED */}
-                            <section>
-                                <h3 className="text-sm font-bold uppercase tracking-widest text-sky-600 mb-6 border-b border-sky-100 pb-2">Stay Connected</h3>
-                                <label className="flex items-start gap-3 cursor-pointer group">
-                                    <div className="relative flex items-center justify-center w-5 h-5 rounded border border-sky-300 bg-sky-50 group-hover:border-sky-500 transition-colors mt-0.5 shrink-0">
-                                        <input type="checkbox" name="stay_connected" defaultChecked className="peer sr-only" />
-                                        <svg className="w-3 h-3 text-sky-500 opacity-0 peer-checked:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg>
-                                    </div>
-                                    <span className="text-sm font-medium text-slate-600 leading-relaxed">
-                                        I&apos;d like to stay connected with the Young World Network for future collaborations, events and community initiatives.
-                                    </span>
-                                </label>
-                            </section>
-
+                                <section>
+                                    <h3 className="text-sm font-bold uppercase tracking-widest text-sky-600 mb-6 border-b border-sky-100 pb-2">Stay Connected</h3>
+                                    <label className="flex items-start gap-3 cursor-pointer group">
+                                        <div className="relative flex items-center justify-center w-5 h-5 rounded border border-sky-300 bg-sky-50 group-hover:border-sky-500 transition-colors mt-0.5 shrink-0">
+                                            <input type="checkbox" name="stay_connected" defaultChecked className="peer sr-only" />
+                                            <svg className="w-3 h-3 text-sky-500 opacity-0 peer-checked:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                            </svg>
+                                        </div>
+                                        <span className="text-sm font-medium text-slate-600 leading-relaxed">
+                                            I&apos;d like to stay connected with the Young World Network for future collaborations, events and community initiatives.
+                                        </span>
+                                    </label>
+                                </section>
+                            </div>
                         </motion.div>
                     )}
 
@@ -228,14 +227,44 @@ export default function LoginPage({
                         </div>
                     )}
 
-                    {/* SUBMIT BUTTON */}
-                    <div className="pt-8">
-                        <button
-                            formAction={isLogin ? login : signup}
-                            className="w-full bg-sky-500 text-white hover:bg-sky-600 active:scale-[0.98] transition-all py-4 rounded-xl text-sm font-bold uppercase tracking-widest shadow-[0_4px_14px_rgba(14,165,233,0.39)]"
-                        >
-                            {isLogin ? 'Log in' : 'Complete Registration'}
-                        </button>
+                    {/* BUTTONS */}
+                    <div className="pt-8 flex flex-col sm:flex-row gap-4">
+                        {isLogin ? (
+                            <button
+                                formAction={login}
+                                className="w-full bg-sky-500 text-white hover:bg-sky-600 active:scale-[0.98] transition-all py-4 rounded-xl text-sm font-bold uppercase tracking-widest shadow-[0_4px_14px_rgba(14,165,233,0.39)]"
+                            >
+                                Log in
+                            </button>
+                        ) : (
+                            <>
+                                {step > 1 && (
+                                    <button
+                                        type="button"
+                                        onClick={() => setStep(step - 1)}
+                                        className="w-full sm:w-1/3 bg-white border border-sky-200 text-sky-600 hover:bg-sky-50 transition-all py-4 rounded-xl text-sm font-bold uppercase tracking-widest"
+                                    >
+                                        Back
+                                    </button>
+                                )}
+                                {step < 3 ? (
+                                    <button
+                                        type="button"
+                                        onClick={() => setStep(step + 1)}
+                                        className="w-full bg-sky-500 text-white hover:bg-sky-600 active:scale-[0.98] transition-all py-4 rounded-xl text-sm font-bold uppercase tracking-widest shadow-[0_4px_14px_rgba(14,165,233,0.39)]"
+                                    >
+                                        Next Step
+                                    </button>
+                                ) : (
+                                    <button
+                                        formAction={signup}
+                                        className="w-full bg-sky-500 text-white hover:bg-sky-600 active:scale-[0.98] transition-all py-4 rounded-xl text-sm font-bold uppercase tracking-widest shadow-[0_4px_14px_rgba(14,165,233,0.39)]"
+                                    >
+                                        Complete Registration
+                                    </button>
+                                )}
+                            </>
+                        )}
                     </div>
 
                     {/* TOGGLE */}

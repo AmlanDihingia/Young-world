@@ -30,15 +30,15 @@ export default function WaveTheWhite() {
         {/* Hero Content */}
         <div className="relative z-10 container flex flex-col items-center justify-center text-center px-4 sm:px-6 pt-32 pb-24 w-full max-w-7xl mx-auto">
 
-          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-light tracking-tight mb-4 sm:mb-6 text-slate-800 drop-shadow-sm">
+          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-light tracking-tight mb-4 sm:mb-6 text-slate-800 drop-shadow-sm text-balance">
             Wave the White
           </h1>
 
-          <h2 className="text-xl sm:text-2xl md:text-4xl font-normal mb-6 sm:mb-8 max-w-full sm:max-w-3xl text-slate-600 px-2 leading-relaxed">
+          <h2 className="text-xl sm:text-2xl md:text-4xl font-normal mb-6 sm:mb-8 max-w-full sm:max-w-3xl text-slate-600 px-4 leading-snug sm:leading-relaxed text-balance">
             The World&apos;s Biggest Friendship Roll Call
           </h2>
 
-          <div className="text-base sm:text-lg md:text-xl text-slate-500 font-light max-w-full sm:max-w-2xl mx-auto mb-10 sm:mb-14 text-center leading-relaxed px-4 flex flex-col gap-3">
+          <div className="text-sm sm:text-lg md:text-xl text-slate-500 font-light max-w-[90%] sm:max-w-2xl mx-auto mb-10 sm:mb-14 text-center leading-relaxed sm:leading-relaxed px-2 flex flex-col gap-4 text-balance">
             <p>Where Communities from all corners of the world check in on friendship day to make sure that nobody gets left out.</p>
             <p>Wear or hold something white, capture your moment, and pass it on.</p>
           </div>
@@ -179,8 +179,9 @@ export default function WaveTheWhite() {
               <div className="w-16 h-16 bg-sky-50 border border-sky-100 rounded-full flex items-center justify-center mb-6 text-sky-600 group-hover:scale-110 group-hover:bg-sky-500 group-hover:text-white transition-all duration-500">
                 <UserPlus className="w-6 h-6" />
               </div>
-              <h3 className="text-2xl font-normal mb-4 tracking-tight text-slate-700">Tag 3 Communities That Shouldn&apos;t Be Left Out</h3>
+              <h3 className="text-2xl font-normal mb-4 tracking-tight text-slate-700">Tag 3 Communities</h3>
               <p className="text-slate-500 font-light leading-relaxed text-[15px]">
+                That shouldn&apos;t be left out.<br />
                 Help the wave grow.
               </p>
             </div>
@@ -353,14 +354,15 @@ export default function WaveTheWhite() {
         JOIN THE MOVEMENT SECTION
         ========================================
       */}
-      <section id="join" className="relative w-full py-28 md:py-40 bg-sky-50/30 text-slate-800 border-t border-white overflow-hidden">
+      <section id="join" className="relative w-full pb-20 md:pb-32 bg-sky-50/30 text-slate-800 overflow-hidden">
         {/* Subtle Background Glows */}
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-white rounded-full blur-[100px] pointer-events-none"></div>
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-sky-100/50 rounded-full blur-[100px] pointer-events-none"></div>
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
 
-          {/* Reinforcement Block */}
+          {/* Reinforcement Block (HIDDEN) */}
+          {false && (
           <div className="max-w-4xl mx-auto text-center border border-sky-50 shadow-[0_8px_40px_rgba(14,165,233,0.06)] rounded-3xl p-10 md:p-14 mb-16 bg-white relative overflow-hidden">
             {/* Inner Glare Effect */}
             <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-sky-50/50 to-transparent pointer-events-none"></div>
@@ -387,13 +389,14 @@ export default function WaveTheWhite() {
               </a>
             </div>
           </div>
+          )}
 
           {/* 
             ========================================
             LISTEN TO THE SONG SECTION (Spotify Embed)
             ========================================
           */}
-          <div id="listen" className="max-w-3xl mx-auto mt-24 scroll-mt-24">
+          <div id="listen" className="max-w-3xl mx-auto mt-8 md:mt-12 scroll-mt-24">
             <div className="text-center mb-8">
               <h2 className="text-3xl md:text-4xl font-light uppercase tracking-tight text-slate-800 mb-2">
                 The Anthem
