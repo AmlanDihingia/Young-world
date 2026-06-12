@@ -21,6 +21,12 @@ export default async function DashboardPage() {
         .eq('id', user.id)
         .single()
 
+    // Profile photo is stored in auth user_metadata during signup
+    const profilePhotoUrl: string | null =
+        user.user_metadata?.profile_photo_url ||
+        profile?.profile_photo_url ||
+        null
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-white to-sky-50 text-slate-800 selection:bg-sky-200 selection:text-sky-900 relative overflow-hidden">
             {/* Background Effects */}
@@ -37,6 +43,7 @@ export default async function DashboardPage() {
                                     src="/logo.png"
                                     alt="Young World Logo"
                                     fill
+                                    sizes="224px"
                                     className="object-contain object-left group-hover:scale-105 transition-transform duration-300"
                                 />
                             </div>
@@ -60,8 +67,19 @@ export default async function DashboardPage() {
                         <div className="bg-white/80 border border-sky-100 rounded-3xl p-8 backdrop-blur-sm sticky top-24 shadow-[0_8px_40px_rgba(14,165,233,0.06)]">
                             <div className="flex flex-col items-center text-center">
                                 <div className="w-32 h-32 rounded-full bg-sky-200 p-1 mb-6 shadow-sm">
-                                    <div className="w-full h-full rounded-full bg-sky-50 flex items-center justify-center overflow-hidden">
-                                        <User className="w-12 h-12 text-sky-400" />
+                                    <div className="w-full h-full rounded-full bg-sky-50 flex items-center justify-center overflow-hidden relative">
+                                        {profilePhotoUrl ? (
+                                            <Image
+                                                src={profilePhotoUrl}
+                                                alt={profile?.full_name || 'Profile Photo'}
+                                                fill
+                                                sizes="128px"
+                                                unoptimized
+                                                className="object-cover"
+                                            />
+                                        ) : (
+                                            <User className="w-12 h-12 text-sky-400" />
+                                        )}
                                     </div>
                                 </div>
                                 <h1 className="text-3xl font-display font-light uppercase tracking-tight mb-2 text-slate-800">

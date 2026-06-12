@@ -5,7 +5,7 @@ import { LogOut, ExternalLink, Image as ImageIcon, CheckCircle, Clock } from 'lu
 import Image from 'next/image'
 
 // Replace this with your actual admin email!
-const ADMIN_EMAIL = 'amlandtech@gmail.com'
+const ADMIN_EMAIL = 'admin@youngworld.life'
 
 export default async function AdminDashboardPage() {
     const supabase = await createClient()
