@@ -159,7 +159,7 @@ export default function LoginPage({
                                         onClick={() => setJoinType('creator')}
                                         className={`flex-1 p-6 rounded-2xl border-2 transition-all text-center ${joinType === 'creator' ? 'border-sky-500 bg-sky-50 text-sky-700 shadow-md' : 'border-sky-100 bg-white text-slate-500 hover:border-sky-200'}`}
                                     >
-                                        <span className="block font-bold text-lg mb-1">Join as a Creator</span>
+                                        <span className="block font-bold text-lg mb-1">Check-in as Creator</span>
                                         <span className="text-xs font-light">I am joining as an individual creator.</span>
                                     </button>
                                     <button
@@ -167,7 +167,7 @@ export default function LoginPage({
                                         onClick={() => setJoinType('community')}
                                         className={`flex-1 p-6 rounded-2xl border-2 transition-all text-center ${joinType === 'community' ? 'border-sky-500 bg-sky-50 text-sky-700 shadow-md' : 'border-sky-100 bg-white text-slate-500 hover:border-sky-200'}`}
                                     >
-                                        <span className="block font-bold text-lg mb-1">Join as a Community</span>
+                                        <span className="block font-bold text-lg mb-1">Check-in as Community</span>
                                         <span className="text-xs font-light">I am representing a larger group.</span>
                                     </button>
                                 </div>
@@ -179,8 +179,19 @@ export default function LoginPage({
                                     <div className="space-y-4">
                                         <div>
                                             <label htmlFor="community_type" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">What community are you representing?</label>
-                                            <p className="text-[11px] text-slate-400 mb-2">Examples: Run Club, Dance Academy, Nursing Students, Photography Club, University, DJ Collective, Hospitality Team, Creator Community, Cabin Crew, Model Agency, Other etc.</p>
-                                            <input id="community_type" name="community_type" type="text" className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
+                                            <select id="community_type" name="community_type" defaultValue="" className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium appearance-none">
+                                                <option value="" disabled>Select a community</option>
+                                                <option value="Creators">Creators</option>
+                                                <option value="Influencer">Influencer</option>
+                                                <option value="Artist">Artist</option>
+                                                <option value="Photographer">Photographer</option>
+                                                <option value="Musician">Musician</option>
+                                                <option value="Content Creator">Content Creator</option>
+                                                <option value="Storyteller">Storyteller</option>
+                                                <option value="Dancer">Dancer</option>
+                                                <option value="Fitness">Fitness</option>
+                                                <option value="Other">Other</option>
+                                            </select>
                                         </div>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                             <div>
