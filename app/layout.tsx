@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Young World | Heat Check Challenge",
-  description: "Turn $1 into your biggest creator break.",
+  title: "Wave the White",
+  description: "Join the World's Biggest Friendship Roll Call",
 };
 
 export default function RootLayout({

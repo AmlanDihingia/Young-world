@@ -45,7 +45,7 @@ export default function WaveTheWhite() {
 
           <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 w-full sm:w-auto mt-4 mb-16 z-20 relative">
             <Link
-              href="/login?mode=signup"
+              href="/jointherollcall"
               className="inline-flex items-center justify-center bg-sky-500 text-white font-medium py-4 px-10 rounded-full text-lg shadow-[0_4px_20px_rgba(14,165,233,0.3)] hover:bg-sky-600 hover:scale-105 transition-all w-full sm:w-auto border border-sky-400"
             >
               JOIN THE ROLL CALL
@@ -202,7 +202,7 @@ export default function WaveTheWhite() {
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-4 w-full mt-16 relative z-20">
             <Link
-              href="/login?mode=signup"
+              href="/jointherollcall"
               className="inline-flex items-center justify-center bg-sky-500 text-white font-medium py-4 px-10 rounded-full text-lg shadow-[0_4px_20px_rgba(14,165,233,0.3)] hover:bg-sky-600 hover:scale-105 transition-all w-full sm:w-auto border border-sky-400"
             >
               Join the Wave
@@ -376,7 +376,7 @@ export default function WaveTheWhite() {
 
             <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
-                href="/login?mode=signup"
+                href="/jointherollcall"
                 className="bg-sky-500 text-white font-medium py-3.5 px-8 rounded-full text-lg shadow-[0_4px_14px_rgba(14,165,233,0.39)] hover:bg-sky-600 hover:scale-105 transition-all w-full sm:w-auto"
               >
                 JOIN THE ROLL CALL

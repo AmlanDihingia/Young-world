@@ -39,7 +39,7 @@ export default function PaymentSuccessPage() {
                     </div>
 
                     <Link
-                        href="/login?mode=signup"
+                        href="/jointherollcall"
                         className="inline-flex items-center justify-center bg-[var(--color-button)] text-white px-12 py-6 rounded-full text-xl sm:text-2xl font-black uppercase tracking-widest hover:scale-105 transition-all duration-300 shadow-[0_0_40px_rgba(253,7,4,0.4)] hover:shadow-[0_0_60px_rgba(253,7,4,0.6)]"
                     >
                         Create Your Profile

@@ -10,6 +10,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: '/jointherollcall',
+        destination: '/login?mode=signup',
+      },
+    ];
+  },
 };
 
 export default nextConfig;
