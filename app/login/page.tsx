@@ -89,8 +89,8 @@ export default function LoginPage({
                     <Link href="/" className="inline-flex items-center gap-2 mb-8 hover:opacity-80 transition-opacity group">
                         <div className="relative w-80 h-40">
                             <Image
-                                src="/logo.png"
-                                alt="Young World Logo"
+                                src="/rollcall-logo.png"
+                                alt="Roll Call Logo"
                                 fill
                                 className="object-contain group-hover:scale-105 transition-transform duration-300"
                             />
@@ -231,19 +231,7 @@ export default function LoginPage({
                                     <div className="space-y-4">
                                         <div>
                                             <label htmlFor="community_type" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">What community are you representing?</label>
-                                            <select id="community_type" name="community_type" defaultValue="" className={`w-full bg-sky-50/50 border rounded-lg px-4 py-3 text-slate-800 focus:outline-none transition-colors font-medium appearance-none ${errors.community_type ? 'border-red-400 focus:border-red-500' : 'border-sky-100 focus:border-sky-400'}`}>
-                                                <option value="" disabled>Select a community</option>
-                                                <option value="Creators">Creators</option>
-                                                <option value="Influencer">Influencer</option>
-                                                <option value="Artist">Artist</option>
-                                                <option value="Photographer">Photographer</option>
-                                                <option value="Musician">Musician</option>
-                                                <option value="Content Creator">Content Creator</option>
-                                                <option value="Storyteller">Storyteller</option>
-                                                <option value="Dancer">Dancer</option>
-                                                <option value="Fitness">Fitness</option>
-                                                <option value="Other">Other</option>
-                                            </select>
+                                            <input id="community_type" name="community_type" type="text" className={`w-full bg-sky-50/50 border rounded-lg px-4 py-3 text-slate-800 focus:outline-none transition-colors font-medium ${errors.community_type ? 'border-red-400 focus:border-red-500' : 'border-sky-100 focus:border-sky-400'}`} />
                                             {errors.community_type && <p className="text-red-500 text-xs mt-1">{errors.community_type}</p>}
                                         </div>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

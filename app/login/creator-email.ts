@@ -1,9 +1,4 @@
-export function getWelcomeEmailHtml(fullName: string, communityType: string) {
-  let displayCommunity = communityType ? communityType : "your community";
-  if (communityType && !communityType.toLowerCase().includes('community')) {
-    displayCommunity = `${communityType} Community`;
-  }
-
+export function getCreatorWelcomeEmailHtml(fullName: string) {
   return `
   <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; color: #333; line-height: 1.6;">
     
@@ -16,7 +11,7 @@ export function getWelcomeEmailHtml(fullName: string, communityType: string) {
     </p>
 
     <p style="font-size: 16px; margin-bottom: 20px;">
-      Today, <strong>${displayCommunity}</strong> officially became part of The World's Biggest Friendship Roll Call.
+      Today, you officially became part of The World's Biggest Friendship Roll Call.
     </p>
 
     <p style="font-size: 16px; margin-bottom: 20px;">
@@ -28,17 +23,17 @@ export function getWelcomeEmailHtml(fullName: string, communityType: string) {
     </p>
 
     <p style="font-size: 16px; margin-bottom: 30px;">
-      And now your community is part of that story.
+      And now you're part of that story.
     </p>
 
     <p style="font-size: 24px; margin-bottom: 30px;">🤍</p>
 
     <p style="font-size: 16px; margin-bottom: 20px;">
-      Over the coming weeks, we'll be welcoming new communities, discovering new cities and sharing the stories of the people helping bring this roll call to life.
+      Over the coming weeks, we'll be welcoming creators, communities and cities from around the world while sharing the stories of the people helping bring this roll call to life.
     </p>
 
     <p style="font-size: 16px; margin-bottom: 20px;">
-      We'll also be announcing <strong>${displayCommunity}</strong> on our pages so the world knows your community has checked in.
+      We'll also be announcing your check-in on our pages so the world knows you're part of the movement.
     </p>
 
     <p style="font-size: 16px; margin-bottom: 20px;">
@@ -46,7 +41,7 @@ export function getWelcomeEmailHtml(fullName: string, communityType: string) {
     </p>
 
     <p style="font-size: 16px; margin-bottom: 20px;">
-      Thank you for making sure <strong>${displayCommunity}</strong> has a place in the roll call.
+      Thank you for helping make sure your city, audience and community have a place in the roll call.
     </p>
 
     <p style="font-size: 16px; margin-bottom: 30px;">

@@ -32,6 +32,7 @@ export async function login(formData: FormData) {
 import { step1Schema, step2CreatorSchema, step2CommunitySchema } from './schemas'
 import { Resend } from 'resend'
 import { getWelcomeEmailHtml } from './email'
+import { getCreatorWelcomeEmailHtml } from './creator-email'
 
 export async function signup(formData: FormData) {
     const supabase = await createClient()
@@ -147,11 +148,17 @@ export async function signup(formData: FormData) {
         // Send Custom Welcome Email via Resend
         try {
             const resend = new Resend(process.env.RESEND_API_KEY)
+            
+            // Determine which email template to use based on join type
+            const emailHtml = community_type 
+                ? getWelcomeEmailHtml(full_name, community_type)
+                : getCreatorWelcomeEmailHtml(full_name)
+
             await resend.emails.send({
                 from: 'Uncle Young <uncleyoung@youngworld.life>',
                 to: email,
                 subject: '🤍 Thank You For Checking In',
-                html: getWelcomeEmailHtml(full_name, community_type)
+                html: emailHtml
             })
         } catch (emailError) {
             console.error('Failed to send Resend email:', emailError)
