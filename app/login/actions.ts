@@ -29,12 +29,35 @@ export async function login(formData: FormData) {
     }
 }
 
+import { step1Schema, step2CreatorSchema, step2CommunitySchema } from './schemas'
+import { Resend } from 'resend'
+import { getWelcomeEmailHtml } from './email'
+
 export async function signup(formData: FormData) {
     const supabase = await createClient()
 
+    const formEntries = Object.fromEntries(formData.entries())
+    
+    // Server-side Validation
+    const step1Result = step1Schema.safeParse(formEntries)
+    if (!step1Result.success) {
+        return redirect(`/login?error=${encodeURIComponent(step1Result.error.issues[0].message)}&mode=signup`)
+    }
+
+    if (formEntries.community_type) {
+        const step2Result = step2CommunitySchema.safeParse(formEntries)
+        if (!step2Result.success) {
+            return redirect(`/login?error=${encodeURIComponent(step2Result.error.issues[0].message)}&mode=signup`)
+        }
+    } else {
+        const step2Result = step2CreatorSchema.safeParse(formEntries)
+        if (!step2Result.success) {
+            return redirect(`/login?error=${encodeURIComponent(step2Result.error.issues[0].message)}&mode=signup`)
+        }
+    }
+
     const email = formData.get('email') as string
     const password = formData.get('password') as string
-    
     // Original Fields
     const full_name = formData.get('full_name') as string
     const country = formData.get('country') as string
@@ -120,8 +143,23 @@ export async function signup(formData: FormData) {
         return redirect(`/login?error=${encodeURIComponent(error.message)}`)
     }
 
-    if (data.user && !data.session) {
-        return redirect('/login?message=Check your email to confirm your account')
+    if (data.user) {
+        // Send Custom Welcome Email via Resend
+        try {
+            const resend = new Resend(process.env.RESEND_API_KEY)
+            await resend.emails.send({
+                from: 'Uncle Young <uncleyoung@youngworld.life>',
+                to: email,
+                subject: '🤍 Thank You For Checking In',
+                html: getWelcomeEmailHtml(full_name, community_type)
+            })
+        } catch (emailError) {
+            console.error('Failed to send Resend email:', emailError)
+        }
+
+        if (!data.session) {
+            return redirect('/login?message=Check your email to confirm your account')
+        }
     }
 
     revalidatePath('/', 'layout')

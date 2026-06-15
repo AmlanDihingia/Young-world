@@ -2,10 +2,11 @@
 
 import { login, signup } from './actions'
 import Link from 'next/link'
-import { useState, useRef, useTransition } from 'react'
+import { useState, useRef, useTransition, use } from 'react'
+import { z } from 'zod'
+import { step1Schema, step2CreatorSchema, step2CommunitySchema, step3Schema } from './schemas'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-import { use } from 'react'
 
 export default function LoginPage({
     searchParams,
@@ -17,9 +18,38 @@ export default function LoginPage({
     const [step, setStep] = useState(1)
     const [joinType, setJoinType] = useState<'creator' | 'community' | null>(null)
     const [isPending, startTransition] = useTransition()
+    const [errors, setErrors] = useState<Record<string, string>>({})
     const formRef = useRef<HTMLFormElement>(null)
 
     function handleNextStep() {
+        if (!formRef.current) return
+        const formData = new FormData(formRef.current)
+        const data = Object.fromEntries(formData.entries())
+        
+        let result
+        if (step === 1) {
+            result = step1Schema.safeParse(data)
+        } else if (step === 2) {
+            if (joinType === 'creator') {
+                result = step2CreatorSchema.safeParse(data)
+            } else if (joinType === 'community') {
+                result = step2CommunitySchema.safeParse(data)
+            } else {
+                setErrors({ joinType: "Please select how you are joining" })
+                return
+            }
+        }
+        
+        if (result && !result.success) {
+            const formattedErrors: Record<string, string> = {}
+            result.error.issues.forEach(issue => {
+                formattedErrors[issue.path[0] as string] = issue.message
+            })
+            setErrors(formattedErrors)
+            return
+        }
+
+        setErrors({})
         setStep(s => s + 1)
     }
 
@@ -30,6 +60,19 @@ export default function LoginPage({
     function handleSignup() {
         if (!formRef.current) return
         const formData = new FormData(formRef.current)
+        const data = Object.fromEntries(formData.entries())
+
+        const result = step3Schema.safeParse(data)
+        if (!result.success) {
+            const formattedErrors: Record<string, string> = {}
+            result.error.issues.forEach(issue => {
+                formattedErrors[issue.path[0] as string] = issue.message
+            })
+            setErrors(formattedErrors)
+            return
+        }
+
+        setErrors({})
         startTransition(() => {
             signup(formData)
         })
@@ -116,35 +159,43 @@ export default function LoginPage({
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <label htmlFor="full_name" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Full Name</label>
-                                    <input id="full_name" name="full_name" type="text" className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
+                                    <input id="full_name" name="full_name" type="text" className={`w-full bg-sky-50/50 border rounded-lg px-4 py-3 text-slate-800 focus:outline-none transition-colors font-medium ${errors.full_name ? 'border-red-400 focus:border-red-500' : 'border-sky-100 focus:border-sky-400'}`} />
+                                    {errors.full_name && <p className="text-red-500 text-xs mt-1">{errors.full_name}</p>}
                                 </div>
                                 <div>
                                     <label htmlFor="email" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Email Address</label>
-                                    <input id="email" name="email" type="email" className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
+                                    <input id="email" name="email" type="email" className={`w-full bg-sky-50/50 border rounded-lg px-4 py-3 text-slate-800 focus:outline-none transition-colors font-medium ${errors.email ? 'border-red-400 focus:border-red-500' : 'border-sky-100 focus:border-sky-400'}`} />
+                                    {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                                 </div>
                                 <div>
                                     <label htmlFor="password" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Password</label>
-                                    <input id="password" name="password" type="password" className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
+                                    <input id="password" name="password" type="password" className={`w-full bg-sky-50/50 border rounded-lg px-4 py-3 text-slate-800 focus:outline-none transition-colors font-medium ${errors.password ? 'border-red-400 focus:border-red-500' : 'border-sky-100 focus:border-sky-400'}`} />
+                                    {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
                                 </div>
                                 <div>
                                     <label htmlFor="mobile" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Mobile Number (Optional)</label>
-                                    <input id="mobile" name="mobile" type="tel" className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
+                                    <input id="mobile" name="mobile" type="tel" className={`w-full bg-sky-50/50 border rounded-lg px-4 py-3 text-slate-800 focus:outline-none transition-colors font-medium ${errors.mobile ? 'border-red-400 focus:border-red-500' : 'border-sky-100 focus:border-sky-400'}`} />
+                                    {errors.mobile && <p className="text-red-500 text-xs mt-1">{errors.mobile}</p>}
                                 </div>
                                 <div>
                                     <label htmlFor="city" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">City</label>
-                                    <input id="city" name="city" type="text" className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
+                                    <input id="city" name="city" type="text" className={`w-full bg-sky-50/50 border rounded-lg px-4 py-3 text-slate-800 focus:outline-none transition-colors font-medium ${errors.city ? 'border-red-400 focus:border-red-500' : 'border-sky-100 focus:border-sky-400'}`} />
+                                    {errors.city && <p className="text-red-500 text-xs mt-1">{errors.city}</p>}
                                 </div>
                                 <div>
                                     <label htmlFor="country" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Country</label>
-                                    <input id="country" name="country" type="text" className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
+                                    <input id="country" name="country" type="text" className={`w-full bg-sky-50/50 border rounded-lg px-4 py-3 text-slate-800 focus:outline-none transition-colors font-medium ${errors.country ? 'border-red-400 focus:border-red-500' : 'border-sky-100 focus:border-sky-400'}`} />
+                                    {errors.country && <p className="text-red-500 text-xs mt-1">{errors.country}</p>}
                                 </div>
                                 <div>
                                     <label htmlFor="insta_url" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Instagram URL</label>
-                                    <input id="insta_url" name="insta_url" type="url" className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
+                                    <input id="insta_url" name="insta_url" type="url" className={`w-full bg-sky-50/50 border rounded-lg px-4 py-3 text-slate-800 focus:outline-none transition-colors font-medium ${errors.insta_url ? 'border-red-400 focus:border-red-500' : 'border-sky-100 focus:border-sky-400'}`} />
+                                    {errors.insta_url && <p className="text-red-500 text-xs mt-1">{errors.insta_url}</p>}
                                 </div>
                                 <div>
                                     <label htmlFor="other_url" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Other Social Media URL (Optional)</label>
-                                    <input id="other_url" name="other_url" type="url" className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
+                                    <input id="other_url" name="other_url" type="url" className={`w-full bg-sky-50/50 border rounded-lg px-4 py-3 text-slate-800 focus:outline-none transition-colors font-medium ${errors.other_url ? 'border-red-400 focus:border-red-500' : 'border-sky-100 focus:border-sky-400'}`} />
+                                    {errors.other_url && <p className="text-red-500 text-xs mt-1">{errors.other_url}</p>}
                                 </div>
                             </div>
                         </section>
@@ -171,6 +222,7 @@ export default function LoginPage({
                                         <span className="text-xs font-light">I am representing a larger group.</span>
                                     </button>
                                 </div>
+                                {errors.joinType && <p className="text-red-500 text-xs mt-2 text-center font-medium uppercase tracking-wide">{errors.joinType}</p>}
                             </section>
 
                             <div className={joinType === 'community' ? 'space-y-8' : 'hidden'}>
@@ -179,7 +231,7 @@ export default function LoginPage({
                                     <div className="space-y-4">
                                         <div>
                                             <label htmlFor="community_type" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">What community are you representing?</label>
-                                            <select id="community_type" name="community_type" defaultValue="" className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium appearance-none">
+                                            <select id="community_type" name="community_type" defaultValue="" className={`w-full bg-sky-50/50 border rounded-lg px-4 py-3 text-slate-800 focus:outline-none transition-colors font-medium appearance-none ${errors.community_type ? 'border-red-400 focus:border-red-500' : 'border-sky-100 focus:border-sky-400'}`}>
                                                 <option value="" disabled>Select a community</option>
                                                 <option value="Creators">Creators</option>
                                                 <option value="Influencer">Influencer</option>
@@ -192,21 +244,25 @@ export default function LoginPage({
                                                 <option value="Fitness">Fitness</option>
                                                 <option value="Other">Other</option>
                                             </select>
+                                            {errors.community_type && <p className="text-red-500 text-xs mt-1">{errors.community_type}</p>}
                                         </div>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                             <div>
                                                 <label htmlFor="community_insta" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Community Instagram URL</label>
-                                                <input id="community_insta" name="community_insta" type="url" className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
+                                                <input id="community_insta" name="community_insta" type="url" className={`w-full bg-sky-50/50 border rounded-lg px-4 py-3 text-slate-800 focus:outline-none transition-colors font-medium ${errors.community_insta ? 'border-red-400 focus:border-red-500' : 'border-sky-100 focus:border-sky-400'}`} />
+                                                {errors.community_insta && <p className="text-red-500 text-xs mt-1">{errors.community_insta}</p>}
                                             </div>
                                             <div>
                                                 <label htmlFor="community_other" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Other Social Media URL</label>
-                                                <input id="community_other" name="community_other" type="url" className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
+                                                <input id="community_other" name="community_other" type="url" className={`w-full bg-sky-50/50 border rounded-lg px-4 py-3 text-slate-800 focus:outline-none transition-colors font-medium ${errors.community_other ? 'border-red-400 focus:border-red-500' : 'border-sky-100 focus:border-sky-400'}`} />
+                                                {errors.community_other && <p className="text-red-500 text-xs mt-1">{errors.community_other}</p>}
                                             </div>
                                         </div>
                                         <div>
                                             <label htmlFor="community_role" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Your Role</label>
                                             <p className="text-[11px] text-slate-400 mb-2">Examples: Founder, Captain, Cultural Secretary, Community Leader, Member, Creator, Trainer, Owner, Other</p>
-                                            <input id="community_role" name="community_role" type="text" className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium" />
+                                            <input id="community_role" name="community_role" type="text" className={`w-full bg-sky-50/50 border rounded-lg px-4 py-3 text-slate-800 focus:outline-none transition-colors font-medium ${errors.community_role ? 'border-red-400 focus:border-red-500' : 'border-sky-100 focus:border-sky-400'}`} />
+                                            {errors.community_role && <p className="text-red-500 text-xs mt-1">{errors.community_role}</p>}
                                         </div>
                                     </div>
                                 </section>
@@ -214,7 +270,8 @@ export default function LoginPage({
                                     <h3 className="text-sm font-bold uppercase tracking-widest text-sky-600 mb-6 border-b border-sky-100 pb-2">Your Story</h3>
                                     <div>
                                         <label htmlFor="story" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">In one sentence: Why does your community matter to you?</label>
-                                        <textarea id="story" name="story" rows={3} className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 transition-colors font-medium resize-none"></textarea>
+                                        <textarea id="story" name="story" rows={3} className={`w-full bg-sky-50/50 border rounded-lg px-4 py-3 text-slate-800 focus:outline-none transition-colors font-medium resize-none ${errors.story ? 'border-red-400 focus:border-red-500' : 'border-sky-100 focus:border-sky-400'}`}></textarea>
+                                        {errors.story && <p className="text-red-500 text-xs mt-1">{errors.story}</p>}
                                     </div>
                                 </section>
                             </div>

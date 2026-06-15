@@ -76,14 +76,17 @@ export default function ThankYouPage() {
                         Follow YWE on Instagram
                     </a>
 
-                    <span
-                        className="flex items-center gap-3 px-6 py-3 rounded-full border border-sky-100 bg-white text-slate-700 text-sm font-medium shadow-sm opacity-40 cursor-not-allowed pointer-events-none select-none"
+                    <a
+                        href="https://www.youtube.com/channel/UCZXQF9XIs1vV5QwQpSBrrcw"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-3 px-6 py-3 rounded-full border border-sky-100 bg-white hover:border-sky-400 hover:bg-sky-50 transition-all text-slate-700 text-sm font-medium shadow-sm hover:shadow-md group"
                     >
-                        <svg className="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 text-red-500 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/>
                         </svg>
                         Subscribe to YouTube
-                    </span>
+                    </a>
 
                     <span
                         className="flex items-center gap-3 px-6 py-3 rounded-full border border-sky-100 bg-white text-slate-700 text-sm font-medium shadow-sm opacity-40 cursor-not-allowed pointer-events-none select-none"
