@@ -51,6 +51,18 @@
   text-wrap: balance;
 }
 
+/* Globe Pulse Animation */
+@keyframes globePulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.5);
+    opacity: 0;
+  }
+}
+
 /* Base Styles */
 body {
   background-color: var(--color-background);

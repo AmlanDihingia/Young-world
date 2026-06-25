@@ -6,20 +6,7 @@ import Link from 'next/link'
 export default function HeroSection() {
     return (
         <section className="relative flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 pt-32 pb-12 text-center min-h-[80vh]">
-            {/* Video Background */}
-            <div className="absolute inset-0 z-0 overflow-hidden">
-                <div className="absolute inset-0 bg-black/30 z-10" /> {/* Dark Overlay */}
-                <video
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="w-full h-full object-cover"
-                >
-                    <source src="/hero-background.mp4" type="video/mp4" />
-                    Your browser does not support the video tag.
-                </video>
-            </div>
+
 
             {/* Background Gradients */}
             <div className="absolute top-0 left-0 w-[800px] h-[800px] bg-primary/10 rounded-full blur-[150px] -translate-x-1/2 -translate-y-1/2 pointer-events-none animate-pulse z-10" />

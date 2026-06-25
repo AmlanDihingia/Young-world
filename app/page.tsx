@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowDown, Shirt, Music, Camera, Users, Hash, UserPlus, Share2 } from "lucide-react";
 import Navbar from '@/components/navbar';
+import InteractiveGlobe from '@/components/interactive-globe';
 
 export default function WaveTheWhite() {
   return (
@@ -12,20 +13,7 @@ export default function WaveTheWhite() {
         ========================================
       */}
       <section className="relative w-full min-h-screen flex flex-col justify-center items-center overflow-hidden">
-        {/* Background Video */}
-        <div className="absolute inset-0 z-0">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="object-cover w-full h-full opacity-60"
-          >
-            <source src="/videos/wavethewhite.mp4" type="video/mp4" />
-          </video>
-          {/* Subtle overlay to ensure text readability but keep it light and cinematic */}
-          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/60 to-sky-50/40 backdrop-blur-[2px]"></div>
-        </div>
+
 
         {/* Hero Content */}
         <div className="relative z-10 container flex flex-col items-center justify-center text-center px-4 sm:px-6 pt-32 pb-24 w-full max-w-7xl mx-auto">
@@ -214,6 +202,33 @@ export default function WaveTheWhite() {
               Download the Anthem
             </a>
           </div>
+        </div>
+      </section>
+
+      {/* 
+        ========================================
+        GLOBAL COMMUNITY GLOBE SECTION
+        ========================================
+      */}
+      <section id="global-community" className="relative w-full py-28 md:py-40 bg-white text-slate-800 border-t border-sky-50 overflow-hidden">
+        {/* Background Effects */}
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-sky-50/50 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-sky-100/30 rounded-full blur-[120px] pointer-events-none" />
+
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+          <div className="text-center mb-12 md:mb-16">
+            <div className="inline-block bg-sky-100 text-sky-800 border border-sky-200 px-5 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6">
+              Live Map
+            </div>
+            <h2 className="text-4xl md:text-5xl font-light uppercase tracking-tight mb-4 text-slate-800">
+              The Global Community
+            </h2>
+            <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto font-light leading-relaxed">
+              Watch the wave spread across the world. Every point is a community or creator who checked in.
+            </p>
+          </div>
+
+          <InteractiveGlobe />
         </div>
       </section>
 

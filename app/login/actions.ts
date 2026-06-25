@@ -34,6 +34,29 @@ import { Resend } from 'resend'
 import { getWelcomeEmailHtml } from './email'
 import { getCreatorWelcomeEmailHtml } from './creator-email'
 
+// Geocode city+country to lat/lng using Nominatim (OpenStreetMap)
+async function geocode(city: string, country: string): Promise<{ lat: number; lng: number } | null> {
+    try {
+        const query = encodeURIComponent(`${city}, ${country}`)
+        const res = await fetch(
+            `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1`,
+            {
+                headers: { 'User-Agent': 'WaveTheWhite/1.0' },
+            }
+        )
+        const results = await res.json()
+        if (results && results.length > 0) {
+            return {
+                lat: parseFloat(results[0].lat),
+                lng: parseFloat(results[0].lon),
+            }
+        }
+    } catch (err) {
+        console.error('Geocoding error:', err)
+    }
+    return null
+}
+
 export async function signup(formData: FormData) {
     const supabase = await createClient()
 
@@ -112,6 +135,9 @@ export async function signup(formData: FormData) {
     profile_photo_url = await uploadFile(profilePhoto, 'profile')
     community_photo_url = await uploadFile(communityPhoto, 'community')
 
+    // Geocode city+country to lat/lng for the globe feature
+    const coords = await geocode(city, country)
+
     const { data, error } = await supabase.auth.signUp({
         email,
         password,
@@ -134,7 +160,9 @@ export async function signup(formData: FormData) {
                 nominee_3,
                 stay_connected,
                 profile_photo_url,
-                community_photo_url
+                community_photo_url,
+                latitude: coords?.lat ?? null,
+                longitude: coords?.lng ?? null,
             },
         },
     })

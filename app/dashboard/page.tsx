@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { LogOut, User, MapPin, Globe, Trophy } from 'lucide-react'
 import Image from 'next/image'
+import InteractiveGlobe from '@/components/interactive-globe'
 
 export default async function DashboardPage() {
     const supabase = await createClient()
@@ -133,6 +134,12 @@ export default async function DashboardPage() {
                                     </button>
                                 </div>
                             </div>
+                        </div>
+
+                        {/* Globe Section */}
+                        <div className="bg-white border border-sky-100 rounded-3xl p-8 md:p-12 relative overflow-hidden shadow-sm">
+                            <h3 className="text-sm font-bold uppercase tracking-widest text-sky-600 mb-6 text-center">Global Community Map</h3>
+                            <InteractiveGlobe compact />
                         </div>
 
                         {/* Hype Stats */}
