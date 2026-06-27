@@ -11,7 +11,7 @@ export default function ThankYouPage() {
             <div className="relative z-10 flex flex-col items-center text-center max-w-2xl w-full">
                 {/* Logo */}
                 <Link href="/" className="mb-10 hover:opacity-80 transition-opacity">
-                    <div className="relative w-56 h-28">
+                    <div className="relative w-40 h-20">
                         <Image
                             src="/logo.png"
                             alt="Young World Logo"
@@ -25,7 +25,7 @@ export default function ThankYouPage() {
                 <div className="text-6xl mb-6 animate-pulse">🤍</div>
 
                 {/* Main Message */}
-                <h1 className="text-3xl md:text-4xl font-light uppercase tracking-tight text-slate-800 mb-4 leading-tight">
+                <h1 className="text-3xl md:text-4xl font-display font-bold uppercase tracking-tight text-slate-800 mb-4 leading-tight">
                     Thank you for making sure your<br />community isn&apos;t left out
                 </h1>
                 <p className="text-slate-500 text-sm font-medium tracking-widest uppercase mb-12">
@@ -36,7 +36,7 @@ export default function ThankYouPage() {
                 <div className="w-16 h-px bg-sky-200 mb-12" />
 
                 {/* Call to Action */}
-                <div className="bg-white/70 backdrop-blur-md border border-sky-100 rounded-2xl px-8 py-10 shadow-[0_8px_40px_rgba(14,165,233,0.08)] w-full mb-10">
+                <div className="bg-white/70 backdrop-blur-md border border-sky-100 rounded-2xl px-8 py-10 shadow-[0_8px_40px_rgba(212,156,7,0.08)] w-full mb-10">
                     <p className="text-sky-600 text-xs font-bold uppercase tracking-widest mb-4">On Friendship Day</p>
                     <p className="text-slate-800 text-2xl md:text-3xl font-light leading-relaxed mb-2">
                         Wear White. Wave White.

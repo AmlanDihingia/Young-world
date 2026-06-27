@@ -96,17 +96,17 @@ export default function LoginPage({
                             />
                         </div>
                     </Link>
-                    <h1 className="text-4xl font-light uppercase tracking-tight text-slate-800 mb-2">
+                    <h1 className="text-4xl font-display font-bold uppercase tracking-tight text-slate-800 mb-2">
                         {isLogin ? 'Welcome Back' : 'Join the Roll Call'}
                     </h1>
-                    <p className="text-slate-500 text-sm font-medium tracking-widest uppercase">
+                    <p className="text-slate-500 text-xs md:text-sm font-medium tracking-widest uppercase max-w-xs mx-auto md:max-w-none text-balance leading-relaxed">
                         {isLogin ? 'Enter your credentials to access your account' : "Make sure your community isn't left out"}
                     </p>
                 </div>
 
                 {/* ===== LOGIN FORM ===== */}
                 {isLogin && (
-                    <form noValidate className="bg-white/80 backdrop-blur-md p-8 rounded-2xl border border-sky-100 shadow-[0_8px_40px_rgba(14,165,233,0.06)] space-y-4">
+                    <form noValidate className="bg-white/80 backdrop-blur-md p-8 rounded-2xl border border-sky-100 shadow-[0_8px_40px_rgba(212,156,7,0.06)] space-y-4">
                         <div>
                             <label htmlFor="email" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Email</label>
                             <input id="email" name="email" type="email" required className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400 transition-colors font-medium" />
@@ -124,7 +124,7 @@ export default function LoginPage({
                         )}
 
                         <div className="pt-4">
-                            <button formAction={login} className="w-full bg-sky-500 text-white hover:bg-sky-600 active:scale-[0.98] transition-all py-4 rounded-xl text-sm font-bold uppercase tracking-widest shadow-[0_4px_14px_rgba(14,165,233,0.39)]">
+                            <button formAction={login} className="w-full bg-sky-500 text-white hover:bg-sky-600 active:scale-[0.98] transition-all py-4 rounded-xl text-sm font-bold uppercase tracking-widest shadow-[0_4px_14px_rgba(212,156,7,0.39)]">
                                 Log in
                             </button>
                         </div>
@@ -144,7 +144,7 @@ export default function LoginPage({
                         onSubmit={e => e.preventDefault()}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="bg-white/80 backdrop-blur-md p-8 rounded-2xl border border-sky-100 shadow-[0_8px_40px_rgba(14,165,233,0.06)] space-y-6"
+                        className="bg-white/80 backdrop-blur-md p-8 rounded-2xl border border-sky-100 shadow-[0_8px_40px_rgba(212,156,7,0.06)] space-y-6"
                     >
                         {/* Step Progress Bar */}
                         <div className="flex gap-2 w-full mb-2">
@@ -319,7 +319,7 @@ export default function LoginPage({
                                 <button
                                     type="button"
                                     onClick={handleNextStep}
-                                    className="w-full bg-sky-500 text-white hover:bg-sky-600 active:scale-[0.98] transition-all py-4 rounded-xl text-sm font-bold uppercase tracking-widest shadow-[0_4px_14px_rgba(14,165,233,0.39)]"
+                                    className="w-full bg-sky-500 text-white hover:bg-sky-600 active:scale-[0.98] transition-all py-4 rounded-xl text-sm font-bold uppercase tracking-widest shadow-[0_4px_14px_rgba(212,156,7,0.39)]"
                                 >
                                     Next Step
                                 </button>
@@ -328,7 +328,7 @@ export default function LoginPage({
                                     type="button"
                                     onClick={handleSignup}
                                     disabled={isPending}
-                                    className="w-full bg-sky-500 text-white hover:bg-sky-600 active:scale-[0.98] transition-all py-4 rounded-xl text-sm font-bold uppercase tracking-widest shadow-[0_4px_14px_rgba(14,165,233,0.39)] disabled:opacity-60 disabled:cursor-not-allowed"
+                                    className="w-full bg-sky-500 text-white hover:bg-sky-600 active:scale-[0.98] transition-all py-4 rounded-xl text-sm font-bold uppercase tracking-widest shadow-[0_4px_14px_rgba(212,156,7,0.39)] disabled:opacity-60 disabled:cursor-not-allowed"
                                 >
                                     {isPending ? 'Submitting...' : 'Complete Registration'}
                                 </button>

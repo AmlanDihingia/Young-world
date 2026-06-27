@@ -16,7 +16,7 @@ export default async function LeaderboardSection({ limit, className = "" }: Lead
         <section className={`py-24 px-4 sm:px-6 lg:px-8 relative z-10 ${className}`}>
             <div className="max-w-4xl mx-auto">
                 <div className="text-center mb-16">
-                    <h2 className="text-5xl md:text-8xl font-display font-light uppercase tracking-tight text-slate-800 mb-6 leading-none drop-shadow-sm">
+                    <h2 className="text-5xl md:text-8xl font-display font-bold uppercase tracking-tight text-slate-800 mb-6 leading-none drop-shadow-sm">
                         Global <br /> Leaderboard
                     </h2>
                     <p className="text-xl text-slate-500 font-light max-w-2xl mx-auto">
@@ -25,7 +25,7 @@ export default async function LeaderboardSection({ limit, className = "" }: Lead
                     </p>
                 </div>
 
-                <div className="bg-white border border-sky-100 rounded-3xl overflow-hidden shadow-[0_8px_40px_rgba(14,165,233,0.06)] backdrop-blur-sm">
+                <div className="bg-white border border-sky-100 rounded-3xl overflow-hidden shadow-[0_8px_40px_rgba(212,156,7,0.06)] backdrop-blur-sm">
                     {/* Header */}
                     <div className="grid grid-cols-12 gap-4 p-6 border-b border-sky-50 text-xs font-bold uppercase tracking-widest text-slate-400 bg-sky-50/30">
                         <div className="col-span-2 md:col-span-1 text-center">Rank</div>

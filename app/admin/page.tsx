@@ -38,7 +38,7 @@ export default async function AdminDashboardPage() {
                     <div className="flex items-center justify-between h-20">
                         <div className="flex items-center gap-4">
                             <Link href="/dashboard" className="flex items-center gap-2 group">
-                                <div className="relative w-40 h-16">
+                                <div className="relative w-32 h-12">
                                     <Image
                                         src="/logo.png"
                                         alt="Young World Logo"
@@ -65,7 +65,7 @@ export default async function AdminDashboardPage() {
             <main className="w-full px-4 sm:px-6 lg:px-8 py-12">
                 <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
                     <div>
-                        <h1 className="text-3xl font-light uppercase tracking-tight text-slate-800 mb-2">Roll Call Registrations</h1>
+                        <h1 className="text-3xl font-display font-bold uppercase tracking-tight text-slate-800 mb-2">Roll Call Registrations</h1>
                         <p className="text-slate-500">Overview of all community check-ins and registrations.</p>
                     </div>
                     <div className="flex items-center gap-4">

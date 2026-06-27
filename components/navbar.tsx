@@ -38,7 +38,7 @@ export default function Navbar() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between">
                         <Link href="/" className="flex items-center gap-2 group">
-                            <div className="relative w-64 h-24 -my-4">
+                            <div className="relative w-40 h-14 -my-2">
                                 <Image
                                     src="/logo.png"
                                     alt="Young World Logo"
@@ -59,7 +59,7 @@ export default function Navbar() {
                             </Link>
                             <Link
                                 href="/login?mode=signup"
-                                className="bg-[var(--color-button)] text-white hover:scale-105 transition-transform duration-300 px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wide shadow-[0_4px_14px_rgba(14,165,233,0.39)]"
+                                className="bg-[var(--color-button)] text-white hover:scale-105 transition-transform duration-300 px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wide shadow-[0_4px_14px_rgba(212,156,7,0.39)]"
                             >
                                 Sign Up
                             </Link>
@@ -110,7 +110,7 @@ export default function Navbar() {
                                 <Link
                                     href="/login?mode=signup"
                                     onClick={() => setMobileMenuOpen(false)}
-                                    className="w-full bg-[var(--color-button)] text-white py-4 rounded-full text-lg font-bold uppercase tracking-widest tracking-wide hover:scale-105 transition-all shadow-[0_4px_14px_rgba(14,165,233,0.39)]"
+                                    className="w-full bg-[var(--color-button)] text-white py-4 rounded-full text-lg font-bold uppercase tracking-widest tracking-wide hover:scale-105 transition-all shadow-[0_4px_14px_rgba(212,156,7,0.39)]"
                                 >
                                     Sign Up
                                 </Link>

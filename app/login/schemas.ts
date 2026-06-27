@@ -21,7 +21,7 @@ export const step2CreatorSchema = z.object({
 
 export const step2CommunitySchema = z.object({
   community_type: z.string().min(1, "Please select a community type"),
-  community_insta: z.string().url("Please enter a valid Instagram URL").optional().or(z.literal('')),
+  community_insta: z.string().url("Please enter a valid Instagram URL").includes("instagram.com", { message: "Must be an Instagram URL" }),
   community_other: z.string().url("Please enter a valid URL").optional().or(z.literal('')),
   community_role: z.string().min(2, "Please enter your role"),
   story: z.string().min(10, "Please tell us a bit more (min 10 characters)"),

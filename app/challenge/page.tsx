@@ -26,7 +26,7 @@ export default function ChallengePage() {
                         <div className="inline-block bg-sky-100 backdrop-blur-md border border-sky-200 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-sky-800 mb-6 animate-pulse">
                             Global Creator Event
                         </div>
-                        <h1 className="text-5xl md:text-7xl font-display font-light uppercase tracking-tight text-slate-800 mb-6 leading-none">
+                        <h1 className="text-5xl md:text-7xl font-display font-bold uppercase tracking-tight text-slate-800 mb-6 leading-none">
                             The $1 <br />
                             Global Creator <br />
                             Challenge
@@ -45,7 +45,7 @@ export default function ChallengePage() {
                         transition={{ duration: 0.6, delay: 0.2 }}
                         className="relative"
                     >
-                        <div className="relative aspect-[4/5] w-full max-w-md mx-auto rounded-3xl overflow-hidden border border-sky-100 shadow-[0_8px_40px_rgba(14,165,233,0.1)] group">
+                        <div className="relative aspect-[4/5] w-full max-w-md mx-auto rounded-3xl overflow-hidden border border-sky-100 shadow-[0_8px_40px_rgba(212,156,7,0.1)] group">
                             <Image
                                 src="/challenge-poster.jpg"
                                 alt="Heat Check Challenge Poster"
@@ -70,7 +70,7 @@ export default function ChallengePage() {
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
                         >
-                            <h2 className="text-4xl md:text-6xl font-display font-light uppercase tracking-tight text-slate-800 mb-8">
+                            <h2 className="text-4xl md:text-6xl font-display font-bold uppercase tracking-tight text-slate-800 mb-8">
                                 Your $1 Access Pass
                             </h2>
                             <div className="space-y-6">
@@ -110,7 +110,7 @@ export default function ChallengePage() {
                             className="relative"
                         >
                             <div className="absolute inset-0 bg-gradient-to-br from-sky-100 to-sky-50 rounded-full blur-[100px]" />
-                            <div className="relative bg-white/80 border border-sky-100 rounded-3xl p-8 backdrop-blur-sm shadow-[0_8px_40px_rgba(14,165,233,0.06)]">
+                            <div className="relative bg-white/80 border border-sky-100 rounded-3xl p-8 backdrop-blur-sm shadow-[0_8px_40px_rgba(212,156,7,0.06)]">
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="bg-sky-50/50 p-6 rounded-2xl text-center border border-sky-100 transition-colors hover:bg-sky-100/50">
                                         <Music className="w-8 h-8 text-sky-500 mx-auto mb-2" />

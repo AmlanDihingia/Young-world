@@ -175,7 +175,7 @@ export default function InteractiveGlobe({ compact = false }: { compact?: boolea
                             transform: translateX(-50%);
                             background: rgba(255,255,255,0.95);
                             backdrop-filter: blur(12px);
-                            border: 1px solid rgba(14,165,233,0.2);
+                            border: 1px solid rgba(212,156,7,0.2);
                             border-radius: 12px;
                             padding: 10px 14px;
                             font-family: Inter, sans-serif;
