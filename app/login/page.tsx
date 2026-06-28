@@ -14,7 +14,7 @@ export default function LoginPage({
     searchParams: Promise<{ message: string; error: string; mode?: string }>
 }) {
     const { message, error, mode } = use(searchParams)
-    const [isLogin, setIsLogin] = useState(mode !== 'signup')
+    const [view, setView] = useState<'login' | 'signup' | 'forgot_password'>(mode === 'signup' ? 'signup' : 'login')
     const [step, setStep] = useState(1)
     const [joinType, setJoinType] = useState<'creator' | 'community' | null>(null)
     const [isPending, startTransition] = useTransition()
@@ -84,7 +84,7 @@ export default function LoginPage({
             <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-sky-100/50 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2 pointer-events-none animate-pulse fixed" />
             <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-white rounded-full blur-[120px] translate-x-1/2 translate-y-1/2 pointer-events-none animate-pulse fixed" style={{ animationDelay: '2s' }} />
 
-            <div className={`w-full transition-all duration-500 ease-in-out relative z-10 py-12 ${isLogin ? 'max-w-md' : 'max-w-3xl'} space-y-8`}>
+            <div className={`w-full transition-all duration-500 ease-in-out relative z-10 py-12 ${view === 'login' || view === 'forgot_password' ? 'max-w-md' : 'max-w-3xl'} space-y-8`}>
                 <div className="text-center">
                     <Link href="/" className="inline-flex items-center gap-2 mb-8 hover:opacity-80 transition-opacity group">
                         <div className="relative w-80 h-40">
@@ -97,22 +97,25 @@ export default function LoginPage({
                         </div>
                     </Link>
                     <h1 className="text-4xl font-display font-bold uppercase tracking-tight text-slate-800 mb-2">
-                        {isLogin ? 'Welcome Back' : 'Join the Roll Call'}
+                        {view === 'login' ? 'Welcome Back' : view === 'forgot_password' ? 'Reset Password' : 'Join the Roll Call'}
                     </h1>
                     <p className="text-slate-500 text-xs md:text-sm font-medium tracking-widest uppercase max-w-xs mx-auto md:max-w-none text-balance leading-relaxed">
-                        {isLogin ? 'Enter your credentials to access your account' : "Make sure your community isn't left out"}
+                        {view === 'login' ? 'Enter your credentials to access your account' : view === 'forgot_password' ? 'Enter your email to receive a reset link' : "Make sure your community isn't left out"}
                     </p>
                 </div>
 
                 {/* ===== LOGIN FORM ===== */}
-                {isLogin && (
+                {view === 'login' && (
                     <form noValidate className="bg-white/80 backdrop-blur-md p-8 rounded-2xl border border-sky-100 shadow-[0_8px_40px_rgba(212,156,7,0.06)] space-y-4">
                         <div>
                             <label htmlFor="email" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Email</label>
                             <input id="email" name="email" type="email" required className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400 transition-colors font-medium" />
                         </div>
                         <div>
-                            <label htmlFor="password" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Password</label>
+                            <div className="flex justify-between items-center mb-2">
+                                <label htmlFor="password" className="block text-xs font-medium uppercase tracking-widest text-slate-500">Password</label>
+                                <button type="button" onClick={() => setView('forgot_password')} className="text-[10px] font-bold uppercase tracking-widest text-sky-500 hover:text-sky-600 transition-colors">Forgot Password?</button>
+                            </div>
                             <input id="password" name="password" type="password" required className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400 transition-colors font-medium" />
                         </div>
 
@@ -129,15 +132,44 @@ export default function LoginPage({
                             </button>
                         </div>
                         <div className="text-center">
-                            <button type="button" onClick={() => setIsLogin(false)} className="text-slate-500 hover:text-sky-600 text-xs font-medium uppercase tracking-widest transition-colors">
+                            <button type="button" onClick={() => setView('signup')} className="text-slate-500 hover:text-sky-600 text-xs font-medium uppercase tracking-widest transition-colors">
                                 Don&apos;t have an account? Sign up
                             </button>
                         </div>
                     </form>
                 )}
 
+                {/* ===== FORGOT PASSWORD FORM ===== */}
+                {view === 'forgot_password' && (
+                    <form noValidate className="bg-white/80 backdrop-blur-md p-8 rounded-2xl border border-sky-100 shadow-[0_8px_40px_rgba(212,156,7,0.06)] space-y-4">
+                        <div>
+                            <label htmlFor="reset-email" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Email</label>
+                            <input id="reset-email" name="email" type="email" required className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400 transition-colors font-medium" />
+                        </div>
+
+                        {error && (
+                            <div className="p-3 rounded bg-red-500/10 border border-red-500/20 text-red-500 text-xs font-bold uppercase tracking-wide text-center">{error}</div>
+                        )}
+                        {message && (
+                            <div className="p-3 rounded bg-green-500/10 border border-green-500/20 text-green-500 text-xs font-bold uppercase tracking-wide text-center">{message}</div>
+                        )}
+
+                        <div className="pt-4 space-y-3">
+                            <button formAction={async (formData) => {
+                                const { resetPassword } = await import('./actions')
+                                await resetPassword(formData)
+                            }} className="w-full bg-sky-500 text-white hover:bg-sky-600 active:scale-[0.98] transition-all py-4 rounded-xl text-sm font-bold uppercase tracking-widest shadow-[0_4px_14px_rgba(212,156,7,0.39)]">
+                                Send Reset Link
+                            </button>
+                            <button type="button" onClick={() => setView('login')} className="w-full bg-white text-sky-600 border border-sky-200 hover:bg-sky-50 active:scale-[0.98] transition-all py-4 rounded-xl text-sm font-bold uppercase tracking-widest">
+                                Back to Login
+                            </button>
+                        </div>
+                    </form>
+                )}
+
                 {/* ===== SIGNUP MULTI-STEP FORM ===== */}
-                {!isLogin && (
+                {view === 'signup' && (
                     <motion.form
                         ref={formRef}
                         noValidate
@@ -339,7 +371,7 @@ export default function LoginPage({
                         <div className="text-center">
                             <button
                                 type="button"
-                                onClick={() => { setIsLogin(true); setStep(1) }}
+                                onClick={() => { setView('login'); setStep(1) }}
                                 className="text-slate-500 hover:text-sky-600 text-xs font-medium uppercase tracking-widest transition-colors"
                             >
                                 Already have an account? Log in

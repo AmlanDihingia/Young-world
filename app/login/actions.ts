@@ -17,7 +17,11 @@ export async function login(formData: FormData) {
 
     if (error) {
         console.error('Login Error:', error)
-        return redirect(`/login?error=${encodeURIComponent(error.message)}`)
+        let errorMessage = error.message
+        if (errorMessage === 'Invalid login credentials') {
+            errorMessage = 'Incorrect email or password. Please try again.'
+        }
+        return redirect(`/login?error=${encodeURIComponent(errorMessage)}`)
     }
 
     revalidatePath('/', 'layout')
@@ -27,6 +31,25 @@ export async function login(formData: FormData) {
     } else {
         redirect('/dashboard')
     }
+}
+
+export async function resetPassword(formData: FormData) {
+    const supabase = await createClient()
+    const email = formData.get('email') as string
+
+    if (!email) {
+        return redirect(`/login?error=${encodeURIComponent('Email is required')}`)
+    }
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/login/update-password`,
+    })
+
+    if (error) {
+        return redirect(`/login?error=${encodeURIComponent(error.message)}`)
+    }
+
+    return redirect(`/login?message=${encodeURIComponent('Password reset email sent. Please check your inbox.')}`)
 }
 
 import { step1Schema, step2CreatorSchema, step2CommunitySchema } from './schemas'
