@@ -1,12 +1,13 @@
 'use client'
 
-import { login, signup } from './actions'
+import { login, signup, resetPassword } from './actions'
 import Link from 'next/link'
 import { useState, useRef, useTransition, use } from 'react'
 import { z } from 'zod'
 import { step1Schema, step2CreatorSchema, step2CommunitySchema, step3Schema } from './schemas'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import { createClient } from '@/utils/supabase/client'
 
 export default function LoginPage({
     searchParams,
@@ -141,24 +142,18 @@ export default function LoginPage({
 
                 {/* ===== FORGOT PASSWORD FORM ===== */}
                 {view === 'forgot_password' && (
-                    <form noValidate className="bg-white/80 backdrop-blur-md p-8 rounded-2xl border border-sky-100 shadow-[0_8px_40px_rgba(212,156,7,0.06)] space-y-4">
+                    <form 
+                        noValidate
+                        action={resetPassword} 
+                        className="bg-white/80 backdrop-blur-md p-8 rounded-2xl border border-sky-100 shadow-[0_8px_40px_rgba(212,156,7,0.06)] space-y-4"
+                    >
                         <div>
                             <label htmlFor="reset-email" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Email</label>
                             <input id="reset-email" name="email" type="email" required className="w-full bg-sky-50/50 border border-sky-100 rounded-lg px-4 py-3 text-slate-800 focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400 transition-colors font-medium" />
                         </div>
 
-                        {error && (
-                            <div className="p-3 rounded bg-red-500/10 border border-red-500/20 text-red-500 text-xs font-bold uppercase tracking-wide text-center">{error}</div>
-                        )}
-                        {message && (
-                            <div className="p-3 rounded bg-green-500/10 border border-green-500/20 text-green-500 text-xs font-bold uppercase tracking-wide text-center">{message}</div>
-                        )}
-
                         <div className="pt-4 space-y-3">
-                            <button formAction={async (formData) => {
-                                const { resetPassword } = await import('./actions')
-                                await resetPassword(formData)
-                            }} className="w-full bg-sky-500 text-white hover:bg-sky-600 active:scale-[0.98] transition-all py-4 rounded-xl text-sm font-bold uppercase tracking-widest shadow-[0_4px_14px_rgba(212,156,7,0.39)]">
+                            <button type="submit" className="w-full bg-sky-500 text-white hover:bg-sky-600 active:scale-[0.98] transition-all py-4 rounded-xl text-sm font-bold uppercase tracking-widest shadow-[0_4px_14px_rgba(212,156,7,0.39)]">
                                 Send Reset Link
                             </button>
                             <button type="button" onClick={() => setView('login')} className="w-full bg-white text-sky-600 border border-sky-200 hover:bg-sky-50 active:scale-[0.98] transition-all py-4 rounded-xl text-sm font-bold uppercase tracking-widest">

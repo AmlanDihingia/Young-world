@@ -28,8 +28,5 @@ export const step2CommunitySchema = z.object({
 });
 
 export const step3Schema = z.object({
-  participation_size: z.string().optional(),
-  nominee_1: z.string().optional(),
-  nominee_2: z.string().optional(),
-  nominee_3: z.string().optional(),
+  // No required fields for step 3 right now, just media/checkboxes
 });

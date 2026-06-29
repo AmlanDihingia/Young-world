@@ -99,7 +99,7 @@ export async function GET() {
                 // Add tiny random offset so multiple users in the same city don't overlap
                 const offset = group.profiles.length > 1 ? 0.02 : 0
                 points.push({
-                    name: p.full_name || 'Anonymous',
+                    name: p.community_type ? p.community_type : (p.full_name || 'Anonymous'),
                     city: group.city || 'Unknown',
                     country: group.country,
                     type: p.community_type ? 'community' : 'creator',

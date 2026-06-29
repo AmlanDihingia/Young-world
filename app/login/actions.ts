@@ -109,7 +109,7 @@ export async function signup(formData: FormData) {
     // Original Fields
     const full_name = formData.get('full_name') as string
     const country = formData.get('country') as string
-    const social_url = formData.get('social_url') as string
+    const social_url = formData.get('insta_url') as string
     
     // New Fields
     const mobile = formData.get('mobile') as string
@@ -120,10 +120,6 @@ export async function signup(formData: FormData) {
     const community_other = formData.get('community_other') as string
     const community_role = formData.get('community_role') as string
     const story = formData.get('story') as string
-    const participation_size = formData.get('participation_size') as string
-    const nominee_1 = formData.get('nominee_1') as string
-    const nominee_2 = formData.get('nominee_2') as string
-    const nominee_3 = formData.get('nominee_3') as string
     const stay_connected = formData.get('stay_connected') === 'on'
 
     let profile_photo_url = ''
@@ -178,10 +174,6 @@ export async function signup(formData: FormData) {
                 community_other,
                 community_role,
                 story,
-                participation_size,
-                nominee_1,
-                nominee_2,
-                nominee_3,
                 stay_connected,
                 profile_photo_url,
                 community_photo_url,
