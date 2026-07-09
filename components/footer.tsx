@@ -38,11 +38,10 @@ export default function Footer() {
                     <div className="col-span-1">
                         <h4 className="text-white font-display font-bold uppercase tracking-widest text-sm mb-6">Navigation</h4>
                         <ul className="space-y-4">
-                            <li><Link href="/" className="text-slate-400 hover:text-sky-400 text-sm transition-colors">Home</Link></li>
                             <li><Link href="/about" className="text-slate-400 hover:text-sky-400 text-sm transition-colors">About Us</Link></li>
-                            <li><Link href="/#the-movement" className="text-slate-400 hover:text-sky-400 text-sm transition-colors">The Movement</Link></li>
-                            <li><Link href="/#how-it-works" className="text-slate-400 hover:text-sky-400 text-sm transition-colors">How It Works</Link></li>
-                            <li><Link href="/login" className="text-slate-400 hover:text-sky-400 text-sm transition-colors">Login</Link></li>
+                            <li><Link href="/privacy" className="text-slate-400 hover:text-sky-400 text-sm transition-colors">Privacy</Link></li>
+                            <li><Link href="/terms-of-participation" className="text-slate-400 hover:text-sky-400 text-sm transition-colors">Terms</Link></li>
+                            <li><Link href="/contact" className="text-slate-400 hover:text-sky-400 text-sm transition-colors">Contact</Link></li>
                         </ul>
                     </div>
 
@@ -52,7 +51,6 @@ export default function Footer() {
                         <ul className="space-y-4">
                             <li><Link href="/jointherollcall" className="text-sky-400 font-bold hover:text-sky-300 text-sm transition-colors">Join the Roll Call</Link></li>
                             <li><Link href="/#listen" className="text-slate-400 hover:text-sky-400 text-sm transition-colors">Listen to the Anthem</Link></li>
-                            <li><Link href="/dashboard" className="text-slate-400 hover:text-sky-400 text-sm transition-colors">Go to Dashboard</Link></li>
                         </ul>
                     </div>
                 </div>

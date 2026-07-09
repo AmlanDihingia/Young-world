@@ -1,0 +1,171 @@
+'use server'
+
+import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation'
+import { createClient } from '@/utils/supabase/server'
+
+// Removed login and resetPassword functions
+
+import { step1Schema, step2CreatorSchema, step2CommunitySchema } from './schemas'
+import { Resend } from 'resend'
+import { getWelcomeEmailHtml } from './email'
+import { getCreatorWelcomeEmailHtml } from './creator-email'
+
+// Geocode city+country to lat/lng using Nominatim (OpenStreetMap)
+async function geocode(city: string, country: string): Promise<{ lat: number; lng: number } | null> {
+    try {
+        const query = encodeURIComponent(`${city}, ${country}`)
+        const res = await fetch(
+            `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1`,
+            {
+                headers: { 'User-Agent': 'WaveTheWhite/1.0' },
+            }
+        )
+        const results = await res.json()
+        if (results && results.length > 0) {
+            return {
+                lat: parseFloat(results[0].lat),
+                lng: parseFloat(results[0].lon),
+            }
+        }
+    } catch (err) {
+        console.error('Geocoding error:', err)
+    }
+    return null
+}
+
+export async function signup(formData: FormData) {
+    const supabase = await createClient()
+
+    const formEntries = Object.fromEntries(formData.entries())
+    
+    // Server-side Validation
+    const step1Result = step1Schema.safeParse(formEntries)
+    if (!step1Result.success) {
+        return redirect(`/jointherollcall?error=${encodeURIComponent(step1Result.error.issues[0].message)}`)
+    }
+
+    if (formEntries.community_type) {
+        const step2Result = step2CommunitySchema.safeParse(formEntries)
+        if (!step2Result.success) {
+            return redirect(`/jointherollcall?error=${encodeURIComponent(step2Result.error.issues[0].message)}`)
+        }
+    } else {
+        const step2Result = step2CreatorSchema.safeParse(formEntries)
+        if (!step2Result.success) {
+            return redirect(`/jointherollcall?error=${encodeURIComponent(step2Result.error.issues[0].message)}`)
+        }
+    }
+
+    const email = formData.get('email') as string
+    const password = crypto.randomUUID() + crypto.randomUUID()
+    // Original Fields
+    const full_name = formData.get('full_name') as string
+    const country = formData.get('country') as string
+    const social_url = formData.get('insta_url') as string
+    
+    // New Fields
+    const mobile = formData.get('mobile') as string
+    const city = formData.get('city') as string
+    const other_url = formData.get('other_url') as string
+    const community_type = formData.get('community_type') as string
+    const community_insta = formData.get('community_insta') as string
+    const community_other = formData.get('community_other') as string
+    const community_role = formData.get('community_role') as string
+    const story = formData.get('story') as string
+    const stay_connected = formData.get('stay_connected') === 'on'
+
+    let profile_photo_url = ''
+    let community_photo_url = ''
+
+    // Helper to upload file
+    const uploadFile = async (file: File | null, prefix: string) => {
+        if (!file || file.size === 0) return ''
+        
+        const fileExt = file.name.split('.').pop()
+        const fileName = `${prefix}_${Date.now()}.${fileExt}`
+        
+        const { data, error } = await supabase.storage
+            .from('roll_call_media')
+            .upload(fileName, file)
+            
+        if (error) {
+            console.error('File upload error:', error)
+            return ''
+        }
+        
+        const { data: { publicUrl } } = supabase.storage
+            .from('roll_call_media')
+            .getPublicUrl(fileName)
+            
+        return publicUrl
+    }
+
+    // Upload Files if present
+    const profilePhoto = formData.get('profile_photo') as File | null
+    const communityPhoto = formData.get('community_photo') as File | null
+    
+    profile_photo_url = await uploadFile(profilePhoto, 'profile')
+    community_photo_url = await uploadFile(communityPhoto, 'community')
+
+    // Geocode city+country to lat/lng for the globe feature
+    const coords = await geocode(city, country)
+
+    const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+            data: {
+                full_name,
+                country,
+                social_url,
+                mobile,
+                city,
+                other_url,
+                community_type,
+                community_insta,
+                community_other,
+                community_role,
+                story,
+                stay_connected,
+                profile_photo_url,
+                community_photo_url,
+                latitude: coords?.lat ?? null,
+                longitude: coords?.lng ?? null,
+            },
+        },
+    })
+
+    if (error) {
+        console.error('Signup Error:', error)
+        return redirect(`/jointherollcall?error=${encodeURIComponent(error.message)}`)
+    }
+
+    if (data.user) {
+        // Send Custom Welcome Email via Resend
+        try {
+            const resend = new Resend(process.env.RESEND_API_KEY)
+            
+            // Determine which email template to use based on join type
+            const emailHtml = community_type 
+                ? getWelcomeEmailHtml(full_name, community_type)
+                : getCreatorWelcomeEmailHtml(full_name)
+
+            await resend.emails.send({
+                from: 'Uncle Young <uncleyoung@youngworld.life>',
+                to: email,
+                subject: '🤍 Thank You For Checking In',
+                html: emailHtml
+            })
+        } catch (emailError) {
+            console.error('Failed to send Resend email:', emailError)
+        }
+
+        if (!data.session) {
+            return redirect('/thank-you')
+        }
+    }
+
+    revalidatePath('/', 'layout')
+    redirect('/thank-you')
+}

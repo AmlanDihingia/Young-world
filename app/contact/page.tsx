@@ -106,34 +106,32 @@ export default function ContactPage() {
                         </h2>
                         
                         <div className="overflow-hidden rounded-2xl border border-slate-200 shadow-sm mb-6">
-                            <table className="w-full text-left border-collapse">
-                                <tbody className="text-slate-700 text-sm md:text-base">
-                                    <tr className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-                                        <td className="py-4 px-6 font-bold text-slate-900 w-1/3 bg-slate-50/50">Legal entity</td>
-                                        <td className="py-4 px-6">
-                                            YWE Studios (OPC) Private Limited <br className="md:hidden" />
-                                            <span className="md:mx-2 hidden md:inline">·</span> 
-                                            <span className="text-slate-500">CIN U73100AS2025OPC029355</span>
-                                            <br className="md:hidden" />
-                                            <span className="md:mx-2 hidden md:inline">—</span> 
-                                            <span className="text-sm">verify at <a href="https://www.mca.gov.in" target="_blank" rel="noopener noreferrer" className="text-sky-600 hover:underline font-medium">mca.gov.in</a></span>
-                                        </td>
-                                    </tr>
-                                    <tr className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-                                        <td className="py-4 px-6 font-bold text-slate-900 bg-slate-50/50">MSME / Udyam</td>
-                                        <td className="py-4 px-6">
-                                            <span className="font-mono bg-slate-100/50 rounded-md px-2 py-1 mr-2 text-sm">UDYAM-AS-03-0085259</span>
-                                            <br className="md:hidden" />
-                                            <span className="md:mx-2 hidden md:inline">—</span> 
-                                            <span className="text-sm">verify at <a href="https://udyamregistration.gov.in" target="_blank" rel="noopener noreferrer" className="text-sky-600 hover:underline font-medium">udyamregistration.gov.in</a></span>
-                                        </td>
-                                    </tr>
-                                    <tr className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-                                        <td className="py-4 px-6 font-bold text-slate-900 bg-slate-50/50">Registered office</td>
-                                        <td className="py-4 px-6">Juripar, Panjabari, Guwahati, Assam 781037, India</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div className="flex flex-col divide-y divide-slate-100 text-sm md:text-base text-slate-700">
+                                <div className="flex flex-col md:flex-row hover:bg-slate-50 transition-colors">
+                                    <div className="py-3 px-4 md:py-4 md:px-6 font-bold text-slate-900 md:w-1/3 bg-slate-50/50 md:border-r border-slate-100">Legal entity</div>
+                                    <div className="py-3 px-4 md:py-4 md:px-6 md:w-2/3">
+                                        YWE Studios (OPC) Private Limited <br className="md:hidden" />
+                                        <span className="md:mx-2 hidden md:inline">·</span> 
+                                        <span className="text-slate-500 break-all md:break-normal">CIN U73100AS2025OPC029355</span>
+                                        <br className="md:hidden" />
+                                        <span className="md:mx-2 hidden md:inline">—</span> 
+                                        <span className="text-sm">verify at <a href="https://www.mca.gov.in" target="_blank" rel="noopener noreferrer" className="text-sky-600 hover:underline font-medium">mca.gov.in</a></span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col md:flex-row hover:bg-slate-50 transition-colors">
+                                    <div className="py-3 px-4 md:py-4 md:px-6 font-bold text-slate-900 md:w-1/3 bg-slate-50/50 md:border-r border-slate-100">MSME / Udyam</div>
+                                    <div className="py-3 px-4 md:py-4 md:px-6 md:w-2/3">
+                                        <span className="font-mono bg-slate-100/50 border border-slate-200 rounded-md px-2 py-1 mr-2 text-sm break-all md:break-normal inline-block mb-2 md:mb-0">UDYAM-AS-03-0085259</span>
+                                        <br className="md:hidden" />
+                                        <span className="md:mx-2 hidden md:inline">—</span> 
+                                        <span className="text-sm">verify at <a href="https://udyamregistration.gov.in" target="_blank" rel="noopener noreferrer" className="text-sky-600 hover:underline font-medium">udyamregistration.gov.in</a></span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col md:flex-row hover:bg-slate-50 transition-colors">
+                                    <div className="py-3 px-4 md:py-4 md:px-6 font-bold text-slate-900 md:w-1/3 bg-slate-50/50 md:border-r border-slate-100">Registered office</div>
+                                    <div className="py-3 px-4 md:py-4 md:px-6 md:w-2/3">Juripar, Panjabari, Guwahati, Assam 781037, India</div>
+                                </div>
+                            </div>
                         </div>
                         <p className="text-slate-700 font-medium px-4">
                             More about who we are: <Link href="/about" className="text-sky-600 hover:text-sky-700 font-bold transition-colors">About Young World</Link>.

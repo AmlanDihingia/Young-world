@@ -27,7 +27,7 @@ export default function WaveTheWhite() {
             Uncle Young Presents
           </p>
 
-          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-display font-black uppercase leading-[0.9] tracking-tight mb-6 sm:mb-8 text-slate-800">
+          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-display font-black uppercase leading-[0.9] tracking-tight mb-6 sm:mb-8 text-black">
             Wave the White
           </h1>
 
@@ -43,9 +43,9 @@ export default function WaveTheWhite() {
           <div className="flex flex-col sm:flex-row flex-wrap lg:justify-center gap-4 w-full sm:w-auto mt-4 mb-16 z-20 relative">
             <Link
               href="/jointherollcall"
-              className="inline-flex items-center justify-center bg-sky-500 text-white font-bold uppercase tracking-widest py-4 px-10 rounded-full text-base shadow-[0_4px_20px_rgba(212,156,7,0.3)] hover:bg-sky-600 hover:scale-105 transition-all w-full sm:w-auto border border-sky-400"
+              className="inline-flex items-center justify-center text-center bg-sky-500 text-white font-bold uppercase tracking-widest py-4 px-4 sm:px-10 rounded-full text-sm sm:text-base shadow-[0_4px_20px_rgba(212,156,7,0.3)] hover:bg-sky-600 hover:scale-105 transition-all w-full sm:w-auto border border-sky-400"
             >
-              Join Wave the White &nbsp;⤴
+              Check Your Community In &nbsp;⤴
             </Link>
           </div>
 
@@ -145,7 +145,7 @@ export default function WaveTheWhite() {
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="text-center mb-12 md:mb-16">
-            <div className="inline-block bg-sky-100 text-sky-800 border border-sky-200 px-5 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6">
+            <div className="inline-block bg-sky-100 text-black border border-sky-200 px-5 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6">
               Live Map
             </div>
             <h2 className="text-4xl md:text-5xl font-display font-bold uppercase tracking-tight mb-4 text-slate-800">

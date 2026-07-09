@@ -3,51 +3,55 @@ import Image from 'next/image'
 
 export default function ThankYouPage() {
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-white to-sky-50 relative overflow-hidden px-6">
+        <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-white via-sky-50/30 to-sky-100/50 relative overflow-hidden px-6 pt-32 pb-12 md:pt-24">
             {/* Ambient background blobs */}
-            <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-sky-100/60 rounded-full blur-[140px] -translate-x-1/2 -translate-y-1/3 pointer-events-none" />
-            <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-blue-50/80 rounded-full blur-[140px] translate-x-1/3 translate-y-1/3 pointer-events-none" />
+            <div className="absolute top-0 left-0 w-[800px] h-[800px] bg-sky-100/40 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/3 pointer-events-none" />
+            <div className="absolute bottom-0 right-0 w-[800px] h-[800px] bg-yellow-50/40 rounded-full blur-[120px] translate-x-1/3 translate-y-1/3 pointer-events-none" />
 
             <div className="relative z-10 flex flex-col items-center text-center max-w-2xl w-full">
-                {/* Logo */}
-                <Link href="/" className="mb-10 hover:opacity-80 transition-opacity">
-                    <div className="relative w-40 h-20">
-                        <Image
-                            src="/logo.png"
-                            alt="Young World Logo"
-                            fill
-                            className="object-contain"
-                        />
-                    </div>
-                </Link>
 
-                {/* Heart */}
-                <div className="text-6xl mb-6 animate-pulse">🤍</div>
 
-                {/* Main Message */}
-                <h1 className="text-3xl md:text-4xl font-display font-bold uppercase tracking-tight text-slate-800 mb-4 leading-tight">
-                    Thank you for making sure your<br />community isn&apos;t left out
-                </h1>
-                <p className="text-slate-500 text-sm font-medium tracking-widest uppercase mb-12">
-                    when the world checks in.
-                </p>
-
-                {/* Divider */}
-                <div className="w-16 h-px bg-sky-200 mb-12" />
-
-                {/* Call to Action */}
-                <div className="bg-white/70 backdrop-blur-md border border-sky-100 rounded-2xl px-8 py-10 shadow-[0_8px_40px_rgba(212,156,7,0.08)] w-full mb-10">
-                    <p className="text-sky-600 text-xs font-bold uppercase tracking-widest mb-4">On Friendship Day</p>
-                    <p className="text-slate-800 text-2xl md:text-3xl font-light leading-relaxed mb-2">
-                        Wear White. Wave White.
+                {/* Congratulatory Message (Moved to top) */}
+                <div className="max-w-2xl text-center mb-12">
+                    <p className="text-4xl md:text-5xl font-display font-black bg-clip-text text-transparent bg-gradient-to-r from-[var(--color-button)] to-yellow-400 mb-6 drop-shadow-sm uppercase tracking-tight">
+                        Congratulations !
                     </p>
-                    <p className="text-slate-800 text-2xl md:text-3xl font-light leading-relaxed mb-8">
-                        Pass It On.
-                    </p>
-                    <p className="text-slate-500 text-base tracking-wide">
-                        The world is checking in.
+                    <p className="text-slate-700 text-lg md:text-xl font-medium leading-relaxed max-w-xl mx-auto">
+                        Your Community is now one of the <span className="font-bold text-sky-700">Founding Communities</span> of The World&apos;s Biggest Friendship Roll Call. We will use your registered email and phone no for further communications.
                     </p>
                 </div>
+
+                {/* Call to Action Card */}
+                <div className="bg-white/80 backdrop-blur-2xl border border-white/60 rounded-3xl px-8 py-12 shadow-[0_20px_60px_-15px_rgba(14,165,233,0.15)] w-full mb-16 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-sky-50/50 to-transparent pointer-events-none" />
+                    <div className="relative z-10">
+                        <p className="text-sky-600 text-xs font-bold uppercase tracking-widest mb-6">On Friendship Day</p>
+                        <p className="text-slate-800 text-3xl md:text-4xl font-light leading-relaxed mb-3">
+                            Wear White. Wave White.
+                        </p>
+                        <p className="text-slate-800 text-3xl md:text-4xl font-semibold leading-relaxed mb-8">
+                            Pass It On.
+                        </p>
+                        <p className="text-slate-500 text-lg tracking-wide font-medium">
+                            The world is checking in. Nobody should be left out .
+                        </p>
+                    </div>
+                </div>
+
+                {/* Thank You Message & Heart (Moved below card) */}
+                <div className="text-center mb-12">
+                    <h2 className="text-2xl md:text-3xl font-display font-bold uppercase tracking-tight text-slate-800 mb-4 leading-tight">
+                        Thank you for making sure your<br />community isn&apos;t left out
+                    </h2>
+                    <p className="text-slate-500 text-sm font-medium tracking-widest uppercase mb-10">
+                        when the world checks in.
+                    </p>
+                    {/* Heart at the end */}
+                    <div className="text-6xl animate-pulse drop-shadow-lg">🤍</div>
+                </div>
+
+                {/* Divider */}
+                <div className="w-16 h-px bg-slate-200 mb-12" />
 
                 {/* Social Links */}
                 <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">Stay Connected</p>
@@ -101,7 +105,7 @@ export default function ThankYouPage() {
                 {/* Back to Home */}
                 <Link
                     href="/"
-                    className="mt-12 text-xs font-medium uppercase tracking-widest text-slate-400 hover:text-sky-500 transition-colors"
+                    className="mt-16 text-xs font-medium uppercase tracking-widest text-slate-400 hover:text-sky-500 transition-colors"
                 >
                     ← Back to Home
                 </Link>

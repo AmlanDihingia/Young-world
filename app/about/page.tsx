@@ -67,38 +67,42 @@ export default function AboutUsPage() {
                         </p>
 
                         <div className="overflow-hidden rounded-2xl border border-slate-200 shadow-sm mb-6">
-                            <table className="w-full text-left border-collapse">
-                                <tbody className="text-slate-700 text-sm md:text-base">
-                                    <tr className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-                                        <td className="py-4 px-6 font-bold text-slate-900 w-1/3 bg-slate-50/50">Legal entity</td>
-                                        <td className="py-4 px-6">YWE Studios (OPC) Private Limited</td>
-                                    </tr>
-                                    <tr className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-                                        <td className="py-4 px-6 font-bold text-slate-900 bg-slate-50/50">Corporate Identity Number (CIN)</td>
-                                        <td className="py-4 px-6 font-mono text-sm bg-slate-100/50 rounded-md inline-block m-2">U73100AS2025OPC029355</td>
-                                    </tr>
-                                    <tr className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-                                        <td className="py-4 px-6 font-bold text-slate-900 bg-slate-50/50">Incorporated</td>
-                                        <td className="py-4 px-6">8 December 2025 · Ministry of Corporate Affairs, Government of India</td>
-                                    </tr>
-                                    <tr className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-                                        <td className="py-4 px-6 font-bold text-slate-900 bg-slate-50/50">MSME / Udyam Registration</td>
-                                        <td className="py-4 px-6 font-mono text-sm bg-slate-100/50 rounded-md inline-block m-2">UDYAM-AS-03-0085259</td>
-                                    </tr>
-                                    <tr className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-                                        <td className="py-4 px-6 font-bold text-slate-900 bg-slate-50/50">Operating unit</td>
-                                        <td className="py-4 px-6">Young World Entertainment</td>
-                                    </tr>
-                                    <tr className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
-                                        <td className="py-4 px-6 font-bold text-slate-900 bg-slate-50/50">Registered office</td>
-                                        <td className="py-4 px-6">Juripar, Panjabari, Guwahati, Assam 781037, India</td>
-                                    </tr>
-                                    <tr className="hover:bg-slate-50 transition-colors">
-                                        <td className="py-4 px-6 font-bold text-slate-900 bg-slate-50/50">Email</td>
-                                        <td className="py-4 px-6"><a href="mailto:office@youngworld.life" className="text-sky-600 hover:text-sky-700 font-medium">office@youngworld.life</a></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div className="flex flex-col divide-y divide-slate-100 text-sm md:text-base text-slate-700">
+                                <div className="flex flex-col md:flex-row hover:bg-slate-50 transition-colors">
+                                    <div className="py-3 px-4 md:py-4 md:px-6 font-bold text-slate-900 md:w-1/3 bg-slate-50/50 md:border-r border-slate-100">Legal entity</div>
+                                    <div className="py-3 px-4 md:py-4 md:px-6 md:w-2/3">YWE Studios (OPC) Private Limited</div>
+                                </div>
+                                <div className="flex flex-col md:flex-row hover:bg-slate-50 transition-colors">
+                                    <div className="py-3 px-4 md:py-4 md:px-6 font-bold text-slate-900 md:w-1/3 bg-slate-50/50 md:border-r border-slate-100">Corporate Identity Number (CIN)</div>
+                                    <div className="py-3 px-4 md:py-4 md:px-6 md:w-2/3">
+                                        <span className="font-mono text-sm break-all md:break-normal bg-slate-100/50 border border-slate-200 rounded-md px-2 py-1">U73100AS2025OPC029355</span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col md:flex-row hover:bg-slate-50 transition-colors">
+                                    <div className="py-3 px-4 md:py-4 md:px-6 font-bold text-slate-900 md:w-1/3 bg-slate-50/50 md:border-r border-slate-100">Incorporated</div>
+                                    <div className="py-3 px-4 md:py-4 md:px-6 md:w-2/3">8 December 2025 · Ministry of Corporate Affairs, Government of India</div>
+                                </div>
+                                <div className="flex flex-col md:flex-row hover:bg-slate-50 transition-colors">
+                                    <div className="py-3 px-4 md:py-4 md:px-6 font-bold text-slate-900 md:w-1/3 bg-slate-50/50 md:border-r border-slate-100">MSME / Udyam Registration</div>
+                                    <div className="py-3 px-4 md:py-4 md:px-6 md:w-2/3">
+                                        <span className="font-mono text-sm break-all md:break-normal bg-slate-100/50 border border-slate-200 rounded-md px-2 py-1">UDYAM-AS-03-0085259</span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col md:flex-row hover:bg-slate-50 transition-colors">
+                                    <div className="py-3 px-4 md:py-4 md:px-6 font-bold text-slate-900 md:w-1/3 bg-slate-50/50 md:border-r border-slate-100">Operating unit</div>
+                                    <div className="py-3 px-4 md:py-4 md:px-6 md:w-2/3">Young World Entertainment</div>
+                                </div>
+                                <div className="flex flex-col md:flex-row hover:bg-slate-50 transition-colors">
+                                    <div className="py-3 px-4 md:py-4 md:px-6 font-bold text-slate-900 md:w-1/3 bg-slate-50/50 md:border-r border-slate-100">Registered office</div>
+                                    <div className="py-3 px-4 md:py-4 md:px-6 md:w-2/3">Juripar, Panjabari, Guwahati, Assam 781037, India</div>
+                                </div>
+                                <div className="flex flex-col md:flex-row hover:bg-slate-50 transition-colors">
+                                    <div className="py-3 px-4 md:py-4 md:px-6 font-bold text-slate-900 md:w-1/3 bg-slate-50/50 md:border-r border-slate-100">Email</div>
+                                    <div className="py-3 px-4 md:py-4 md:px-6 md:w-2/3">
+                                        <a href="mailto:office@youngworld.life" className="text-sky-600 hover:text-sky-700 font-medium break-all">office@youngworld.life</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <p className="text-sm text-slate-500 italic px-4">
                             Verify our CIN independently at <a href="https://www.mca.gov.in" target="_blank" rel="noopener noreferrer" className="text-sky-600 hover:underline">mca.gov.in</a> (Ministry of Corporate Affairs) and our Udyam registration at <a href="https://udyamregistration.gov.in" target="_blank" rel="noopener noreferrer" className="text-sky-600 hover:underline">udyamregistration.gov.in</a>.

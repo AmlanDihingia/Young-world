@@ -17,10 +17,24 @@ async function geocode(city: string | null, country: string): Promise<{ lat: num
         const res = await fetch(
             `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1`,
             {
-                headers: { 'User-Agent': 'WaveTheWhite/1.0' },
+                headers: { 
+                    'User-Agent': 'WaveTheWhite/1.0 (office@youngworld.life)',
+                    'Accept': 'application/json'
+                },
             }
         )
-        const results = await res.json()
+        if (!res.ok) {
+            console.error('Nominatim API error:', res.status, res.statusText)
+            return null
+        }
+        
+        const text = await res.text()
+        if (text.startsWith('<')) {
+            console.error('Nominatim returned XML instead of JSON. Request may be blocked or rate-limited.')
+            return null
+        }
+        
+        const results = JSON.parse(text)
         if (results && results.length > 0) {
             const coords = {
                 lat: parseFloat(results[0].lat),

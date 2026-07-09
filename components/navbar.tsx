@@ -75,18 +75,7 @@ export default function Navbar() {
                             >
                                 Contact
                             </Link>
-                            <Link
-                                href="/login"
-                                className="text-slate-800 hover:text-sky-600 transition-colors text-sm font-bold uppercase tracking-wide"
-                            >
-                                Login
-                            </Link>
-                            <Link
-                                href="/login?mode=signup"
-                                className="bg-[var(--color-button)] text-white hover:scale-105 transition-transform duration-300 px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wide shadow-[0_4px_14px_rgba(212,156,7,0.39)]"
-                            >
-                                Sign Up
-                            </Link>
+                            {/* Login and Sign Up links removed */}
                         </div>
 
                         <button
@@ -152,20 +141,7 @@ export default function Navbar() {
                                 >
                                     Contact
                                 </Link>
-                                <Link
-                                    href="/login"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                    className="w-full bg-sky-50 border border-sky-100 text-sky-900 py-4 rounded-full text-lg font-bold uppercase tracking-widest tracking-wide hover:bg-sky-100 transition-all shadow-sm"
-                                >
-                                    Login
-                                </Link>
-                                <Link
-                                    href="/login?mode=signup"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                    className="w-full bg-[var(--color-button)] text-white py-4 rounded-full text-lg font-bold uppercase tracking-widest tracking-wide hover:scale-105 transition-all shadow-[0_4px_14px_rgba(212,156,7,0.39)]"
-                                >
-                                    Sign Up
-                                </Link>
+                                {/* Mobile Login and Sign Up links removed */}
                             </div>
                         </div>
                     </motion.div>
