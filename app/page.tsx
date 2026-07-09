@@ -1,14 +1,11 @@
 import Link from "next/link";
 import { ArrowDown, Shirt, Music, Camera, Users, Hash, UserPlus, Share2 } from "lucide-react";
-import Navbar from '@/components/navbar';
 import InteractiveGlobe from '@/components/interactive-globe';
 import HowItWorksTimeline from '@/components/how-it-works-timeline';
-import Footer from "@/components/footer";
 
 export default function WaveTheWhite() {
   return (
     <main className="min-h-screen bg-background text-foreground selection:bg-sky-200 selection:text-sky-900">
-      <Navbar />
       {/* 
         ========================================
         HERO SECTION
@@ -428,7 +425,6 @@ export default function WaveTheWhite() {
         </div>
       </section>
 
-      <Footer />
     </main>
   );
 }

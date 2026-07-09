@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   description: "Join the World's Biggest Friendship Roll Call",
 };
 
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -14,9 +17,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`antialiased bg-background text-foreground bg-gradient-to-br from-white to-sky-50 min-h-screen font-light selection:bg-sky-200 selection:text-sky-900`}
+        className={`antialiased bg-background text-foreground bg-gradient-to-br from-white to-sky-50 min-h-screen font-light selection:bg-sky-200 selection:text-sky-900 flex flex-col`}
       >
-        {children}
+        <Navbar />
+        <div className="flex-1">
+          {children}
+        </div>
+        <Footer />
       </body>
     </html>
   );

@@ -1,7 +1,5 @@
 'use client'
 
-import Navbar from '@/components/navbar'
-import Footer from '@/components/footer'
 import GrainOverlay from '@/components/grain-overlay'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
@@ -13,8 +11,6 @@ import HowItWorks from '@/components/how-it-works'
 export default function ChallengePage() {
     return (
         <main className="min-h-screen flex flex-col relative bg-gradient-to-br from-white to-sky-50 text-slate-800 selection:bg-sky-200 selection:text-sky-900">
-            <Navbar />
-
             {/* Hero Section */}
             <section className="pt-32 pb-16 px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -137,8 +133,6 @@ export default function ChallengePage() {
                     </div>
                 </div>
             </section>
-
-            <Footer />
         </main>
     )
 }

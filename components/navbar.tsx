@@ -52,6 +52,30 @@ export default function Navbar() {
 
                         <div className="hidden md:flex items-center gap-4">
                             <Link
+                                href="/about"
+                                className="text-slate-800 hover:text-sky-600 transition-colors text-sm font-bold uppercase tracking-wide"
+                            >
+                                About Us
+                            </Link>
+                            <Link
+                                href="/privacy"
+                                className="text-slate-800 hover:text-sky-600 transition-colors text-sm font-bold uppercase tracking-wide"
+                            >
+                                Privacy
+                            </Link>
+                            <Link
+                                href="/terms-of-participation"
+                                className="text-slate-800 hover:text-sky-600 transition-colors text-sm font-bold uppercase tracking-wide"
+                            >
+                                Terms
+                            </Link>
+                            <Link
+                                href="/contact"
+                                className="text-slate-800 hover:text-sky-600 transition-colors text-sm font-bold uppercase tracking-wide"
+                            >
+                                Contact
+                            </Link>
+                            <Link
                                 href="/login"
                                 className="text-slate-800 hover:text-sky-600 transition-colors text-sm font-bold uppercase tracking-wide"
                             >
@@ -100,6 +124,34 @@ export default function Navbar() {
 
 
                             <div className="flex flex-col gap-4 w-full mt-10">
+                                <Link
+                                    href="/about"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="w-full bg-white/50 border border-slate-100 text-slate-800 py-4 rounded-full text-lg font-bold uppercase tracking-widest hover:bg-slate-50 hover:text-slate-900 transition-all shadow-sm"
+                                >
+                                    About Us
+                                </Link>
+                                <Link
+                                    href="/privacy"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="w-full bg-white/50 border border-slate-100 text-slate-800 py-4 rounded-full text-lg font-bold uppercase tracking-widest hover:bg-slate-50 hover:text-slate-900 transition-all shadow-sm"
+                                >
+                                    Privacy
+                                </Link>
+                                <Link
+                                    href="/terms-of-participation"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="w-full bg-white/50 border border-slate-100 text-slate-800 py-4 rounded-full text-lg font-bold uppercase tracking-widest hover:bg-slate-50 hover:text-slate-900 transition-all shadow-sm"
+                                >
+                                    Terms
+                                </Link>
+                                <Link
+                                    href="/contact"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="w-full bg-white/50 border border-slate-100 text-slate-800 py-4 rounded-full text-lg font-bold uppercase tracking-widest hover:bg-slate-50 hover:text-slate-900 transition-all shadow-sm"
+                                >
+                                    Contact
+                                </Link>
                                 <Link
                                     href="/login"
                                     onClick={() => setMobileMenuOpen(false)}

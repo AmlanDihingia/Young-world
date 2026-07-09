@@ -1,13 +1,10 @@
 import Link from 'next/link'
-import Navbar from '@/components/navbar'
-import Footer from '@/components/footer'
 import GrainOverlay from '@/components/grain-overlay'
 import { CheckCircle, Trophy } from 'lucide-react'
 
 export default function PaymentSuccessPage() {
     return (
         <main className="min-h-screen flex flex-col relative bg-black selection:bg-primary selection:text-black font-sans">
-            <Navbar />
             <GrainOverlay />
 
             <div className="flex-grow flex items-center justify-center relative z-10 px-4 pt-20 pb-20">
@@ -47,8 +44,6 @@ export default function PaymentSuccessPage() {
 
                 </div>
             </div>
-
-            <Footer />
         </main>
     )
 }
