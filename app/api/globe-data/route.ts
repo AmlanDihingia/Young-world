@@ -4,6 +4,9 @@ import { NextResponse } from 'next/server'
 // In-memory cache for geocoded coordinates (persists across requests in the same server process)
 const geocodeCache = new Map<string, { lat: number; lng: number } | null>()
 
+let geocodeQueue = Promise.resolve()
+let rateLimited = false
+
 // Geocode a city+country to exact lat/lng using Nominatim (OpenStreetMap)
 async function geocode(city: string | null, country: string): Promise<{ lat: number; lng: number } | null> {
     const cacheKey = `${(city || '').trim().toLowerCase()}|${country.trim().toLowerCase()}`
@@ -12,43 +15,70 @@ async function geocode(city: string | null, country: string): Promise<{ lat: num
         return geocodeCache.get(cacheKey) ?? null
     }
 
-    try {
-        const query = encodeURIComponent(city ? `${city.trim()}, ${country.trim()}` : country.trim())
-        const res = await fetch(
-            `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1`,
-            {
-                headers: { 
-                    'User-Agent': 'WaveTheWhite/1.0 (office@youngworld.life)',
-                    'Accept': 'application/json'
-                },
+    return new Promise((resolve) => {
+        geocodeQueue = geocodeQueue.then(async () => {
+            // Check cache again in case a previous queue item already fetched it
+            if (geocodeCache.has(cacheKey)) {
+                resolve(geocodeCache.get(cacheKey) ?? null)
+                return
             }
-        )
-        if (!res.ok) {
-            console.error('Nominatim API error:', res.status, res.statusText)
-            return null
-        }
-        
-        const text = await res.text()
-        if (text.startsWith('<')) {
-            console.error('Nominatim returned XML instead of JSON. Request may be blocked or rate-limited.')
-            return null
-        }
-        
-        const results = JSON.parse(text)
-        if (results && results.length > 0) {
-            const coords = {
-                lat: parseFloat(results[0].lat),
-                lng: parseFloat(results[0].lon),
+            if (rateLimited) {
+                resolve(null)
+                return
             }
-            geocodeCache.set(cacheKey, coords)
-            return coords
-        }
-    } catch (err) {
-        console.error('Geocoding error:', err)
-    }
 
-    geocodeCache.set(cacheKey, null)
-    return null
+            try {
+                const query = encodeURIComponent(city ? `${city.trim()}, ${country.trim()}` : country.trim())
+                const res = await fetch(
+                    `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1`,
+                    {
+                        headers: { 
+                            'User-Agent': 'WaveTheWhite/1.0 (office@youngworld.life)',
+                            'Accept': 'application/json'
+                        },
+                    }
+                )
+                if (!res.ok) {
+                    if (res.status === 429) {
+                        rateLimited = true
+                        console.error('Nominatim Rate Limited (429). Halting geocoding for this session to prevent a ban.')
+                    } else {
+                        console.error('Nominatim API error:', res.status, res.statusText)
+                    }
+                    geocodeCache.set(cacheKey, null)
+                    resolve(null)
+                } else {
+                    const text = await res.text()
+                    if (text.startsWith('<')) {
+                        console.error('Nominatim returned XML instead of JSON. Request may be blocked or rate-limited.')
+                        rateLimited = true
+                        geocodeCache.set(cacheKey, null)
+                        resolve(null)
+                    } else {
+                        const results = JSON.parse(text)
+                        if (results && results.length > 0) {
+                            const coords = {
+                                lat: parseFloat(results[0].lat),
+                                lng: parseFloat(results[0].lon),
+                            }
+                            geocodeCache.set(cacheKey, coords)
+                            resolve(coords)
+                        } else {
+                            geocodeCache.set(cacheKey, null)
+                            resolve(null)
+                        }
+                    }
+                }
+            } catch (err) {
+                console.error('Geocoding error:', err)
+                geocodeCache.set(cacheKey, null)
+                resolve(null)
+            }
+
+            // Always wait 1.5 seconds before allowing the next geocode request to fire
+            await new Promise((r) => setTimeout(r, 1500))
+        })
+    })
 }
 
 export async function GET() {
@@ -103,10 +133,7 @@ export async function GET() {
     for (const [, group] of locationGroups) {
         const coords = await geocode(group.city, group.country)
 
-        // Small delay between uncached requests to respect Nominatim's 1 req/s rate limit
-        if (!geocodeCache.has(`${(group.city || '').trim().toLowerCase()}|${group.country.trim().toLowerCase()}`)) {
-            await new Promise((resolve) => setTimeout(resolve, 1100))
-        }
+
 
         if (coords) {
             for (const p of group.profiles) {

@@ -49,7 +49,7 @@ export default function Footer() {
                     <div className="col-span-1">
                         <h4 className="text-white font-display font-bold uppercase tracking-widest text-sm mb-6">Take Action</h4>
                         <ul className="space-y-4">
-                            <li><Link href="/jointherollcall" className="text-sky-400 font-bold hover:text-sky-300 text-sm transition-colors">Join the Roll Call</Link></li>
+                            <li><Link href="/checkyourcommunityin" className="text-sky-400 font-bold hover:text-sky-300 text-sm transition-colors">Join the Roll Call</Link></li>
                             <li><Link href="/#listen" className="text-slate-400 hover:text-sky-400 text-sm transition-colors">Listen to the Anthem</Link></li>
                         </ul>
                     </div>

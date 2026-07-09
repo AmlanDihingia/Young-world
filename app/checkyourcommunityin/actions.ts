@@ -42,18 +42,18 @@ export async function signup(formData: FormData) {
     // Server-side Validation
     const step1Result = step1Schema.safeParse(formEntries)
     if (!step1Result.success) {
-        return redirect(`/jointherollcall?error=${encodeURIComponent(step1Result.error.issues[0].message)}`)
+        return redirect(`/checkyourcommunityin?error=${encodeURIComponent(step1Result.error.issues[0].message)}`)
     }
 
     if (formEntries.community_type) {
         const step2Result = step2CommunitySchema.safeParse(formEntries)
         if (!step2Result.success) {
-            return redirect(`/jointherollcall?error=${encodeURIComponent(step2Result.error.issues[0].message)}`)
+            return redirect(`/checkyourcommunityin?error=${encodeURIComponent(step2Result.error.issues[0].message)}`)
         }
     } else {
         const step2Result = step2CreatorSchema.safeParse(formEntries)
         if (!step2Result.success) {
-            return redirect(`/jointherollcall?error=${encodeURIComponent(step2Result.error.issues[0].message)}`)
+            return redirect(`/checkyourcommunityin?error=${encodeURIComponent(step2Result.error.issues[0].message)}`)
         }
     }
 
@@ -138,7 +138,7 @@ export async function signup(formData: FormData) {
 
     if (error) {
         console.error('Signup Error:', error)
-        return redirect(`/jointherollcall?error=${encodeURIComponent(error.message)}`)
+        return redirect(`/checkyourcommunityin?error=${encodeURIComponent(error.message)}`)
     }
 
     if (data.user) {

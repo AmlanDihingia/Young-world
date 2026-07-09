@@ -13,7 +13,7 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
-        source: '/jointherollcall',
+        source: '/checkyourcommunityin',
         destination: '/login?mode=signup',
       },
     ];

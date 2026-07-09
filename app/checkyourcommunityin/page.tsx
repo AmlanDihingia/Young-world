@@ -7,7 +7,7 @@ import { step1Schema, step2CreatorSchema, step2CommunitySchema, step3Schema } fr
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 
-export default function JoinTheRollCallPage({
+export default function CheckYourCommunityInPage({
     searchParams,
 }: {
     searchParams: Promise<{ message: string; error: string }>
