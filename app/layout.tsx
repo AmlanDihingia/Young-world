@@ -2,8 +2,22 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Wave the White",
-  description: "Join the World's Biggest Friendship Roll Call",
+  title: "Young World Entertainment | Wave the White",
+  description: "The World's Biggest Friendship Roll Call. Where communities from all corners of the world check in on Friendship Day to make sure nobody gets left out.",
+  keywords: ["Young World Entertainment", "Wave the White", "Friendship Day", "Global Community", "Roll Call"],
+  openGraph: {
+    title: "Young World Entertainment | Wave the White",
+    description: "The World's Biggest Friendship Roll Call. Where communities from all corners of the world check in on Friendship Day.",
+    url: "https://youngworld.life",
+    siteName: "Young World Entertainment",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Young World Entertainment | Wave the White",
+    description: "The World's Biggest Friendship Roll Call. Where communities from all corners of the world check in on Friendship Day.",
+  },
 };
 
 import Navbar from "@/components/navbar";

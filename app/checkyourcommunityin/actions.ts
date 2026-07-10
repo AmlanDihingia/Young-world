@@ -142,6 +142,14 @@ export async function signup(formData: FormData) {
     }
 
     if (data.user) {
+        // Manually update the profiles table to ensure lat and lng are set, 
+        // just in case the Supabase auth trigger doesn't map them automatically.
+        if (coords) {
+            await supabase
+                .from('profiles')
+                .update({ lat: coords.lat, lng: coords.lng })
+                .eq('id', data.user.id)
+        }
         // Send Custom Welcome Email via Resend
         try {
             const resend = new Resend(process.env.RESEND_API_KEY)
