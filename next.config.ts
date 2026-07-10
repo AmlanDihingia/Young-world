@@ -18,6 +18,15 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: '/jointherollcall',
+        destination: '/checkyourcommunityin',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
