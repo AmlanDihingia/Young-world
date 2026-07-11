@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowDown, Shirt, Music, Camera, Users, Hash, UserPlus, Share2 } from "lucide-react";
 import InteractiveGlobe from '@/components/interactive-globe';
 import HowItWorksTimeline from '@/components/how-it-works-timeline';
+import RecentCommunities from '@/components/recent-communities';
 
 export default function WaveTheWhite() {
   return (
@@ -159,6 +160,8 @@ export default function WaveTheWhite() {
           <InteractiveGlobe />
         </div>
       </section>
+
+      <RecentCommunities />
 
       {/* 
         ========================================
