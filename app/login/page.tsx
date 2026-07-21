@@ -4,7 +4,7 @@ import { login, signup, resetPassword } from './actions'
 import Link from 'next/link'
 import { useState, useRef, useTransition, use } from 'react'
 import { z } from 'zod'
-import { step1Schema, step2CreatorSchema, step2CommunitySchema, step3Schema } from './schemas'
+import { step1Schema, step2CreatorSchema, step2CommunitySchema } from './schemas'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { createClient } from '@/utils/supabase/client'
@@ -61,19 +61,7 @@ export default function LoginPage({
     function handleSignup() {
         if (!formRef.current) return
         const formData = new FormData(formRef.current)
-        const data = Object.fromEntries(formData.entries())
 
-        const result = step3Schema.safeParse(data)
-        if (!result.success) {
-            const formattedErrors: Record<string, string> = {}
-            result.error.issues.forEach(issue => {
-                formattedErrors[issue.path[0] as string] = issue.message
-            })
-            setErrors(formattedErrors)
-            return
-        }
-
-        setErrors({})
         startTransition(() => {
             signup(formData)
         })
@@ -177,7 +165,6 @@ export default function LoginPage({
                         <div className="flex gap-2 w-full mb-2">
                             <div className={`h-1.5 w-full rounded-full transition-colors duration-500 ${step >= 1 ? 'bg-sky-500' : 'bg-slate-100'}`} />
                             <div className={`h-1.5 w-full rounded-full transition-colors duration-500 ${step >= 2 ? 'bg-sky-500' : 'bg-slate-100'}`} />
-                            <div className={`h-1.5 w-full rounded-full transition-colors duration-500 ${step >= 3 ? 'bg-sky-500' : 'bg-slate-100'}`} />
                         </div>
 
                         {/* ---- STEP 1: YOUR DETAILS ---- */}
@@ -257,7 +244,7 @@ export default function LoginPage({
                                     <h3 className="text-sm font-bold uppercase tracking-widest text-sky-600 mb-6 border-b border-sky-100 pb-2">Your Community</h3>
                                     <div className="space-y-4">
                                         <div>
-                                            <label htmlFor="community_type" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">What community are you representing?</label>
+                                            <label htmlFor="community_type" className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">NAME OF YOUR COMMUNITY</label>
                                             <input id="community_type" name="community_type" type="text" className={`w-full bg-sky-50/50 border rounded-lg px-4 py-3 text-slate-800 focus:outline-none transition-colors font-medium ${errors.community_type ? 'border-red-400 focus:border-red-500' : 'border-sky-100 focus:border-sky-400'}`} />
                                             {errors.community_type && <p className="text-red-500 text-xs mt-1">{errors.community_type}</p>}
                                         </div>
@@ -290,23 +277,8 @@ export default function LoginPage({
                                     </div>
                                 </section>
                             </div>
-                        </div>
 
-                        {/* ---- STEP 3: MEDIA & STAY CONNECTED ---- */}
-                        <div className={step === 3 ? 'space-y-8' : 'hidden'}>
-                            <section>
-                                <h3 className="text-sm font-bold uppercase tracking-widest text-sky-600 mb-6 border-b border-sky-100 pb-2">Step 3: Media</h3>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Upload a profile photo (Optional)</label>
-                                        <input type="file" name="profile_photo" accept="image/*" className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-sky-50 file:text-sky-700 hover:file:bg-sky-100 transition-colors" />
-                                    </div>
-                                    <div>
-                                        <label className="block text-xs font-medium uppercase tracking-widest text-slate-500 mb-2">Upload a community photo (Optional)</label>
-                                        <input type="file" name="community_photo" accept="image/*" className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-sky-50 file:text-sky-700 hover:file:bg-sky-100 transition-colors" />
-                                    </div>
-                                </div>
-                            </section>
+                            {/* Stay Connected */}
                             <section>
                                 <h3 className="text-sm font-bold uppercase tracking-widest text-sky-600 mb-6 border-b border-sky-100 pb-2">Stay Connected</h3>
                                 <label className="flex items-start gap-3 cursor-pointer group">
@@ -342,7 +314,7 @@ export default function LoginPage({
                                     Back
                                 </button>
                             )}
-                            {step < 3 ? (
+                            {step < 2 ? (
                                 <button
                                     type="button"
                                     onClick={handleNextStep}
