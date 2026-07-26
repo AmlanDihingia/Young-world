@@ -53,26 +53,36 @@ export default function InteractiveGlobe({ compact = false }: { compact?: boolea
         return () => window.removeEventListener('resize', update)
     }, [compact])
 
-    // ── Apply controls once globe is ready ─────────────────────────────────
-    const applyControls = useCallback(() => {
-        if (!globeRef.current) return
-        const ctrl = globeRef.current.controls()
-        if (!ctrl) return
-        ctrl.enableZoom   = true
-        ctrl.enableRotate = true
-        ctrl.enablePan    = false
-        ctrl.zoomSpeed    = 1.2
-        ctrl.rotateSpeed  = 0.7
-        ctrl.minDistance  = compact ? 160 : 140
-        ctrl.maxDistance  = compact ? 500 : 600
-        ctrl.autoRotate      = true
-        ctrl.autoRotateSpeed = 0.6
-        // THREE.TOUCH values: ROTATE=0, PAN=1, DOLLY_PAN=2, DOLLY_ROTATE=3
-        ctrl.touches = { ONE: 0, TWO: 2 }  // 1-finger rotate, 2-finger zoom
-        ctrl.update()
-    }, [compact])
+    // ── Apply controls — poll until Three.js is ready ─────────────────────
+    useEffect(() => {
+        let rafId: number
+        let attempts = 0
+        const MAX = 120 // give up after ~4 s at 30fps
 
-    useEffect(() => { applyControls() }, [data, applyControls])
+        const tryApply = () => {
+            attempts++
+            const ctrl = globeRef.current?.controls()
+            if (ctrl) {
+                ctrl.enableZoom      = true
+                ctrl.enableRotate    = true
+                ctrl.enablePan       = false
+                ctrl.zoomSpeed       = 1.2
+                ctrl.rotateSpeed     = 0.7
+                ctrl.minDistance     = compact ? 160 : 140
+                ctrl.maxDistance     = compact ? 500 : 600
+                ctrl.autoRotate      = true
+                ctrl.autoRotateSpeed = 0.6
+                // THREE.TOUCH: ROTATE=0, PAN=1, DOLLY_PAN=2
+                ctrl.touches = { ONE: 0, TWO: 2 }
+                ctrl.update()
+                return // done
+            }
+            if (attempts < MAX) rafId = requestAnimationFrame(tryApply)
+        }
+
+        rafId = requestAnimationFrame(tryApply)
+        return () => cancelAnimationFrame(rafId)
+    }, [data, compact])
 
     // ── Touch-action: none directly on the Three.js canvas ─────────────────
     useEffect(() => {
