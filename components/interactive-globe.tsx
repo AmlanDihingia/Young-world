@@ -52,18 +52,30 @@ export default function InteractiveGlobe({ compact = false }: { compact?: boolea
         return () => window.removeEventListener('resize', updateSize)
     }, [compact])
 
-    // Auto-rotate
+    // Auto-rotate & zoom controls — runs after data loads AND on resize
     useEffect(() => {
-        if (globeRef.current) {
-            const controls = globeRef.current.controls()
-            if (controls) {
-                controls.autoRotate = true
-                controls.autoRotateSpeed = 0.8
-                controls.enableZoom = true
-                controls.minDistance = compact ? 200 : 180
-                controls.maxDistance = compact ? 400 : 500
+        const applyControls = () => {
+            if (globeRef.current) {
+                const controls = globeRef.current.controls()
+                if (controls) {
+                    controls.autoRotate = true
+                    controls.autoRotateSpeed = 0.8
+                    controls.enableZoom = true
+                    controls.enablePan = false
+                    controls.enableRotate = true
+                    controls.minDistance = compact ? 180 : 160
+                    controls.maxDistance = compact ? 450 : 550
+                    // Required on touch devices — tell three.js to handle touch
+                    controls.touches = {
+                        ONE: 2, // TOUCH.ROTATE
+                        TWO: 1, // TOUCH.DOLLY_PAN
+                    }
+                }
             }
         }
+        applyControls()
+        window.addEventListener('resize', applyControls)
+        return () => window.removeEventListener('resize', applyControls)
     }, [data, compact])
 
     const points = data?.points || []
@@ -93,7 +105,15 @@ export default function InteractiveGlobe({ compact = false }: { compact?: boolea
             </div>
 
             {/* Globe */}
-            <div className="relative" style={{ width: globeSize, height: globeSize }}>
+            <div
+                className="relative"
+                style={{
+                    width: globeSize,
+                    height: globeSize,
+                    // Critical: lets Three.js receive pinch-zoom touch events
+                    touchAction: 'none',
+                }}
+            >
                 <Globe
                     ref={globeRef}
                     width={globeSize}
@@ -118,6 +138,13 @@ export default function InteractiveGlobe({ compact = false }: { compact?: boolea
                         wrapper.style.alignItems = 'center'
                         wrapper.style.justifyContent = 'center'
 
+                        // Smaller markers on mobile
+                        const isMobile = typeof window !== 'undefined' && window.innerWidth < 640
+                        const ringSize = isMobile ? '18px' : '32px'
+                        const haloSize = isMobile ? '12px' : '20px'
+                        const dotSize = isMobile ? '5px' : '8px'
+                        const blurPx = isMobile ? '4px' : '6px'
+
                         wrapper.innerHTML = `
                             <div style="
                                 position: absolute;
@@ -129,7 +156,7 @@ export default function InteractiveGlobe({ compact = false }: { compact?: boolea
                                     position: absolute;
                                     top: 50%; left: 50%;
                                     transform: translate(-50%, -50%);
-                                    width: 32px; height: 32px;
+                                    width: ${ringSize}; height: ${ringSize};
                                     border-radius: 50%;
                                     border: 1.5px solid ${color};
                                     opacity: 0;
@@ -140,7 +167,7 @@ export default function InteractiveGlobe({ compact = false }: { compact?: boolea
                                     position: absolute;
                                     top: 50%; left: 50%;
                                     transform: translate(-50%, -50%);
-                                    width: 32px; height: 32px;
+                                    width: ${ringSize}; height: ${ringSize};
                                     border-radius: 50%;
                                     border: 1.5px solid ${color};
                                     opacity: 0;
@@ -151,15 +178,15 @@ export default function InteractiveGlobe({ compact = false }: { compact?: boolea
                                     position: absolute;
                                     top: 50%; left: 50%;
                                     transform: translate(-50%, -50%);
-                                    width: 20px; height: 20px;
+                                    width: ${haloSize}; height: ${haloSize};
                                     border-radius: 50%;
                                     background: ${color};
                                     opacity: 0.25;
-                                    filter: blur(6px);
+                                    filter: blur(${blurPx});
                                 "></div>
                                 <!-- Core dot -->
                                 <div style="
-                                    width: 8px; height: 8px;
+                                    width: ${dotSize}; height: ${dotSize};
                                     border-radius: 50%;
                                     background: ${color};
                                     box-shadow: 0 0 8px 2px ${color}, 0 0 20px 4px ${color}40;

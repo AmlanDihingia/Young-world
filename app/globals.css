@@ -57,7 +57,7 @@
   text-wrap: balance;
 }
 
-/* Globe Pulse Animation */
+/* Globe Pulse Animation — desktop */
 @keyframes globePulse {
   0% {
     transform: translate(-50%, -50%) scale(0.5);
@@ -66,6 +66,20 @@
   100% {
     transform: translate(-50%, -50%) scale(2.5);
     opacity: 0;
+  }
+}
+
+/* Narrower pulse wave on mobile */
+@media (max-width: 639px) {
+  @keyframes globePulse {
+    0% {
+      transform: translate(-50%, -50%) scale(0.5);
+      opacity: 0.7;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(1.8);
+      opacity: 0;
+    }
   }
 }
 
