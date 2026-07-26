@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import dynamic from 'next/dynamic'
 
 // Dynamically import react-globe.gl to avoid SSR issues (it requires window/WebGL)
@@ -29,7 +29,11 @@ export default function InteractiveGlobe({ compact = false }: { compact?: boolea
     const [data, setData] = useState<GlobeData | null>(null)
     const globeRef = useRef<any>(null)
     const containerRef = useRef<HTMLDivElement>(null)
+    const wrapperRef = useRef<HTMLDivElement>(null)
     const [globeSize, setGlobeSize] = useState(500)
+    const [interacting, setInteracting] = useState(false)
+    const [hintDismissed, setHintDismissed] = useState(false)
+    const interactingRef = useRef(false)
 
     // Fetch globe data
     useEffect(() => {
@@ -44,7 +48,7 @@ export default function InteractiveGlobe({ compact = false }: { compact?: boolea
         const updateSize = () => {
             if (containerRef.current) {
                 const width = containerRef.current.clientWidth
-                setGlobeSize(compact ? Math.min(width, 400) : Math.min(width, 600))
+                setGlobeSize(compact ? Math.min(width, 400) : Math.min(width, 620))
             }
         }
         updateSize()
@@ -52,45 +56,123 @@ export default function InteractiveGlobe({ compact = false }: { compact?: boolea
         return () => window.removeEventListener('resize', updateSize)
     }, [compact])
 
-    // Auto-rotate & zoom controls — runs after data loads AND on resize
+    // ─── KEY FIX: intercept wheel + touch events before the browser scroll handler ───
     useEffect(() => {
-        const applyControls = () => {
-            if (globeRef.current) {
-                const controls = globeRef.current.controls()
-                if (controls) {
-                    controls.autoRotate = true
-                    controls.autoRotateSpeed = 0.8
-                    controls.enableZoom = true
-                    controls.enablePan = false
-                    controls.enableRotate = true
-                    controls.minDistance = compact ? 180 : 160
-                    controls.maxDistance = compact ? 450 : 550
-                    // Required on touch devices — tell three.js to handle touch
-                    controls.touches = {
-                        ONE: 2, // TOUCH.ROTATE
-                        TWO: 1, // TOUCH.DOLLY_PAN
-                    }
-                }
+        const wrapper = wrapperRef.current
+        if (!wrapper) return
+
+        // Non-passive wheel: stops page from scrolling when user scrolls over the globe
+        const onWheel = (e: WheelEvent) => {
+            e.preventDefault()
+            e.stopPropagation()
+        }
+
+        // Non-passive touch: lets Three.js receive pinch / pan
+        const onTouchStart = (e: TouchEvent) => {
+            if (e.touches.length >= 2) {
+                e.preventDefault()
             }
         }
+        const onTouchMove = (e: TouchEvent) => {
+            e.preventDefault()
+        }
+
+        wrapper.addEventListener('wheel', onWheel, { passive: false })
+        wrapper.addEventListener('touchstart', onTouchStart, { passive: false })
+        wrapper.addEventListener('touchmove', onTouchMove, { passive: false })
+
+        return () => {
+            wrapper.removeEventListener('wheel', onWheel)
+            wrapper.removeEventListener('touchstart', onTouchStart)
+            wrapper.removeEventListener('touchmove', onTouchMove)
+        }
+    }, [])
+
+    // ─── Set touch-action:none on the Three.js <canvas> as soon as it appears ───
+    useEffect(() => {
+        const wrapper = wrapperRef.current
+        if (!wrapper) return
+
+        const applyCanvasFix = () => {
+            const canvas = wrapper.querySelector('canvas')
+            if (canvas) {
+                canvas.style.touchAction = 'none'
+                canvas.style.outline = 'none'
+            }
+        }
+
+        // Try immediately (canvas may already exist on re-renders)
+        applyCanvasFix()
+
+        // Watch for canvas being added to DOM by react-globe.gl
+        const observer = new MutationObserver(() => applyCanvasFix())
+        observer.observe(wrapper, { childList: true, subtree: true })
+        return () => observer.disconnect()
+    }, [])
+
+    // ─── Globe controls: zoom, rotate, touch mapping ───
+    const applyControls = useCallback(() => {
+        if (!globeRef.current) return
+        const controls = globeRef.current.controls()
+        if (!controls) return
+
+        controls.enableZoom = true
+        controls.enableRotate = true
+        controls.enablePan = false
+        controls.zoomSpeed = 1.2
+        controls.rotateSpeed = 0.6
+        controls.minDistance = compact ? 160 : 140
+        controls.maxDistance = compact ? 500 : 600
+        controls.autoRotate = !interactingRef.current
+        controls.autoRotateSpeed = 0.6
+        // Map touch gestures: one-finger = rotate, two-finger = zoom
+        controls.touches = {
+            ONE: 2,  // THREE.TOUCH.ROTATE
+            TWO: 1,  // THREE.TOUCH.DOLLY_PAN
+        }
+        controls.update()
+    }, [compact])
+
+    useEffect(() => {
         applyControls()
-        window.addEventListener('resize', applyControls)
-        return () => window.removeEventListener('resize', applyControls)
-    }, [data, compact])
+    }, [data, applyControls])
+
+    // ─── Interaction events: pause auto-rotate, dismiss hint ───
+    const handleInteractStart = useCallback(() => {
+        interactingRef.current = true
+        setInteracting(true)
+        setHintDismissed(true)
+        if (globeRef.current) {
+            const c = globeRef.current.controls()
+            if (c) { c.autoRotate = false; c.update() }
+        }
+    }, [])
+
+    const handleInteractEnd = useCallback(() => {
+        interactingRef.current = false
+        setInteracting(false)
+        // Resume auto-rotate after 2s of inactivity
+        setTimeout(() => {
+            if (!interactingRef.current && globeRef.current) {
+                const c = globeRef.current.controls()
+                if (c) { c.autoRotate = true; c.update() }
+            }
+        }, 2000)
+    }, [])
 
     const points = data?.points || []
     const stats = data?.stats || { totalMembers: 0, totalCountries: 0 }
 
     return (
         <div ref={containerRef} className="relative w-full flex flex-col items-center">
-            {/* Live Counter */}
+            {/* Stats */}
             <div className={`flex flex-wrap justify-center gap-4 sm:gap-8 ${compact ? 'mb-4' : 'mb-8'}`}>
                 <div className="text-center">
                     <div className={`${compact ? 'text-3xl' : 'text-4xl sm:text-5xl'} font-display font-light text-sky-500 tracking-tight`}>
                         {stats.totalMembers}
                     </div>
                     <div className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 mt-1">
-                        Communities & Creators
+                        Communities &amp; Creators
                     </div>
                 </div>
                 <div className="w-px bg-sky-100 hidden sm:block" />
@@ -104,15 +186,22 @@ export default function InteractiveGlobe({ compact = false }: { compact?: boolea
                 </div>
             </div>
 
-            {/* Globe */}
+            {/* Globe wrapper — receives all pointer/touch/wheel events */}
             <div
-                className="relative"
+                ref={wrapperRef}
+                className="relative select-none"
                 style={{
                     width: globeSize,
                     height: globeSize,
-                    // Critical: lets Three.js receive pinch-zoom touch events
-                    touchAction: 'none',
+                    touchAction: 'none',   // belt-and-suspenders at the div level too
+                    userSelect: 'none',
+                    WebkitUserSelect: 'none',
+                    cursor: interacting ? 'grabbing' : 'grab',
                 }}
+                onMouseDown={handleInteractStart}
+                onMouseUp={handleInteractEnd}
+                onTouchStart={handleInteractStart}
+                onTouchEnd={handleInteractEnd}
             >
                 <Globe
                     ref={globeRef}
@@ -120,7 +209,6 @@ export default function InteractiveGlobe({ compact = false }: { compact?: boolea
                     height={globeSize}
                     globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
                     backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
-                    // Glowing HTML markers
                     htmlElementsData={points}
                     htmlLat="lat"
                     htmlLng="lng"
@@ -128,22 +216,21 @@ export default function InteractiveGlobe({ compact = false }: { compact?: boolea
                     htmlElement={(d: object) => {
                         const point = d as GlobePoint
                         const color = point.type === 'community' ? '#38bdf8' : '#a78bfa'
-
-                        const wrapper = document.createElement('div')
-                        wrapper.style.position = 'relative'
-                        wrapper.style.cursor = 'pointer'
-                        wrapper.style.width = '0'
-                        wrapper.style.height = '0'
-                        wrapper.style.display = 'flex'
-                        wrapper.style.alignItems = 'center'
-                        wrapper.style.justifyContent = 'center'
-
-                        // Smaller markers on mobile
                         const isMobile = typeof window !== 'undefined' && window.innerWidth < 640
                         const ringSize = isMobile ? '18px' : '32px'
                         const haloSize = isMobile ? '12px' : '20px'
-                        const dotSize = isMobile ? '5px' : '8px'
-                        const blurPx = isMobile ? '4px' : '6px'
+                        const dotSize  = isMobile ? '5px'  : '8px'
+                        const blurPx   = isMobile ? '4px'  : '6px'
+
+                        const wrapper = document.createElement('div')
+                        wrapper.style.cssText = `
+                            position: relative;
+                            cursor: pointer;
+                            width: 0; height: 0;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                        `
 
                         wrapper.innerHTML = `
                             <div style="
@@ -194,13 +281,13 @@ export default function InteractiveGlobe({ compact = false }: { compact?: boolea
                             </div>
                         `
 
-                        // Add tooltip on hover
+                        // Tooltip
                         const tooltipDiv = document.createElement('div')
                         tooltipDiv.style.cssText = `
                             position: absolute;
                             bottom: 24px; left: 50%;
                             transform: translateX(-50%);
-                            background: rgba(255,255,255,0.95);
+                            background: rgba(255,255,255,0.97);
                             backdrop-filter: blur(12px);
                             border: 1px solid rgba(212,156,7,0.2);
                             border-radius: 12px;
@@ -211,7 +298,7 @@ export default function InteractiveGlobe({ compact = false }: { compact?: boolea
                             opacity: 0;
                             pointer-events: none;
                             transition: opacity 0.2s;
-                            z-index: 100;
+                            z-index: 1000;
                             white-space: nowrap;
                         `
                         tooltipDiv.innerHTML = `
@@ -230,7 +317,6 @@ export default function InteractiveGlobe({ compact = false }: { compact?: boolea
                             </div>
                         `
                         wrapper.firstElementChild!.appendChild(tooltipDiv)
-
                         wrapper.addEventListener('mouseenter', () => { tooltipDiv.style.opacity = '1' })
                         wrapper.addEventListener('mouseleave', () => { tooltipDiv.style.opacity = '0' })
 
@@ -239,6 +325,45 @@ export default function InteractiveGlobe({ compact = false }: { compact?: boolea
                     atmosphereColor="#38bdf8"
                     atmosphereAltitude={0.18}
                 />
+
+                {/* Interaction hint overlay — shown until user first interacts */}
+                {!hintDismissed && (
+                    <div
+                        className="absolute inset-0 flex flex-col items-center justify-end pb-6 pointer-events-none"
+                        style={{ zIndex: 10 }}
+                    >
+                        <div className="flex flex-col items-center gap-2 animate-pulse">
+                            <div className="flex items-center gap-3 bg-black/40 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-widest px-4 py-2 rounded-full border border-white/10">
+                                {/* Desktop hint */}
+                                <span className="hidden sm:flex items-center gap-2">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                        <circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/>
+                                    </svg>
+                                    Drag to rotate · Scroll to zoom
+                                </span>
+                                {/* Mobile hint */}
+                                <span className="flex sm:hidden items-center gap-2">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                        <path d="M18 11V6a2 2 0 00-2-2v0a2 2 0 00-2 2v0M14 10V4a2 2 0 00-2-2v0a2 2 0 00-2 2v4M10 10.5V6a2 2 0 00-2-2v0a2 2 0 00-2 2v8l3.5 3.5"/>
+                                    </svg>
+                                    Drag to rotate · Pinch to zoom
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
+
+            {/* Legend */}
+            <div className="flex items-center gap-5 mt-4">
+                <div className="flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-sky-400 shadow-[0_0_6px_#38bdf8]" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Community</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-violet-400 shadow-[0_0_6px_#a78bfa]" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Creator</span>
+                </div>
             </div>
 
             {/* Empty state */}
