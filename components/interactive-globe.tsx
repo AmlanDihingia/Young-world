@@ -3,7 +3,6 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 import dynamic from 'next/dynamic'
 
-// Dynamically import react-globe.gl to avoid SSR issues (it requires window/WebGL)
 const Globe = dynamic(() => import('react-globe.gl'), { ssr: false })
 
 interface GlobePoint {
@@ -31,140 +30,105 @@ export default function InteractiveGlobe({ compact = false }: { compact?: boolea
     const containerRef = useRef<HTMLDivElement>(null)
     const wrapperRef = useRef<HTMLDivElement>(null)
     const [globeSize, setGlobeSize] = useState(500)
-    const [interacting, setInteracting] = useState(false)
-    const [hintDismissed, setHintDismissed] = useState(false)
-    const interactingRef = useRef(false)
+    const autoRotateTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-    // Fetch globe data
+    // ── Fetch ──────────────────────────────────────────────────────────────
     useEffect(() => {
         fetch('/api/globe-data')
-            .then((res) => res.json())
-            .then((d) => setData(d))
+            .then(r => r.json())
+            .then(d => setData(d))
             .catch(console.error)
     }, [])
 
-    // Responsive sizing
+    // ── Responsive size ────────────────────────────────────────────────────
     useEffect(() => {
-        const updateSize = () => {
+        const update = () => {
             if (containerRef.current) {
-                const width = containerRef.current.clientWidth
-                setGlobeSize(compact ? Math.min(width, 400) : Math.min(width, 620))
+                const w = containerRef.current.clientWidth
+                setGlobeSize(compact ? Math.min(w, 400) : Math.min(w, 620))
             }
         }
-        updateSize()
-        window.addEventListener('resize', updateSize)
-        return () => window.removeEventListener('resize', updateSize)
+        update()
+        window.addEventListener('resize', update)
+        return () => window.removeEventListener('resize', update)
     }, [compact])
 
-    // ─── KEY FIX: intercept wheel + touch events before the browser scroll handler ───
-    useEffect(() => {
-        const wrapper = wrapperRef.current
-        if (!wrapper) return
-
-        // Non-passive wheel: stops page from scrolling when user scrolls over the globe
-        const onWheel = (e: WheelEvent) => {
-            e.preventDefault()
-            e.stopPropagation()
-        }
-
-        // Non-passive touch: lets Three.js receive pinch / pan
-        const onTouchStart = (e: TouchEvent) => {
-            if (e.touches.length >= 2) {
-                e.preventDefault()
-            }
-        }
-        const onTouchMove = (e: TouchEvent) => {
-            e.preventDefault()
-        }
-
-        wrapper.addEventListener('wheel', onWheel, { passive: false })
-        wrapper.addEventListener('touchstart', onTouchStart, { passive: false })
-        wrapper.addEventListener('touchmove', onTouchMove, { passive: false })
-
-        return () => {
-            wrapper.removeEventListener('wheel', onWheel)
-            wrapper.removeEventListener('touchstart', onTouchStart)
-            wrapper.removeEventListener('touchmove', onTouchMove)
-        }
-    }, [])
-
-    // ─── Set touch-action:none on the Three.js <canvas> as soon as it appears ───
-    useEffect(() => {
-        const wrapper = wrapperRef.current
-        if (!wrapper) return
-
-        const applyCanvasFix = () => {
-            const canvas = wrapper.querySelector('canvas')
-            if (canvas) {
-                canvas.style.touchAction = 'none'
-                canvas.style.outline = 'none'
-            }
-        }
-
-        // Try immediately (canvas may already exist on re-renders)
-        applyCanvasFix()
-
-        // Watch for canvas being added to DOM by react-globe.gl
-        const observer = new MutationObserver(() => applyCanvasFix())
-        observer.observe(wrapper, { childList: true, subtree: true })
-        return () => observer.disconnect()
-    }, [])
-
-    // ─── Globe controls: zoom, rotate, touch mapping ───
+    // ── Apply controls once globe is ready ─────────────────────────────────
     const applyControls = useCallback(() => {
         if (!globeRef.current) return
-        const controls = globeRef.current.controls()
-        if (!controls) return
-
-        controls.enableZoom = true
-        controls.enableRotate = true
-        controls.enablePan = false
-        controls.zoomSpeed = 1.2
-        controls.rotateSpeed = 0.6
-        controls.minDistance = compact ? 160 : 140
-        controls.maxDistance = compact ? 500 : 600
-        controls.autoRotate = !interactingRef.current
-        controls.autoRotateSpeed = 0.6
-        // Map touch gestures: one-finger = rotate, two-finger = zoom
-        controls.touches = {
-            ONE: 2,  // THREE.TOUCH.ROTATE
-            TWO: 1,  // THREE.TOUCH.DOLLY_PAN
-        }
-        controls.update()
+        const ctrl = globeRef.current.controls()
+        if (!ctrl) return
+        ctrl.enableZoom   = true
+        ctrl.enableRotate = true
+        ctrl.enablePan    = false
+        ctrl.zoomSpeed    = 1.2
+        ctrl.rotateSpeed  = 0.7
+        ctrl.minDistance  = compact ? 160 : 140
+        ctrl.maxDistance  = compact ? 500 : 600
+        ctrl.autoRotate      = true
+        ctrl.autoRotateSpeed = 0.6
+        // THREE.TOUCH values: ROTATE=0, PAN=1, DOLLY_PAN=2, DOLLY_ROTATE=3
+        ctrl.touches = { ONE: 0, TWO: 2 }  // 1-finger rotate, 2-finger zoom
+        ctrl.update()
     }, [compact])
 
-    useEffect(() => {
-        applyControls()
-    }, [data, applyControls])
+    useEffect(() => { applyControls() }, [data, applyControls])
 
-    // ─── Interaction events: pause auto-rotate, dismiss hint ───
-    const handleInteractStart = useCallback(() => {
-        interactingRef.current = true
-        setInteracting(true)
-        setHintDismissed(true)
-        if (globeRef.current) {
-            const c = globeRef.current.controls()
-            if (c) { c.autoRotate = false; c.update() }
+    // ── Touch-action: none directly on the Three.js canvas ─────────────────
+    useEffect(() => {
+        const wrapper = wrapperRef.current
+        if (!wrapper) return
+        const patch = () => {
+            const c = wrapper.querySelector('canvas')
+            if (c) { c.style.touchAction = 'none'; c.style.outline = 'none' }
         }
+        patch()
+        const obs = new MutationObserver(patch)
+        obs.observe(wrapper, { childList: true, subtree: true })
+        return () => obs.disconnect()
     }, [])
 
-    const handleInteractEnd = useCallback(() => {
-        interactingRef.current = false
-        setInteracting(false)
-        // Resume auto-rotate after 2s of inactivity
-        setTimeout(() => {
-            if (!interactingRef.current && globeRef.current) {
-                const c = globeRef.current.controls()
-                if (c) { c.autoRotate = true; c.update() }
-            }
-        }, 2000)
+    // ── Non-passive wheel: stop page scroll when hovering globe ────────────
+    useEffect(() => {
+        const el = wrapperRef.current
+        if (!el) return
+        const stop = (e: WheelEvent) => e.preventDefault()
+        el.addEventListener('wheel', stop, { passive: false })
+        return () => el.removeEventListener('wheel', stop)
+    }, [])
+
+    // ── Pause / resume auto-rotate on interaction ──────────────────────────
+    const pauseRotate = useCallback(() => {
+        if (autoRotateTimer.current) clearTimeout(autoRotateTimer.current)
+        const ctrl = globeRef.current?.controls()
+        if (ctrl) { ctrl.autoRotate = false; ctrl.update() }
+    }, [])
+
+    const resumeRotate = useCallback(() => {
+        if (autoRotateTimer.current) clearTimeout(autoRotateTimer.current)
+        autoRotateTimer.current = setTimeout(() => {
+            const ctrl = globeRef.current?.controls()
+            if (ctrl) { ctrl.autoRotate = true; ctrl.update() }
+        }, 2500)
+    }, [])
+
+    // ── Programmatic zoom buttons (reliable on all mobile browsers) ────────
+    const zoom = useCallback((direction: 'in' | 'out') => {
+        const ctrl = globeRef.current?.controls()
+        if (!ctrl) return
+        const camera = globeRef.current.camera()
+        if (!camera) return
+        const step = direction === 'in' ? 0.8 : 1.25
+        camera.position.multiplyScalar(step)
+        ctrl.update()
     }, [])
 
     const points = data?.points || []
-    const stats = data?.stats || { totalMembers: 0, totalCountries: 0 }
+    const stats  = data?.stats  || { totalMembers: 0, totalCountries: 0 }
 
     return (
         <div ref={containerRef} className="relative w-full flex flex-col items-center">
+
             {/* Stats */}
             <div className={`flex flex-wrap justify-center gap-4 sm:gap-8 ${compact ? 'mb-4' : 'mb-8'}`}>
                 <div className="text-center">
@@ -186,172 +150,118 @@ export default function InteractiveGlobe({ compact = false }: { compact?: boolea
                 </div>
             </div>
 
-            {/* Globe wrapper — receives all pointer/touch/wheel events */}
-            <div
-                ref={wrapperRef}
-                className="relative select-none"
-                style={{
-                    width: globeSize,
-                    height: globeSize,
-                    touchAction: 'none',   // belt-and-suspenders at the div level too
-                    userSelect: 'none',
-                    WebkitUserSelect: 'none',
-                    cursor: interacting ? 'grabbing' : 'grab',
-                }}
-                onMouseDown={handleInteractStart}
-                onMouseUp={handleInteractEnd}
-                onTouchStart={handleInteractStart}
-                onTouchEnd={handleInteractEnd}
-            >
-                <Globe
-                    ref={globeRef}
-                    width={globeSize}
-                    height={globeSize}
-                    globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
-                    backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
-                    htmlElementsData={points}
-                    htmlLat="lat"
-                    htmlLng="lng"
-                    htmlAltitude={0.01}
-                    htmlElement={(d: object) => {
-                        const point = d as GlobePoint
-                        const color = point.type === 'community' ? '#38bdf8' : '#a78bfa'
-                        const isMobile = typeof window !== 'undefined' && window.innerWidth < 640
-                        const ringSize = isMobile ? '18px' : '32px'
-                        const haloSize = isMobile ? '12px' : '20px'
-                        const dotSize  = isMobile ? '5px'  : '8px'
-                        const blurPx   = isMobile ? '4px'  : '6px'
+            {/* Globe + Zoom Buttons */}
+            <div className="relative" style={{ width: globeSize }}>
 
-                        const wrapper = document.createElement('div')
-                        wrapper.style.cssText = `
-                            position: relative;
-                            cursor: pointer;
-                            width: 0; height: 0;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                        `
-
-                        wrapper.innerHTML = `
-                            <div style="
-                                position: absolute;
-                                transform: translate(-50%, -50%);
-                                pointer-events: auto;
-                            ">
-                                <!-- Outer pulse ring -->
-                                <div style="
-                                    position: absolute;
-                                    top: 50%; left: 50%;
-                                    transform: translate(-50%, -50%);
-                                    width: ${ringSize}; height: ${ringSize};
-                                    border-radius: 50%;
-                                    border: 1.5px solid ${color};
-                                    opacity: 0;
-                                    animation: globePulse 2.5s ease-out infinite;
-                                "></div>
-                                <!-- Second pulse ring (delayed) -->
-                                <div style="
-                                    position: absolute;
-                                    top: 50%; left: 50%;
-                                    transform: translate(-50%, -50%);
-                                    width: ${ringSize}; height: ${ringSize};
-                                    border-radius: 50%;
-                                    border: 1.5px solid ${color};
-                                    opacity: 0;
-                                    animation: globePulse 2.5s ease-out infinite 1.25s;
-                                "></div>
-                                <!-- Glow halo -->
-                                <div style="
-                                    position: absolute;
-                                    top: 50%; left: 50%;
-                                    transform: translate(-50%, -50%);
-                                    width: ${haloSize}; height: ${haloSize};
-                                    border-radius: 50%;
-                                    background: ${color};
-                                    opacity: 0.25;
-                                    filter: blur(${blurPx});
-                                "></div>
-                                <!-- Core dot -->
-                                <div style="
-                                    width: ${dotSize}; height: ${dotSize};
-                                    border-radius: 50%;
-                                    background: ${color};
-                                    box-shadow: 0 0 8px 2px ${color}, 0 0 20px 4px ${color}40;
-                                "></div>
-                            </div>
-                        `
-
-                        // Tooltip
-                        const tooltipDiv = document.createElement('div')
-                        tooltipDiv.style.cssText = `
-                            position: absolute;
-                            bottom: 24px; left: 50%;
-                            transform: translateX(-50%);
-                            background: rgba(255,255,255,0.97);
-                            backdrop-filter: blur(12px);
-                            border: 1px solid rgba(212,156,7,0.2);
-                            border-radius: 12px;
-                            padding: 10px 14px;
-                            font-family: Inter, sans-serif;
-                            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-                            min-width: 140px;
-                            opacity: 0;
-                            pointer-events: none;
-                            transition: opacity 0.2s;
-                            z-index: 1000;
-                            white-space: nowrap;
-                        `
-                        tooltipDiv.innerHTML = `
-                            <div style="font-weight: 600; color: #0f172a; font-size: 13px; margin-bottom: 2px;">
-                                ${point.name}
-                            </div>
-                            <div style="color: #64748b; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em;">
-                                ${point.city}, ${point.country}
-                            </div>
-                            <div style="
-                                margin-top: 6px; font-size: 9px; text-transform: uppercase;
-                                letter-spacing: 0.1em; font-weight: 700;
-                                color: ${point.type === 'community' ? '#0284c7' : '#7c3aed'};
-                            ">
-                                ${point.type === 'community' ? '● Community' : '● Creator'}
-                            </div>
-                        `
-                        wrapper.firstElementChild!.appendChild(tooltipDiv)
-                        wrapper.addEventListener('mouseenter', () => { tooltipDiv.style.opacity = '1' })
-                        wrapper.addEventListener('mouseleave', () => { tooltipDiv.style.opacity = '0' })
-
-                        return wrapper
-                    }}
-                    atmosphereColor="#38bdf8"
-                    atmosphereAltitude={0.18}
-                />
-
-                {/* Interaction hint overlay — shown until user first interacts */}
-                {!hintDismissed && (
-                    <div
-                        className="absolute inset-0 flex flex-col items-center justify-end pb-6 pointer-events-none"
-                        style={{ zIndex: 10 }}
+                {/* Zoom Buttons — always visible, reliable on every device */}
+                <div className="absolute right-3 top-1/2 -translate-y-1/2 z-20 flex flex-col gap-2">
+                    <button
+                        onPointerDown={e => { e.stopPropagation(); pauseRotate(); zoom('in') }}
+                        onPointerUp={resumeRotate}
+                        className="w-9 h-9 rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-white text-xl font-light flex items-center justify-center hover:bg-white/25 active:scale-95 transition-all shadow-lg select-none"
+                        aria-label="Zoom in"
                     >
-                        <div className="flex flex-col items-center gap-2 animate-pulse">
-                            <div className="flex items-center gap-3 bg-black/40 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-widest px-4 py-2 rounded-full border border-white/10">
-                                {/* Desktop hint */}
-                                <span className="hidden sm:flex items-center gap-2">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                        <circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/>
-                                    </svg>
-                                    Drag to rotate · Scroll to zoom
-                                </span>
-                                {/* Mobile hint */}
-                                <span className="flex sm:hidden items-center gap-2">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                        <path d="M18 11V6a2 2 0 00-2-2v0a2 2 0 00-2 2v0M14 10V4a2 2 0 00-2-2v0a2 2 0 00-2 2v4M10 10.5V6a2 2 0 00-2-2v0a2 2 0 00-2 2v8l3.5 3.5"/>
-                                    </svg>
-                                    Drag to rotate · Pinch to zoom
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                )}
+                        +
+                    </button>
+                    <button
+                        onPointerDown={e => { e.stopPropagation(); pauseRotate(); zoom('out') }}
+                        onPointerUp={resumeRotate}
+                        className="w-9 h-9 rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-white text-xl font-light flex items-center justify-center hover:bg-white/25 active:scale-95 transition-all shadow-lg select-none"
+                        aria-label="Zoom out"
+                    >
+                        −
+                    </button>
+                </div>
+
+                {/* Globe canvas wrapper */}
+                <div
+                    ref={wrapperRef}
+                    style={{
+                        width: globeSize,
+                        height: globeSize,
+                        touchAction: 'none',
+                        cursor: 'grab',
+                        userSelect: 'none',
+                    }}
+                    onPointerDown={pauseRotate}
+                    onPointerUp={resumeRotate}
+                    onPointerLeave={resumeRotate}
+                >
+                    <Globe
+                        ref={globeRef}
+                        width={globeSize}
+                        height={globeSize}
+                        globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
+                        backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
+                        htmlElementsData={points}
+                        htmlLat="lat"
+                        htmlLng="lng"
+                        htmlAltitude={0.01}
+                        htmlElement={(d: object) => {
+                            const point = d as GlobePoint
+                            const color = point.type === 'community' ? '#38bdf8' : '#a78bfa'
+                            const isMobile = typeof window !== 'undefined' && window.innerWidth < 640
+                            const ringSize = isMobile ? '18px' : '32px'
+                            const haloSize = isMobile ? '12px' : '20px'
+                            const dotSize  = isMobile ? '5px'  : '8px'
+                            const blurPx   = isMobile ? '4px'  : '6px'
+
+                            const wrapper = document.createElement('div')
+                            wrapper.style.cssText = `
+                                position:relative; cursor:pointer;
+                                width:0; height:0;
+                                display:flex; align-items:center; justify-content:center;
+                            `
+                            wrapper.innerHTML = `
+                                <div style="position:absolute;transform:translate(-50%,-50%);pointer-events:auto;">
+                                    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+                                        width:${ringSize};height:${ringSize};border-radius:50%;
+                                        border:1.5px solid ${color};opacity:0;
+                                        animation:globePulse 2.5s ease-out infinite;"></div>
+                                    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+                                        width:${ringSize};height:${ringSize};border-radius:50%;
+                                        border:1.5px solid ${color};opacity:0;
+                                        animation:globePulse 2.5s ease-out infinite 1.25s;"></div>
+                                    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+                                        width:${haloSize};height:${haloSize};border-radius:50%;
+                                        background:${color};opacity:0.25;filter:blur(${blurPx});"></div>
+                                    <div style="width:${dotSize};height:${dotSize};border-radius:50%;
+                                        background:${color};
+                                        box-shadow:0 0 8px 2px ${color},0 0 20px 4px ${color}40;"></div>
+                                </div>
+                            `
+                            // Tooltip
+                            const tip = document.createElement('div')
+                            tip.style.cssText = `
+                                position:absolute; bottom:24px; left:50%;
+                                transform:translateX(-50%);
+                                background:rgba(255,255,255,0.97);
+                                backdrop-filter:blur(12px);
+                                border:1px solid rgba(212,156,7,0.2);
+                                border-radius:12px; padding:10px 14px;
+                                font-family:Inter,sans-serif;
+                                box-shadow:0 8px 32px rgba(0,0,0,0.12);
+                                min-width:140px; opacity:0;
+                                pointer-events:none; transition:opacity 0.2s;
+                                z-index:1000; white-space:nowrap;
+                            `
+                            tip.innerHTML = `
+                                <div style="font-weight:600;color:#0f172a;font-size:13px;margin-bottom:2px;">${point.name}</div>
+                                <div style="color:#64748b;font-size:11px;text-transform:uppercase;letter-spacing:.05em;">${point.city}, ${point.country}</div>
+                                <div style="margin-top:6px;font-size:9px;text-transform:uppercase;letter-spacing:.1em;font-weight:700;
+                                    color:${point.type === 'community' ? '#0284c7' : '#7c3aed'};">
+                                    ${point.type === 'community' ? '● Community' : '● Creator'}
+                                </div>
+                            `
+                            wrapper.firstElementChild!.appendChild(tip)
+                            wrapper.addEventListener('mouseenter', () => { tip.style.opacity = '1' })
+                            wrapper.addEventListener('mouseleave', () => { tip.style.opacity = '0' })
+                            return wrapper
+                        }}
+                        atmosphereColor="#38bdf8"
+                        atmosphereAltitude={0.18}
+                    />
+                </div>
             </div>
 
             {/* Legend */}
