@@ -23,6 +23,7 @@ export const metadata: Metadata = {
 
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import { Analytics } from "@vercel/analytics/react";
 
 export default function RootLayout({
   children,
@@ -64,6 +65,7 @@ export default function RootLayout({
           {children}
         </div>
         <Footer />
+        <Analytics />
       </body>
     </html>
   );
