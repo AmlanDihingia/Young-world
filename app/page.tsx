@@ -1,0 +1,433 @@
+import Link from "next/link";
+import { ArrowDown, Shirt, Music, Camera, Users, Hash, UserPlus, Share2 } from "lucide-react";
+import InteractiveGlobe from '@/components/interactive-globe';
+import HowItWorksTimeline from '@/components/how-it-works-timeline';
+import RecentCommunities from '@/components/recent-communities';
+
+export default function WaveTheWhite() {
+  return (
+    <main className="min-h-screen bg-background text-foreground selection:bg-sky-200 selection:text-sky-900">
+      {/* 
+        ========================================
+        HERO SECTION
+        ========================================
+      */}
+      <section className="relative w-full min-h-screen flex flex-col justify-center overflow-hidden">
+
+        {/* Hero Content */}
+        <div className="relative z-10 container flex flex-col items-start lg:items-center justify-center text-left lg:text-center px-6 sm:px-8 pt-32 pb-24 w-full max-w-7xl mx-auto">
+
+          {/* Live Badge */}
+          <div className="mb-8 inline-flex items-center gap-2 border border-sky-200 bg-white rounded-full px-4 py-1.5">
+            <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+            <span className="text-xs font-bold uppercase tracking-widest text-slate-700">Live Now — Global Movement</span>
+          </div>
+
+          {/* Subtitle */}
+          <p className="text-sm font-bold uppercase tracking-[0.3em] text-sky-500 mb-4">
+            Uncle Young Presents
+          </p>
+
+          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-display font-black uppercase leading-[0.9] tracking-tight mb-6 sm:mb-8 text-black">
+            Wave the White
+          </h1>
+
+          <h2 className="text-xl sm:text-2xl md:text-4xl font-normal mb-6 sm:mb-8 max-w-full sm:max-w-3xl text-slate-600 leading-snug sm:leading-relaxed text-balance">
+            The World&apos;s Biggest Friendship Roll Call
+          </h2>
+
+          <div className="text-base sm:text-lg md:text-xl text-slate-500/80 font-medium max-w-[90%] sm:max-w-2xl lg:mx-auto mb-10 sm:mb-14 leading-relaxed flex flex-col gap-4 text-balance">
+            <p>Where Communities from all corners of the world check in on friendship day to make sure that nobody gets left out.</p>
+            <p>Wear or hold something white, capture your moment, and pass it on.</p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row flex-wrap lg:justify-center gap-4 w-full sm:w-auto mt-4 mb-16 z-20 relative">
+            <Link
+              href="/checkyourcommunityin"
+              className="inline-flex items-center justify-center text-center bg-sky-500 text-white font-bold uppercase tracking-widest py-4 px-4 sm:px-10 rounded-full text-sm sm:text-base shadow-[0_4px_20px_rgba(212,156,7,0.3)] hover:bg-sky-600 hover:scale-105 transition-all w-full sm:w-auto border border-sky-400"
+            >
+              Check Your Community In &nbsp;⤴
+            </Link>
+          </div>
+
+          <div className="mb-20 z-20 relative lg:mx-auto">
+            <a
+              href="https://www.instagram.com/explore/tags/wavethewhite/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-6 py-2 rounded-full bg-sky-50/50 backdrop-blur-md border border-sky-100 text-lg font-light text-slate-600 hover:bg-sky-50 hover:text-sky-700 transition-all shadow-sm"
+            >
+              #WaveTheWhite
+            </a>
+          </div>
+
+          {/* Trust Indicators */}
+          <div className="absolute bottom-6 md:bottom-10 left-0 w-full text-center flex flex-col items-center justify-center text-xs md:text-sm text-slate-400 uppercase tracking-widest space-y-1 z-20">
+            <p>Created by Uncle Young</p>
+            <p>Powered by Young World Entertainment</p>
+          </div>
+        </div>
+
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-20 md:bottom-24 left-1/2 -translate-x-1/2 z-20 animate-bounce">
+          <a href="#the-movement" className="w-12 h-12 rounded-full bg-white/60 backdrop-blur-md border border-gray-200 flex items-center justify-center text-slate-600 hover:bg-white hover:text-sky-600 transition-all shadow-md" aria-label="Scroll down">
+            <ArrowDown className="w-5 h-5" />
+          </a>
+        </div>
+      </section>
+
+      {/* 
+        ========================================
+        THE MOVEMENT SECTION
+        ========================================
+      */}
+      <section id="the-movement" className="w-full py-16 md:py-20 bg-white text-slate-800 border-t border-sky-50">
+        <div className="container mx-auto px-4 md:px-6 max-w-5xl text-center">
+          <h2 className="text-4xl md:text-5xl font-display font-bold uppercase tracking-tight mb-8 text-slate-800">
+            What is Wave the White?
+          </h2>
+          <p className="text-xl md:text-2xl text-slate-500 font-light leading-relaxed mb-0 max-w-3xl mx-auto">
+            Wave The White is a global Friendship Day tradition where communities check in to make sure nobody gets left out.
+          </p>
+
+        </div>
+      </section>
+
+      {/* 
+        ========================================
+        HOW IT WORKS SECTION
+        ========================================
+      */}
+      <section id="how-it-works" className="relative w-full py-16 md:py-24 bg-sky-50/30 text-slate-800 border-t border-white overflow-hidden">
+        {/* Subtle Background Glows */}
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-white rounded-full blur-[100px] pointer-events-none"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-sky-100/50 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+
+          <div className="text-center mb-16 md:mb-20">
+            <h2 className="text-4xl md:text-5xl font-display font-bold uppercase tracking-tight mb-4 text-slate-800 drop-shadow-sm">
+              How It Works
+            </h2>
+            <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto font-light">
+              Six simple steps. No rules. No experience needed.
+            </p>
+          </div>
+
+          <HowItWorksTimeline />
+
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-4 w-full mt-16 relative z-20">
+            <Link
+              href="/checkyourcommunityin"
+              className="inline-flex items-center justify-center bg-sky-500 text-white font-medium py-4 px-10 rounded-full text-lg shadow-[0_4px_20px_rgba(212,156,7,0.3)] hover:bg-sky-600 hover:scale-105 transition-all w-full sm:w-auto border border-sky-400"
+            >
+              Join the Wave
+            </Link>
+            <a
+              href="#listen"
+              className="inline-flex items-center justify-center bg-white border border-sky-200 text-slate-800 font-medium py-4 px-10 rounded-full text-lg hover:bg-sky-50 hover:border-sky-300 hover:text-sky-700 transition-all w-full sm:w-auto shadow-sm"
+            >
+              Download the Anthem
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* 
+        ========================================
+        GLOBAL COMMUNITY GLOBE SECTION
+        ========================================
+      */}
+      <section id="global-community" className="relative w-full py-16 md:py-20 bg-white text-slate-800 border-t border-sky-50 overflow-hidden">
+        {/* Background Effects */}
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-sky-50/50 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-sky-100/30 rounded-full blur-[120px] pointer-events-none" />
+
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+          <div className="text-center mb-12 md:mb-16">
+            <div className="inline-block bg-sky-100 text-black border border-sky-200 px-5 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6">
+              Live Map
+            </div>
+            <h2 className="text-4xl md:text-5xl font-display font-bold uppercase tracking-tight mb-4 text-slate-800">
+              The Global Community
+            </h2>
+            <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto font-light leading-relaxed">
+              Watch the wave spread across the world. Every point is a community or creator who checked in.
+            </p>
+          </div>
+
+          <InteractiveGlobe />
+        </div>
+      </section>
+
+      <RecentCommunities />
+
+      {/* 
+        ========================================
+        LIVE CITY WALL SECTION (HIDDEN)
+        ========================================
+      */}
+      {false && (<>
+        <section className="w-full py-28 md:py-40 bg-gradient-to-b from-white to-sky-50/50 border-t border-sky-50">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="flex flex-col items-center text-center mb-20">
+            <div className="inline-block bg-sky-100 text-sky-800 px-5 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6 animate-pulse">
+              Coming Soon
+            </div>
+            <h2 className="text-4xl md:text-5xl font-display font-bold uppercase tracking-tight mb-6 text-slate-800">
+              Live City Wall
+            </h2>
+            <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto font-light leading-relaxed">
+              The wave is spreading. Watch creators from around the globe join the movement in real-time.
+            </p>
+          </div>
+
+          {/* City Wall Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-8">
+            {[
+              { name: "Kathmandu", delay: "0s", image: "https://images.unsplash.com/photo-1623492701902-47dc207df5dc?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+              { name: "Shillong", delay: "0.2s", image: "https://images.unsplash.com/photo-1625826415766-001bd75aaf52?q=80&w=1035&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+              { name: "Colombo", delay: "0.4s", image: "https://images.unsplash.com/photo-1623595289196-007a22dd8560?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+              { name: "Bali", delay: "0.6s", image: "https://images.unsplash.com/photo-1577717903315-1691ae25ab3f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+              { name: "Guwahati", delay: "0.8s", image: "https://images.unsplash.com/photo-1611336814186-914161b9bdb6?q=80&w=3135&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
+            ].map((city, idx) => (
+              <div key={idx} className="flex flex-col gap-3 group">
+                <div className="relative aspect-[9/16] bg-sky-100/50 rounded-3xl overflow-hidden shadow-sm border border-sky-100 group-hover:shadow-[0_8px_30px_rgba(212,156,7,0.15)] group-hover:-translate-y-1 transition-all duration-500">
+                  {/* City Background Image */}
+                  <img src={city.image} alt={city.name} className="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-105 transition-transform duration-700" />
+                  
+                  {/* Gradient Overlay for Text Readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-sky-900/80 via-sky-900/10 to-transparent z-10"></div>
+
+                  <div className="absolute inset-0 flex items-center justify-center opacity-40 z-10 text-white group-hover:opacity-80 transition-opacity">
+                    <svg className="w-12 h-12 drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  
+                  <div className="absolute bottom-5 left-5 right-5 z-20 flex flex-col">
+                    <span className="text-[10px] uppercase font-bold tracking-widest text-sky-100 drop-shadow-md mb-1">Coming Soon</span>
+                    <h3 className="text-white font-medium text-xl tracking-wide drop-shadow-md">
+                      {city.name}
+                    </h3>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 
+        ========================================
+        FEATURED CREATOR REELS SECTION
+        ========================================
+      */}
+      <section className="w-full py-28 md:py-40 bg-white text-slate-800 border-t border-sky-50 overflow-hidden relative">
+        {/* Dynamic Background Effects */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-sky-50 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/4 pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-sky-100/40 rounded-full blur-[150px] translate-y-1/4 -translate-x-1/4 pointer-events-none"></div>
+
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-6">
+            <div className="max-w-2xl">
+              <div className="inline-block bg-sky-100 text-sky-800 border border-sky-200 px-5 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6">
+                Featured
+              </div>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold uppercase tracking-tight mb-6 drop-shadow-sm text-slate-800">
+                Creator Reels
+              </h2>
+              <p className="text-lg md:text-xl text-slate-500 font-light leading-relaxed">
+                Best clips, emotional edits, and city waves. Experience the energy.
+              </p>
+            </div>
+            <a href="#" className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-sky-600 hover:text-sky-800 transition-colors group pb-2 border-b-2 border-sky-100 hover:border-sky-500">
+              Watch All
+              <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+          </div>
+
+          {/* Reels Carousel/Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+            {[
+              { title: "The Best of NYC", type: "City Wave", views: "1.2M", delay: "0s" },
+              { title: "Moments of Peace", type: "Emotional Edit", views: "850K", delay: "0.2s" },
+              { title: "Skating the White", type: "Action", views: "2.1M", delay: "0.4s" },
+              { title: "Global Montage", type: "Best Reel", views: "3.5M", delay: "0.6s" },
+            ].map((reel, idx) => (
+              <div key={idx} className="group relative aspect-[9/16] bg-sky-50 rounded-3xl overflow-hidden cursor-pointer shadow-md border border-sky-100 hover:shadow-[0_8px_30px_rgba(212,156,7,0.15)] hover:border-sky-300 transition-all duration-500 hover:-translate-y-2">
+                
+                {/* Simulated Video Background */}
+                <div className="absolute inset-0 bg-sky-200/50 animate-pulse" style={{ animationDelay: reel.delay }}></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-sky-900/80 via-sky-900/20 to-transparent opacity-80 group-hover:opacity-70 transition-opacity duration-500 z-10"></div>
+                
+                {/* Play Button Overlay */}
+                <div className="absolute inset-0 flex items-center justify-center z-20">
+                  <div className="w-16 h-16 bg-white/40 backdrop-blur-md rounded-full flex items-center justify-center border border-white/60 group-hover:scale-110 group-hover:bg-white group-hover:text-sky-500 transition-all duration-500 text-white shadow-lg">
+                    <svg className="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Content Overlay */}
+                <div className="absolute bottom-6 left-5 right-5 z-20 transform group-hover:-translate-y-2 transition-transform duration-500">
+                  <div className="flex items-center gap-2 mb-3 flex-wrap">
+                    <span className="bg-sky-500 text-white px-2 py-1 rounded text-[10px] font-bold uppercase tracking-widest shadow-sm">
+                      {reel.type}
+                    </span>
+                    <span className="text-[10px] font-bold text-sky-100 drop-shadow-md">
+                      {reel.views} Views
+                    </span>
+                  </div>
+                  <h3 className="text-xl font-medium text-white leading-tight drop-shadow-md">
+                    {reel.title}
+                  </h3>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      </>)}
+
+      {/* 
+        ========================================
+        JOIN THE MOVEMENT SECTION
+        ========================================
+      */}
+      <section id="join" className="relative w-full pb-20 md:pb-32 bg-sky-50/30 text-slate-800 overflow-hidden">
+        {/* Subtle Background Glows */}
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-white rounded-full blur-[100px] pointer-events-none"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-sky-100/50 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+
+          {/* Reinforcement Block (HIDDEN) */}
+          {false && (
+          <div className="max-w-4xl mx-auto text-center border border-sky-50 shadow-[0_8px_40px_rgba(212,156,7,0.06)] rounded-3xl p-10 md:p-14 mb-16 bg-white relative overflow-hidden">
+            {/* Inner Glare Effect */}
+            <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-sky-50/50 to-transparent pointer-events-none"></div>
+
+            <h4 className="text-3xl md:text-4xl font-light mb-6 tracking-tight text-slate-800">That&apos;s it.</h4>
+            <div className="text-lg md:text-xl text-slate-500 space-y-2 font-light">
+              <p>No choreography. No location required.</p>
+              <p>From your home to the beach to the streets —</p>
+              <p className="font-normal text-sky-600 mt-4 text-2xl drop-shadow-sm">peace can start anywhere.</p>
+            </div>
+
+            <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                href="/checkyourcommunityin"
+                className="bg-sky-500 text-white font-medium py-3.5 px-8 rounded-full text-lg shadow-[0_4px_14px_rgba(212,156,7,0.39)] hover:bg-sky-600 hover:scale-105 transition-all w-full sm:w-auto"
+              >
+                JOIN THE ROLL CALL
+              </Link>
+              <a
+                href="#listen"
+                className="bg-sky-50 border border-sky-100 text-sky-700 hover:bg-sky-100 font-medium py-3.5 px-8 rounded-full flex items-center justify-center gap-2 transition-all shadow-sm w-full sm:w-auto"
+              >
+                <Music className="w-4 h-4" /> Listen to the Track
+              </a>
+            </div>
+          </div>
+          )}
+
+          {/* 
+            ========================================
+            LISTEN TO THE SONG SECTION (Spotify Embed)
+            ========================================
+          */}
+          <div id="listen" className="max-w-3xl mx-auto mt-12 md:mt-20 scroll-mt-24 relative z-10">
+            {/* Background Glow */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg h-[400px] bg-sky-400/40 rounded-full blur-[100px] pointer-events-none"></div>
+            
+            <div className="text-center mb-10 relative z-10">
+              <h2 className="text-4xl md:text-5xl font-display font-bold uppercase tracking-tight text-slate-800 mb-3 drop-shadow-sm">
+                The Anthem
+              </h2>
+              <p className="text-slate-500 font-light text-lg tracking-wide">Press play to start the movement.</p>
+            </div>
+
+            <div className="relative z-10 w-full bg-gradient-to-br from-sky-300/40 to-sky-500/10 backdrop-blur-2xl rounded-[32px] p-3 md:p-4 shadow-[0_0_60px_rgba(212,156,7,0.3)] border border-sky-300/60 ring-1 ring-sky-200/40">
+              {/* Inner wrapper for the iframe to give it a neat border */}
+              <div className="w-full rounded-[24px] overflow-hidden bg-black/90 border border-sky-400/30 shadow-inner">
+                <iframe
+                  data-testid="embed-iframe"
+                  style={{ border: 0 }}
+                  src="https://open.spotify.com/embed/track/4T9DqjaeGSb4c71boHRNgj?utm_source=generator&theme=0"
+                  width="100%"
+                  height="352"
+                  allowFullScreen
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                  loading="lazy">
+                </iframe>
+              </div>
+            </div>
+          </div>
+
+          {/* 
+            ========================================
+            STAY CONNECTED SECTION
+            ========================================
+          */}
+          <div className="max-w-3xl mx-auto mt-16 md:mt-24 text-center pb-12">
+            <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">Stay Connected</p>
+            <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 w-full">
+              <a
+                href="https://www.instagram.com/uncleyoung94/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 px-6 py-3 rounded-full border border-sky-100 bg-white hover:border-sky-400 hover:bg-sky-50 transition-all text-slate-700 text-sm font-medium shadow-sm hover:shadow-md group"
+              >
+                <svg className="w-5 h-5 text-pink-500 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+                Follow Uncle Young
+              </a>
+
+              <a
+                href="https://www.instagram.com/youngworld.life/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 px-6 py-3 rounded-full border border-sky-100 bg-white hover:border-sky-400 hover:bg-sky-50 transition-all text-slate-700 text-sm font-medium shadow-sm hover:shadow-md group"
+              >
+                <svg className="w-5 h-5 text-pink-500 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+                Follow YWE on Instagram
+              </a>
+
+              <a
+                href="https://www.youtube.com/channel/UCZXQF9XIs1vV5QwQpSBrrcw"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 px-6 py-3 rounded-full border border-sky-100 bg-white hover:border-sky-400 hover:bg-sky-50 transition-all text-slate-700 text-sm font-medium shadow-sm hover:shadow-md group"
+              >
+                <svg className="w-5 h-5 text-red-500 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/>
+                </svg>
+                Subscribe to YouTube
+              </a>
+
+              <span
+                className="flex items-center gap-3 px-6 py-3 rounded-full border border-sky-100 bg-white text-slate-700 text-sm font-medium shadow-sm opacity-40 cursor-not-allowed pointer-events-none select-none"
+              >
+                <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+                Facebook
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+  );
+}

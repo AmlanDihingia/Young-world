@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Oswald:wght@200..700&display=swap');
+@import "tailwindcss";
+
+:root {
+  --font-inter: 'Inter', sans-serif;
+  --font-oswald: 'Oswald', sans-serif;
+}
+
+@theme {
+  --color-primary: #d49c07; 
+  --color-secondary: #f5e6b8; 
+  --color-background: #ffffff; 
+  --color-foreground: #0f172a; 
+  --color-button: #d49c07; 
+  
+  --color-sky-50: #fdf8eb;
+  --color-sky-100: #f9edcc;
+  --color-sky-200: #f5e6b8;
+  --color-sky-300: #e8c96e;
+  --color-sky-400: #ddb42e;
+  --color-sky-500: #d49c07;
+  --color-sky-600: #b88505;
+  --color-sky-700: #8c6504;
+  --color-sky-900: #4a3502;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-oswald), ui-sans-serif, system-ui, sans-serif;
+
+  --animate-fade-in: fade-in 0.5s ease-out forwards;
+  --animate-slide-up: slide-up 0.5s ease-out forwards;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Custom Utilities */
+@utility text-balance {
+  text-wrap: balance;
+}
+
+/* Globe Pulse Animation — desktop */
+@keyframes globePulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* Narrower pulse wave on mobile */
+@media (max-width: 639px) {
+  @keyframes globePulse {
+    0% {
+      transform: translate(-50%, -50%) scale(0.5);
+      opacity: 0.7;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(1.8);
+      opacity: 0;
+    }
+  }
+}
+
+/* Base Styles */
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1; /* slate-300 */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8; /* slate-400 */
+}
