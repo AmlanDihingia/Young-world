@@ -12,124 +12,314 @@ export default function WaveTheWhite() {
         HERO SECTION
         ========================================
       */}
-      <section className="relative w-full min-h-screen flex flex-col justify-center overflow-hidden">
-
+      <section className="relative w-full min-h-[85vh] flex flex-col justify-center overflow-hidden bg-[#FDFBF7]">
         {/* Hero Content */}
-        <div className="relative z-10 container flex flex-col items-start lg:items-center justify-center text-left lg:text-center px-6 sm:px-8 pt-32 pb-24 w-full max-w-7xl mx-auto">
-
-          {/* Live Badge */}
-          <div className="mb-8 inline-flex items-center gap-2 border border-sky-200 bg-white rounded-full px-4 py-1.5">
-            <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
-            <span className="text-xs font-bold uppercase tracking-widest text-slate-700">Live Now — Global Movement</span>
-          </div>
-
+        <div className="relative z-10 container flex flex-col items-center justify-center text-center px-6 sm:px-8 pt-32 pb-24 w-full max-w-5xl mx-auto">
+          
           {/* Subtitle */}
-          <p className="text-sm font-bold uppercase tracking-[0.3em] text-sky-500 mb-4">
-            Uncle Young Presents
+          <p className="text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-[#C49232] mb-6">
+            A WORLD OF COMMUNITIES, NEAR YOU
           </p>
 
-          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-display font-black uppercase leading-[0.9] tracking-tight mb-6 sm:mb-8 text-black">
-            Wave the White
+          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[6rem] font-black tracking-tighter mb-10 text-[#222222] leading-[0.95]">
+            Find your people.<br />
+            <span className="text-[#C49232]">Find something to<br />do.</span>
           </h1>
 
-          <h2 className="text-xl sm:text-2xl md:text-4xl font-normal mb-6 sm:mb-8 max-w-full sm:max-w-3xl text-slate-600 leading-snug sm:leading-relaxed text-balance">
-            The World&apos;s Biggest Friendship Roll Call
-          </h2>
-
-          <div className="text-base sm:text-lg md:text-xl text-slate-500/80 font-medium max-w-[90%] sm:max-w-2xl lg:mx-auto mb-10 sm:mb-14 leading-relaxed flex flex-col gap-4 text-balance">
-            <p>Where Communities from all corners of the world check in on friendship day to make sure that nobody gets left out.</p>
-            <p>Wear or hold something white, capture your moment, and pass it on.</p>
-          </div>
-
-          <div className="flex flex-col sm:flex-row flex-wrap lg:justify-center gap-4 w-full sm:w-auto mt-4 mb-16 z-20 relative">
-            <Link
-              href="/checkyourcommunityin"
-              className="inline-flex items-center justify-center text-center bg-sky-500 text-white font-bold uppercase tracking-widest py-4 px-4 sm:px-10 rounded-full text-sm sm:text-base shadow-[0_4px_20px_rgba(212,156,7,0.3)] hover:bg-sky-600 hover:scale-105 transition-all w-full sm:w-auto border border-sky-400"
-            >
-              Check Your Community In &nbsp;⤴
-            </Link>
-          </div>
-
-          <div className="mb-20 z-20 relative lg:mx-auto">
-            <a
-              href="https://www.instagram.com/explore/tags/wavethewhite/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-6 py-2 rounded-full bg-sky-50/50 backdrop-blur-md border border-sky-100 text-lg font-light text-slate-600 hover:bg-sky-50 hover:text-sky-700 transition-all shadow-sm"
-            >
-              #WaveTheWhite
-            </a>
-          </div>
-
-          {/* Trust Indicators */}
-          <div className="absolute bottom-6 md:bottom-10 left-0 w-full text-center flex flex-col items-center justify-center text-xs md:text-sm text-slate-400 uppercase tracking-widest space-y-1 z-20">
-            <p>Created by Uncle Young</p>
-            <p>Powered by Young World Entertainment</p>
-          </div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-20 md:bottom-24 left-1/2 -translate-x-1/2 z-20 animate-bounce">
-          <a href="#the-movement" className="w-12 h-12 rounded-full bg-white/60 backdrop-blur-md border border-gray-200 flex items-center justify-center text-slate-600 hover:bg-white hover:text-sky-600 transition-all shadow-md" aria-label="Scroll down">
-            <ArrowDown className="w-5 h-5" />
-          </a>
-        </div>
-      </section>
-
-      {/* 
-        ========================================
-        THE MOVEMENT SECTION
-        ========================================
-      */}
-      <section id="the-movement" className="w-full py-16 md:py-20 bg-white text-slate-800 border-t border-sky-50">
-        <div className="container mx-auto px-4 md:px-6 max-w-5xl text-center">
-          <h2 className="text-4xl md:text-5xl font-display font-bold uppercase tracking-tight mb-8 text-slate-800">
-            What is Wave the White?
-          </h2>
-          <p className="text-xl md:text-2xl text-slate-500 font-light leading-relaxed mb-0 max-w-3xl mx-auto">
-            Wave The White is a global Friendship Day tradition where communities check in to make sure nobody gets left out.
+          <p className="text-lg sm:text-xl text-slate-600 font-medium max-w-3xl mx-auto mb-12 leading-relaxed">
+            Real communities, real gatherings, all over the world. Skate, run, dance, ride, move — and belong. Start with your city.
           </p>
 
+          {/* Search Bar */}
+          <div className="flex flex-col sm:flex-row items-center w-full max-w-3xl mx-auto bg-white rounded-full shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 p-2 mb-8">
+            <div className="flex-1 w-full sm:w-auto px-6 py-3 border-b sm:border-b-0 sm:border-r border-gray-100 flex items-center">
+              <input type="text" placeholder="What do you love? (run, skat)" className="w-full bg-transparent border-none outline-none text-gray-700 placeholder:text-gray-400" />
+            </div>
+            <div className="flex-1 w-full sm:w-auto px-6 py-3 flex items-center">
+              <input type="text" placeholder="Your city" className="w-full bg-transparent border-none outline-none text-gray-700 placeholder:text-gray-400" />
+            </div>
+            <button className="w-full sm:w-auto bg-[#C49232] text-white font-bold px-8 py-4 rounded-full mt-2 sm:mt-0 hover:bg-[#b0832d] transition-colors">
+              Find
+            </button>
+          </div>
+
+          {/* Popular Tags */}
+          <div className="flex flex-wrap items-center justify-center gap-4 text-sm font-medium mb-12">
+            <span className="text-gray-500">Popular:</span>
+            <span className="text-[#C49232] cursor-pointer hover:underline">Run clubs</span>
+            <span className="text-[#C49232] cursor-pointer hover:underline">Skate crews</span>
+            <span className="text-[#C49232] cursor-pointer hover:underline">Dance</span>
+            <span className="text-[#C49232] cursor-pointer hover:underline">Cycling</span>
+            <span className="text-[#C49232] cursor-pointer hover:underline">Martial arts</span>
+          </div>
+
+          {/* Stats */}
+          <div className="text-sm font-bold text-[#222222] tracking-wide">
+            100+ communities · 21 countries · 5 continents <span className="font-normal text-gray-500">· and growing every week</span>
+          </div>
         </div>
       </section>
 
       {/* 
         ========================================
-        HOW IT WORKS SECTION
+        HAPPENING THIS WEEK SECTION
         ========================================
       */}
-      <section id="how-it-works" className="relative w-full py-16 md:py-24 bg-sky-50/30 text-slate-800 border-t border-white overflow-hidden">
-        {/* Subtle Background Glows */}
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-white rounded-full blur-[100px] pointer-events-none"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-sky-100/50 rounded-full blur-[100px] pointer-events-none"></div>
-
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-
-          <div className="text-center mb-16 md:mb-20">
-            <h2 className="text-4xl md:text-5xl font-display font-bold uppercase tracking-tight mb-4 text-slate-800 drop-shadow-sm">
-              How It Works
+      <section className="w-full py-12 md:py-16 bg-[#FDFBF7]">
+        <div className="container mx-auto px-4 md:px-6 max-w-7xl">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
+            <h2 className="text-3xl md:text-4xl font-black text-[#222222] tracking-tight">
+              Happening this week
             </h2>
-            <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto font-light">
-              Six simple steps. No rules. No experience needed.
-            </p>
+            <Link href="#" className="text-[#C49232] font-bold text-sm hover:underline flex items-center gap-1 pb-1">
+              See all events &rarr;
+            </Link>
           </div>
 
-          <HowItWorksTimeline />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Card 1 */}
+            <div className="bg-white rounded-[20px] overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 flex flex-col group cursor-pointer hover:-translate-y-1 transition-transform duration-300">
+              <div className="relative h-48 bg-[#4d3b2b] p-4 m-3 rounded-2xl">
+                <div className="absolute top-4 left-4 bg-white rounded-xl py-1.5 px-3 flex flex-col items-center shadow-sm">
+                  <span className="text-lg font-black text-[#222222] leading-none">14</span>
+                  <span className="text-[9px] font-bold text-[#C49232] tracking-wider uppercase mt-1">JUN</span>
+                </div>
+              </div>
+              <div className="p-5 pt-2 flex flex-col flex-1">
+                <span className="text-[#C49232] text-[10px] font-bold uppercase tracking-widest mb-1.5">RUNNING</span>
+                <h3 className="text-[1.15rem] font-bold text-[#222222] mb-1 leading-tight">Saturday Sunrise Run</h3>
+                <p className="text-sm text-gray-500 font-medium mt-auto">Hycore Run Club &middot; Guwahati 🇮🇳</p>
+              </div>
+            </div>
 
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-4 w-full mt-16 relative z-20">
-            <Link
-              href="/checkyourcommunityin"
-              className="inline-flex items-center justify-center bg-sky-500 text-white font-medium py-4 px-10 rounded-full text-lg shadow-[0_4px_20px_rgba(212,156,7,0.3)] hover:bg-sky-600 hover:scale-105 transition-all w-full sm:w-auto border border-sky-400"
-            >
-              Join the Wave
+            {/* Card 2 */}
+            <div className="bg-white rounded-[20px] overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 flex flex-col group cursor-pointer hover:-translate-y-1 transition-transform duration-300">
+              <div className="relative h-48 bg-[#5c3727] p-4 m-3 rounded-2xl">
+                <div className="absolute top-4 left-4 bg-white rounded-xl py-1.5 px-3 flex flex-col items-center shadow-sm">
+                  <span className="text-lg font-black text-[#222222] leading-none">15</span>
+                  <span className="text-[9px] font-bold text-[#C49232] tracking-wider uppercase mt-1">JUN</span>
+                </div>
+              </div>
+              <div className="p-5 pt-2 flex flex-col flex-1">
+                <span className="text-[#C49232] text-[10px] font-bold uppercase tracking-widest mb-1.5">SKATE</span>
+                <h3 className="text-[1.15rem] font-bold text-[#222222] mb-1 leading-tight">Open Skate Jam</h3>
+                <p className="text-sm text-gray-500 font-medium mt-auto">Girlskate Nairobi &middot; Nairobi 🇰🇪</p>
+              </div>
+            </div>
+
+            {/* Card 3 */}
+            <div className="bg-white rounded-[20px] overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 flex flex-col group cursor-pointer hover:-translate-y-1 transition-transform duration-300">
+              <div className="relative h-48 bg-[#2f423b] p-4 m-3 rounded-2xl">
+                <div className="absolute top-4 left-4 bg-white rounded-xl py-1.5 px-3 flex flex-col items-center shadow-sm">
+                  <span className="text-lg font-black text-[#222222] leading-none">16</span>
+                  <span className="text-[9px] font-bold text-[#C49232] tracking-wider uppercase mt-1">JUN</span>
+                </div>
+              </div>
+              <div className="p-5 pt-2 flex flex-col flex-1">
+                <span className="text-[#C49232] text-[10px] font-bold uppercase tracking-widest mb-1.5">DANCE</span>
+                <h3 className="text-[1.15rem] font-bold text-[#222222] mb-1 leading-tight">Breaking Cypher Night</h3>
+                <p className="text-sm text-gray-500 font-medium mt-auto">Goma Breaking &middot; Goma 🇨🇩</p>
+              </div>
+            </div>
+
+            {/* Card 4 */}
+            <div className="bg-white rounded-[20px] overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 flex flex-col group cursor-pointer hover:-translate-y-1 transition-transform duration-300">
+              <div className="relative h-48 bg-[#2d283c] p-4 m-3 rounded-2xl">
+                <div className="absolute top-4 left-4 bg-white rounded-xl py-1.5 px-3 flex flex-col items-center shadow-sm">
+                  <span className="text-lg font-black text-[#222222] leading-none">18</span>
+                  <span className="text-[9px] font-bold text-[#C49232] tracking-wider uppercase mt-1">JUN</span>
+                </div>
+              </div>
+              <div className="p-5 pt-2 flex flex-col flex-1">
+                <span className="text-[#C49232] text-[10px] font-bold uppercase tracking-widest mb-1.5">ROLLER</span>
+                <h3 className="text-[1.15rem] font-bold text-[#222222] mb-1 leading-tight">Sunset Roll Meetup</h3>
+                <p className="text-sm text-gray-500 font-medium mt-auto">Roller Dolls &middot; Monterrey 🇲🇽</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 
+        ========================================
+        EXPLORE BY WHAT YOU LOVE SECTION
+        ========================================
+      */}
+      <section className="w-full py-12 md:py-16 bg-[#FDFBF7]">
+        <div className="container mx-auto px-4 md:px-6 max-w-7xl">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
+            <h2 className="text-3xl md:text-4xl font-black text-[#222222] tracking-tight">
+              Explore by what you love
+            </h2>
+            <Link href="#" className="text-[#C49232] font-bold text-sm hover:underline flex items-center gap-1 pb-1">
+              All categories &rarr;
             </Link>
-            <a
-              href="#listen"
-              className="inline-flex items-center justify-center bg-white border border-sky-200 text-slate-800 font-medium py-4 px-10 rounded-full text-lg hover:bg-sky-50 hover:border-sky-300 hover:text-sky-700 transition-all w-full sm:w-auto shadow-sm"
-            >
-              Download the Anthem
-            </a>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6">
+            {[
+              { emoji: "🏃", title: "Running", subtitle: "Run clubs" },
+              { emoji: "🛹", title: "Skating", subtitle: "Skate & roller crews" },
+              { emoji: "💃", title: "Dance", subtitle: "Crews & studios" },
+              { emoji: "🚴", title: "Cycling", subtitle: "Riding clubs" },
+              { emoji: "🥋", title: "Martial Arts", subtitle: "Academies" },
+              { emoji: "🤸", title: "Circus", subtitle: "Troupes" },
+              { emoji: "🏋️", title: "Fitness", subtitle: "Gyms & groups" },
+              { emoji: "🤍", title: "Purpose", subtitle: "NGOs & volunteers" },
+            ].map((category, index) => (
+              <Link href="#" key={index} className="bg-white rounded-[20px] p-6 flex flex-col items-center justify-center text-center shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+                <span className="text-2xl mb-3 block">{category.emoji}</span>
+                <h3 className="font-bold text-[#222222] text-[15px] mb-1">{category.title}</h3>
+                <p className="text-xs text-gray-500 font-medium">{category.subtitle}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+      {/* 
+        ========================================
+        WHY YOUNG WORLD SECTION
+        ========================================
+      */}
+      <section className="w-full py-12 md:py-16 bg-[#FDFBF7]">
+        <div className="container mx-auto px-4 md:px-6 max-w-5xl text-center">
+          
+          <p className="text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-[#C49232] mb-6">
+            WHY YOUNG WORLD
+          </p>
+
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#222222] tracking-tight mb-6 leading-tight">
+            It&apos;s not an app. It&apos;s a way<br />
+            to <span className="text-[#C49232]">belong.</span>
+          </h2>
+          
+          <p className="text-lg md:text-xl text-slate-600 font-medium max-w-3xl mx-auto leading-relaxed mb-16">
+            Every city is full of people looking for their people. Young World is where you find them — and where the communities that make life better become easy to discover, join, and love.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+            {/* Card 1 */}
+            <div className="bg-white rounded-[24px] p-8 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 flex flex-col hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+              <span className="text-2xl mb-4 block">🔎</span>
+              <h3 className="text-lg font-bold text-[#222222] mb-3">Discover</h3>
+              <p className="text-sm text-gray-500 font-medium leading-relaxed">
+                Find real communities and events near you — by what you love and where you are.
+              </p>
+            </div>
+
+            {/* Card 2 */}
+            <div className="bg-white rounded-[24px] p-8 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 flex flex-col hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+              <span className="text-2xl mb-4 block">🤝</span>
+              <h3 className="text-lg font-bold text-[#222222] mb-3">Join</h3>
+              <p className="text-sm text-gray-500 font-medium leading-relaxed">
+                Show up, take part, belong. One click to the community, one step to your people.
+              </p>
+            </div>
+
+            {/* Card 3 */}
+            <div className="bg-white rounded-[24px] p-8 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 flex flex-col hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+              <span className="text-2xl mb-4 block">🌍</span>
+              <h3 className="text-lg font-bold text-[#222222] mb-3">Belong to something bigger</h3>
+              <p className="text-sm text-gray-500 font-medium leading-relaxed">
+                Your local crew is part of a global network of communities. Near you, and everywhere.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* 
+        ========================================
+        GLOBAL NETWORK STATS SECTION
+        ========================================
+      */}
+      <section className="w-full bg-[#1E1B18] text-white py-12 md:py-16">
+        <div className="container mx-auto px-4 md:px-6 max-w-5xl text-center">
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16 max-w-4xl mx-auto">
+            <div className="flex flex-col items-center">
+              <span className="text-5xl md:text-6xl font-black text-[#C49232] mb-2">100+</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">COMMUNITIES</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="text-5xl md:text-6xl font-black text-[#C49232] mb-2">21</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">COUNTRIES</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="text-5xl md:text-6xl font-black text-[#C49232] mb-2">5</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">CONTINENTS</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="text-5xl md:text-6xl font-black text-[#C49232] mb-2">10+</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">CATEGORIES</span>
+            </div>
+          </div>
+
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-10">
+            A living, global network
+          </h2>
+
+          <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
+            <span className="bg-[#2A251D] border border-[#3A3328] rounded-full px-5 py-2.5 text-sm font-medium flex items-center gap-2"><span>🇰🇪</span> Girlskate Nairobi</span>
+            <span className="bg-[#2A251D] border border-[#3A3328] rounded-full px-5 py-2.5 text-sm font-medium flex items-center gap-2"><span>🇮🇳</span> Hycore Run Club</span>
+            <span className="bg-[#2A251D] border border-[#3A3328] rounded-full px-5 py-2.5 text-sm font-medium flex items-center gap-2"><span>🇨🇩</span> Goma Breaking</span>
+            <span className="bg-[#2A251D] border border-[#3A3328] rounded-full px-5 py-2.5 text-sm font-medium flex items-center gap-2"><span>🇲🇽</span> Roller Dolls</span>
+            <span className="bg-[#2A251D] border border-[#3A3328] rounded-full px-5 py-2.5 text-sm font-medium flex items-center gap-2"><span>🇿🇦</span> Five6seven8</span>
+            <span className="bg-[#2A251D] border border-[#3A3328] rounded-full px-5 py-2.5 text-sm font-medium flex items-center gap-2"><span>🇳🇵</span> Women Cycling Nepal</span>
+            <span className="bg-[#2A251D] border border-[#3A3328] rounded-full px-5 py-2.5 text-sm font-medium flex items-center gap-2"><span>🇬🇭</span> Ghana BMX</span>
+            <span className="bg-[#2A251D] border border-[#3A3328] rounded-full px-5 py-2.5 text-sm font-medium flex items-center gap-2"><span>🇯🇲</span> Caribbean Basketball</span>
+            <span className="bg-[#2A251D] border border-[#3A3328] rounded-full px-5 py-2.5 text-sm font-medium flex items-center gap-2"><span>🇫🇷</span> Guetapens Crew</span>
+            <span className="bg-[#2A251D] border border-[#3A3328] rounded-full px-5 py-2.5 text-sm font-medium text-gray-400 flex items-center gap-2">+ many more</span>
+          </div>
+        </div>
+      </section>
+
+      {/* 
+        ========================================
+        CALL TO ACTION CARDS SECTION
+        ========================================
+      */}
+      <section className="w-full bg-[#FDFBF7] py-12 md:py-16">
+        <div className="container mx-auto px-4 md:px-6 max-w-6xl">
+          <div className="flex flex-col lg:flex-row gap-6">
+            
+            {/* Left Card */}
+            <div className="flex-1 bg-white rounded-[24px] p-10 md:p-14 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 flex flex-col items-start">
+              <span className="text-[#C49232] font-bold text-xs tracking-[0.2em] uppercase mb-4">
+                FOR COMMUNITIES
+              </span>
+              <h3 className="text-3xl md:text-4xl font-black mb-4 text-[#222222] tracking-tight">
+                Run a community?
+              </h3>
+              <p className="text-gray-600 font-medium leading-relaxed mb-8 max-w-md">
+                List your events, get discovered, connect with communities worldwide, and give your people a home. Free — always. We help you grow.
+              </p>
+              <div className="mt-auto pt-4">
+                <Link href="/checkyourcommunityin" className="bg-[#222222] text-white font-bold py-4 px-8 rounded-full hover:bg-black transition-colors inline-block">
+                  List your community
+                </Link>
+              </div>
+            </div>
+
+            {/* Right Card */}
+            <div className="flex-1 bg-[#231F1A] text-white rounded-[24px] p-10 md:p-14 shadow-lg flex flex-col items-start">
+              <span className="text-[#C49232] font-bold text-xs tracking-[0.2em] uppercase mb-4">
+                FOR BRANDS & PARTNERS
+              </span>
+              <h3 className="text-3xl md:text-4xl font-black mb-4 tracking-tight">
+                Want to reach real communities?
+              </h3>
+              <p className="text-gray-400 font-medium leading-relaxed mb-8 max-w-md">
+                Authentic, mission-first access to the world&apos;s communities — ethically, at global scale. Enable moments that matter.
+              </p>
+              <div className="mt-auto pt-4">
+                <Link href="#" className="bg-[#C49232] text-black font-bold py-4 px-8 rounded-full hover:bg-[#b0832d] transition-colors inline-block">
+                  Partner with us
+                </Link>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
@@ -139,7 +329,7 @@ export default function WaveTheWhite() {
         GLOBAL COMMUNITY GLOBE SECTION
         ========================================
       */}
-      <section id="global-community" className="relative w-full py-16 md:py-20 bg-white text-slate-800 border-t border-sky-50 overflow-hidden">
+      <section id="global-community" className="relative w-full py-12 md:py-16 bg-white text-slate-800 border-t border-sky-50 overflow-hidden">
         {/* Background Effects */}
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-sky-50/50 rounded-full blur-[120px] pointer-events-none" />
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-sky-100/30 rounded-full blur-[120px] pointer-events-none" />
@@ -300,7 +490,7 @@ export default function WaveTheWhite() {
         JOIN THE MOVEMENT SECTION
         ========================================
       */}
-      <section id="join" className="relative w-full pb-20 md:pb-32 bg-sky-50/30 text-slate-800 overflow-hidden">
+      <section id="join" className="relative w-full pb-12 md:pb-16 bg-sky-50/30 text-slate-800 overflow-hidden">
         {/* Subtle Background Glows */}
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-white rounded-full blur-[100px] pointer-events-none"></div>
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-sky-100/50 rounded-full blur-[100px] pointer-events-none"></div>
@@ -337,45 +527,14 @@ export default function WaveTheWhite() {
           </div>
           )}
 
-          {/* 
-            ========================================
-            LISTEN TO THE SONG SECTION (Spotify Embed)
-            ========================================
-          */}
-          <div id="listen" className="max-w-3xl mx-auto mt-12 md:mt-20 scroll-mt-24 relative z-10">
-            {/* Background Glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg h-[400px] bg-sky-400/40 rounded-full blur-[100px] pointer-events-none"></div>
-            
-            <div className="text-center mb-10 relative z-10">
-              <h2 className="text-4xl md:text-5xl font-display font-bold uppercase tracking-tight text-slate-800 mb-3 drop-shadow-sm">
-                The Anthem
-              </h2>
-              <p className="text-slate-500 font-light text-lg tracking-wide">Press play to start the movement.</p>
-            </div>
 
-            <div className="relative z-10 w-full bg-gradient-to-br from-sky-300/40 to-sky-500/10 backdrop-blur-2xl rounded-[32px] p-3 md:p-4 shadow-[0_0_60px_rgba(212,156,7,0.3)] border border-sky-300/60 ring-1 ring-sky-200/40">
-              {/* Inner wrapper for the iframe to give it a neat border */}
-              <div className="w-full rounded-[24px] overflow-hidden bg-black/90 border border-sky-400/30 shadow-inner">
-                <iframe
-                  data-testid="embed-iframe"
-                  style={{ border: 0 }}
-                  src="https://open.spotify.com/embed/track/4T9DqjaeGSb4c71boHRNgj?utm_source=generator&theme=0"
-                  width="100%"
-                  height="352"
-                  allowFullScreen
-                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                  loading="lazy">
-                </iframe>
-              </div>
-            </div>
-          </div>
 
           {/* 
             ========================================
             STAY CONNECTED SECTION
             ========================================
           */}
-          <div className="max-w-3xl mx-auto mt-16 md:mt-24 text-center pb-12">
+          <div className="max-w-3xl mx-auto mt-8 md:mt-12 text-center pb-12">
             <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">Stay Connected</p>
             <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 w-full">
               <a
