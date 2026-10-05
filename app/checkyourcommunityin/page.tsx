@@ -70,20 +70,10 @@ export default function CheckYourCommunityInPage({
             <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-sky-100/50 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2 pointer-events-none animate-pulse fixed" />
             <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-white rounded-full blur-[120px] translate-x-1/2 translate-y-1/2 pointer-events-none animate-pulse fixed" style={{ animationDelay: '2s' }} />
 
-            <div className="w-full transition-all duration-500 ease-in-out relative z-10 py-12 max-w-3xl space-y-8">
+            <div className="w-full transition-all duration-500 ease-in-out relative z-10 pt-32 pb-12 max-w-3xl space-y-8">
                 <div className="text-center">
-                    <Link href="/" className="inline-flex items-center gap-2 mb-8 hover:opacity-80 transition-opacity group">
-                        <div className="relative w-80 h-40">
-                            <Image
-                                src="/rollcall-logo.png"
-                                alt="Roll Call Logo"
-                                fill
-                                className="object-contain group-hover:scale-105 transition-transform duration-300"
-                            />
-                        </div>
-                    </Link>
                     <h1 className="text-4xl font-display font-bold uppercase tracking-tight text-slate-800 mb-2">
-                        Join the Roll Call
+                        List Your Community
                     </h1>
                     <p className="text-slate-500 text-xs md:text-sm font-medium tracking-widest uppercase max-w-xs mx-auto md:max-w-none text-balance leading-relaxed">
                         Make sure your community isn't left out

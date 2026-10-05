@@ -18,44 +18,70 @@ export default function WaveTheWhite() {
           
           {/* Subtitle */}
           <p className="text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-[#C49232] mb-6">
-            A WORLD OF COMMUNITIES, NEAR YOU
+            THE HOME FOR THE WORLD&apos;S COMMUNITIES
           </p>
 
-          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[6rem] font-black tracking-tighter mb-10 text-[#222222] leading-[0.95]">
-            Find your people.<br />
-            <span className="text-[#C49232]">Find something to<br />do.</span>
+          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[6rem] font-black tracking-tighter mb-8 text-[#222222] leading-[0.95]">
+            Communities,<br />
+            <span className="text-[#C49232] italic">everywhere.</span><br />
+            And now, together.
           </h1>
 
-          <p className="text-lg sm:text-xl text-slate-600 font-medium max-w-3xl mx-auto mb-12 leading-relaxed">
-            Real communities, real gatherings, all over the world. Skate, run, dance, ride, move — and belong. Start with your city.
+          <p className="text-lg sm:text-xl text-slate-600 font-medium max-w-2xl mx-auto mb-10 leading-relaxed">
+            From skate crews to run clubs to dance studios — Young World is where the world&apos;s communities are seen, connected, and celebrated. Discover them, and what they&apos;re up to, all over the world.
           </p>
 
-          {/* Search Bar */}
-          <div className="flex flex-col sm:flex-row items-center w-full max-w-3xl mx-auto bg-white rounded-full shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 p-2 mb-8">
-            <div className="flex-1 w-full sm:w-auto px-6 py-3 border-b sm:border-b-0 sm:border-r border-gray-100 flex items-center">
-              <input type="text" placeholder="What do you love? (run, skat)" className="w-full bg-transparent border-none outline-none text-gray-700 placeholder:text-gray-400" />
+          {/* Buttons */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="#"
+              className="bg-[#222222] text-white font-bold px-8 py-4 rounded-full hover:bg-black transition-colors flex items-center gap-2"
+            >
+              See community events
+            </Link>
+            <Link
+              href="#"
+              className="bg-transparent text-[#222222] border border-[#222222] font-bold px-8 py-4 rounded-full hover:bg-gray-50 transition-colors"
+            >
+              Meet the communities
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 
+        ========================================
+        FOUNDING COMMUNITIES SECTION
+        ========================================
+      */}
+      <section className="w-full py-12 md:py-16 bg-[#EFE9DF]">
+        <div className="container mx-auto px-4 md:px-6 max-w-7xl">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
+            <div>
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#222222] tracking-tight mb-3">
+                The founding communities
+              </h2>
+              <p className="text-gray-600 font-medium text-sm md:text-base max-w-2xl">
+                The ones who believed first — across 21 countries and five continents. Every one has a home here.
+              </p>
             </div>
-            <div className="flex-1 w-full sm:w-auto px-6 py-3 flex items-center">
-              <input type="text" placeholder="Your city" className="w-full bg-transparent border-none outline-none text-gray-700 placeholder:text-gray-400" />
-            </div>
-            <button className="w-full sm:w-auto bg-[#C49232] text-white font-bold px-8 py-4 rounded-full mt-2 sm:mt-0 hover:bg-[#b0832d] transition-colors">
-              Find
-            </button>
+            <Link href="#" className="text-[#C49232] font-bold text-sm hover:underline flex items-center gap-1 shrink-0">
+              Explore all &rarr;
+            </Link>
           </div>
 
-          {/* Popular Tags */}
-          <div className="flex flex-wrap items-center justify-center gap-4 text-sm font-medium mb-12">
-            <span className="text-gray-500">Popular:</span>
-            <span className="text-[#C49232] cursor-pointer hover:underline">Run clubs</span>
-            <span className="text-[#C49232] cursor-pointer hover:underline">Skate crews</span>
-            <span className="text-[#C49232] cursor-pointer hover:underline">Dance</span>
-            <span className="text-[#C49232] cursor-pointer hover:underline">Cycling</span>
-            <span className="text-[#C49232] cursor-pointer hover:underline">Martial arts</span>
-          </div>
-
-          {/* Stats */}
-          <div className="text-sm font-bold text-[#222222] tracking-wide">
-            100+ communities · 21 countries · 5 continents <span className="font-normal text-gray-500">· and growing every week</span>
+          <div className="flex flex-wrap gap-3 mt-8">
+            <Link href="/community/five6seven8" className="bg-white text-gray-800 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"><span>🇿🇦</span> Five6seven8</Link>
+            <Link href="/community/girlskate-nairobi" className="bg-white text-gray-800 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"><span>🇰🇪</span> Girlskate Nairobi</Link>
+            <Link href="/community/hycore-run-club" className="bg-white text-gray-800 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"><span>🇮🇳</span> Hycore Run Club</Link>
+            <Link href="/community/goma-breaking" className="bg-white text-gray-800 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"><span>🇨🇩</span> Goma Breaking</Link>
+            <Link href="/community/roller-dolls" className="bg-white text-gray-800 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"><span>🇲🇽</span> Roller Dolls</Link>
+            <Link href="/community/women-cycling-nepal" className="bg-white text-gray-800 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"><span>🇳🇵</span> Women Cycling Nepal</Link>
+            <Link href="/community/ghana-bmx" className="bg-white text-gray-800 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"><span>🇬🇭</span> Ghana BMX</Link>
+            <Link href="/community/caribbean-basketball" className="bg-white text-gray-800 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"><span>🇯🇲</span> Caribbean Basketball</Link>
+            <Link href="/community/kigali-skates" className="bg-white text-gray-800 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"><span>🇷🇼</span> Kigali Skates</Link>
+            <Link href="/community/guetapens-crew" className="bg-white text-gray-800 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"><span>🇫🇷</span> Guetapens Crew</Link>
+            <Link href="/communities" className="bg-white text-gray-600 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">+ 40 more</Link>
           </div>
         </div>
       </section>
