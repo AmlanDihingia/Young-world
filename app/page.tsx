@@ -34,13 +34,13 @@ export default function WaveTheWhite() {
           {/* Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
-              href="#"
+              href="#events"
               className="bg-[#222222] text-white font-bold px-8 py-4 rounded-full hover:bg-black transition-colors flex items-center gap-2"
             >
               See community events
             </Link>
             <Link
-              href="#"
+              href="#communities"
               className="bg-transparent text-[#222222] border border-[#222222] font-bold px-8 py-4 rounded-full hover:bg-gray-50 transition-colors"
             >
               Meet the communities
@@ -54,7 +54,7 @@ export default function WaveTheWhite() {
         FOUNDING COMMUNITIES SECTION
         ========================================
       */}
-      <section className="w-full py-12 md:py-16 bg-[#EFE9DF]">
+      <section id="communities" className="w-full py-12 md:py-16 bg-[#EFE9DF]">
         <div className="container mx-auto px-4 md:px-6 max-w-7xl">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
             <div>
@@ -91,7 +91,7 @@ export default function WaveTheWhite() {
         HAPPENING THIS WEEK SECTION
         ========================================
       */}
-      <section className="w-full py-12 md:py-16 bg-[#FDFBF7]">
+      <section id="events" className="w-full py-12 md:py-16 bg-[#FDFBF7]">
         <div className="container mx-auto px-4 md:px-6 max-w-7xl">
           <div className="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
             <h2 className="text-3xl md:text-4xl font-black text-[#222222] tracking-tight">

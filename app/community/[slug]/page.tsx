@@ -1,8 +1,31 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { createClient } from '@/utils/supabase/server';
+
+const countryFlags: Record<string, string> = {
+  "South Africa": "🇿🇦",
+  "Kenya": "🇰🇪",
+  "India": "🇮🇳",
+  "DRC": "🇨🇩",
+  "Mexico": "🇲🇽",
+  "Nepal": "🇳🇵",
+  "Ghana": "🇬🇭",
+  "Jamaica": "🇯🇲",
+  "Rwanda": "🇷🇼",
+  "France": "🇫🇷",
+  "United States": "🇺🇸",
+  "United Kingdom": "🇬🇧",
+  "Canada": "🇨🇦",
+  "Australia": "🇦🇺",
+  "Brazil": "🇧🇷",
+  "Japan": "🇯🇵",
+  "Germany": "🇩🇪",
+  "Nigeria": "🇳🇬"
+};
+
 // Mock data - in a real app this would come from Supabase
-const communities = [
+const mockCommunities = [
   {
     slug: "five6seven8",
     name: "Five6seven8",
@@ -105,7 +128,44 @@ type Props = {
 
 export default async function CommunityPage(props: Props) {
   const params = await props.params;
-  const community = communities.find(c => c.slug === params.slug);
+  
+  // 1. Try to find it in the mock data first (the founding communities)
+  let community = mockCommunities.find(c => c.slug === params.slug);
+
+  // 2. If not found, fetch from Supabase and match the slug dynamically
+  if (!community) {
+    const supabase = await createClient();
+    const { data: profiles } = await supabase
+      .from('profiles')
+      .select('*')
+      .not('community_type', 'is', null)
+      .neq('community_type', '');
+    
+    if (profiles) {
+      const dbCommunity = profiles.find(p => {
+        const name = p.community_type ? p.community_type : (p.full_name || 'Anonymous Creator');
+        const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+        return slug === params.slug;
+      });
+
+      if (dbCommunity) {
+        const name = dbCommunity.community_type ? dbCommunity.community_type : (dbCommunity.full_name || 'Anonymous Creator');
+        
+        community = {
+          slug: params.slug,
+          name: name,
+          country: dbCommunity.country || "Unknown",
+          flag: dbCommunity.country ? (countryFlags[dbCommunity.country] || "🌍") : "🌍",
+          category: dbCommunity.community_role || "Community",
+          description: dbCommunity.story || `The official community page for ${name}.`,
+          insta: dbCommunity.community_insta || "#",
+          // @ts-ignore
+          members: dbCommunity.participation_size || "Growing every day",
+          logo: dbCommunity.community_photo_url || null,
+        };
+      }
+    }
+  }
 
   if (!community) {
     notFound();

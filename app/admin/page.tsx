@@ -154,7 +154,7 @@ export default async function AdminDashboardPage() {
                                     <th className="px-6 py-3 min-w-[200px]">Story</th>
                                     <th className="px-6 py-3">Media</th>
                                     <th className="px-6 py-3">Joined</th>
-                                    <th className="px-4 py-3"></th>
+                                    <th className="px-4 py-3 sticky right-0 bg-slate-50 z-10 border-l border-slate-200 shadow-[-4px_0_12px_rgba(0,0,0,0.02)]"></th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100">
@@ -249,17 +249,21 @@ export default async function AdminDashboardPage() {
                                             <td className="px-6 py-4">
                                                 <div className="flex flex-col">
                                                     <span className="text-slate-900 font-medium">
-                                                        {new Date(profile.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                                                        {profile.created_at.split('T')[0]}
                                                     </span>
                                                     <span className="text-slate-500 text-[11px]">
-                                                        {new Date(profile.created_at).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
+                                                        {profile.created_at.split('T')[1].substring(0, 5)}
                                                     </span>
                                                 </div>
                                             </td>
-                                            <td className="px-4 py-4 text-right">
-                                                <button className="p-1 text-slate-400 hover:text-slate-600 rounded">
-                                                    <MoreHorizontal className="w-4 h-4" />
-                                                </button>
+                                            <td className="px-4 py-4 text-right sticky right-0 bg-white group-hover:bg-slate-50/80 transition-colors z-10 border-l border-slate-100 shadow-[-4px_0_12px_rgba(0,0,0,0.02)]">
+                                                <Link 
+                                                    href={`/admin/community/${profile.id}`}
+                                                    className="inline-flex items-center justify-center p-1.5 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                                                    title="Edit Community Profile"
+                                                >
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
+                                                </Link>
                                             </td>
                                         </tr>
                                     ))
