@@ -22,7 +22,7 @@ export default async function WaveTheWhite() {
     // Fetch founding communities (the oldest ones)
     const { data: foundingProfiles } = await supabase
         .from('profiles')
-        .select('id, full_name, community_type, city, country, community_photo_url')
+        .select('id, full_name, community_type, city, country, community_photo_url, community_role, story')
         .not('community_type', 'is', null)
         .neq('community_type', '')
         .order('created_at', { ascending: true })
@@ -48,7 +48,7 @@ export default async function WaveTheWhite() {
               const location = [community.city, community.community_type || 'Community'].filter(Boolean).join(' · ');
               
               // Extract initials (e.g. "Women Cycling" -> "WC")
-              const initials = name.split(' ').map(n => n[0]).filter(Boolean).slice(0, 2).join('').toUpperCase();
+              const initials = String(name).split(' ').map((n: string) => n[0]).filter(Boolean).slice(0, 2).join('').toUpperCase();
 
               return (
                 <Link href={`/community/${slug}`} key={`${community.id}-${idx}`} className="shrink-0 max-w-[300px] bg-white rounded-full p-2 pr-6 shadow-sm border border-gray-100 flex items-center gap-3 hover:-translate-y-0.5 hover:shadow-md transition-all cursor-pointer">
@@ -80,7 +80,7 @@ export default async function WaveTheWhite() {
               const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
               const location = [community.city, community.community_type || 'Community'].filter(Boolean).join(' · ');
               
-              const initials = name.split(' ').map(n => n[0]).filter(Boolean).slice(0, 2).join('').toUpperCase();
+              const initials = String(name).split(' ').map((n: string) => n[0]).filter(Boolean).slice(0, 2).join('').toUpperCase();
 
               return (
                 <Link href={`/community/${slug}`} key={`copy-${community.id}-${idx}`} className="shrink-0 max-w-[300px] bg-white rounded-full p-2 pr-6 shadow-sm border border-gray-100 flex items-center gap-3 hover:-translate-y-0.5 hover:shadow-md transition-all cursor-pointer">
