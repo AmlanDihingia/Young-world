@@ -339,6 +339,7 @@ export default function CheckYourCommunityInPage({
                         <section>
                             <h3 className="text-sm font-bold uppercase tracking-widest text-sky-600 mb-6 border-b border-sky-100 pb-2">Step 2: How are you joining?</h3>
                             <div className="flex flex-col sm:flex-row gap-4">
+                                {/* 
                                 <button
                                     type="button"
                                     onClick={() => setJoinType('creator')}
@@ -347,6 +348,7 @@ export default function CheckYourCommunityInPage({
                                     <span className="block font-bold text-lg mb-1">Check-in as Creator</span>
                                     <span className="text-xs font-light">I am joining as an individual creator.</span>
                                 </button>
+                                */}
                                 <button
                                     type="button"
                                     onClick={() => setJoinType('community')}

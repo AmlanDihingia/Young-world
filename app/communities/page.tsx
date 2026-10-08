@@ -1,28 +1,18 @@
 import { createClient } from '@/utils/supabase/server'
 import Link from 'next/link'
+import InteractiveGlobe from '@/components/interactive-globe'
 
-// Quick helper to map some common country names to flags
-// For others, it will fallback to a generic world emoji.
-const countryFlags: Record<string, string> = {
-  "South Africa": "🇿🇦",
-  "Kenya": "🇰🇪",
-  "India": "🇮🇳",
-  "DRC": "🇨🇩",
-  "Mexico": "🇲🇽",
-  "Nepal": "🇳🇵",
-  "Ghana": "🇬🇭",
-  "Jamaica": "🇯🇲",
-  "Rwanda": "🇷🇼",
-  "France": "🇫🇷",
-  "United States": "🇺🇸",
-  "United Kingdom": "🇬🇧",
-  "Canada": "🇨🇦",
-  "Australia": "🇦🇺",
-  "Brazil": "🇧🇷",
-  "Japan": "🇯🇵",
-  "Germany": "🇩🇪",
-  "Nigeria": "🇳🇬"
+import flagsData from '@/utils/flags.json';
+
+// Comprehensive map of country names to flags
+const countryFlags: Record<string, string> = {};
+for (const [key, value] of Object.entries(flagsData)) {
+  countryFlags[key.trim().toLowerCase()] = value as string;
 }
+
+// Add a few common variations just in case
+countryFlags["bénin"] = "🇧🇯";
+countryFlags["nuevo león méxico"] = "🇲🇽";
 
 export default async function CommunitiesPage() {
     const supabase = await createClient()
@@ -51,6 +41,33 @@ export default async function CommunitiesPage() {
                 </div>
             </section>
 
+            {/* 
+              ========================================
+              GLOBAL COMMUNITY GLOBE SECTION
+              ========================================
+            */}
+            <section id="global-community" className="relative w-full py-12 md:py-16 bg-white text-slate-800 border-b border-gray-200 overflow-hidden">
+                {/* Background Effects */}
+                <div className="absolute top-0 left-1/4 w-96 h-96 bg-sky-50/50 rounded-full blur-[120px] pointer-events-none" />
+                <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-sky-100/30 rounded-full blur-[120px] pointer-events-none" />
+
+                <div className="container mx-auto px-4 md:px-6 relative z-10">
+                    <div className="text-center mb-12 md:mb-16">
+                        <div className="inline-block bg-sky-100 text-black border border-sky-200 px-5 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6">
+                            Live Map
+                        </div>
+                        <h2 className="text-4xl md:text-5xl font-display font-bold uppercase tracking-tight mb-4 text-slate-800">
+                            The Global Community
+                        </h2>
+                        <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto font-light leading-relaxed">
+                            Watch the wave spread across the world. Every point is a community or creator who checked in.
+                        </p>
+                    </div>
+
+                    <InteractiveGlobe />
+                </div>
+            </section>
+
             {/* Grid */}
             <section className="py-16 md:py-24">
                 <div className="container mx-auto px-4 md:px-6 max-w-7xl">
@@ -58,7 +75,8 @@ export default async function CommunitiesPage() {
                         {communities.map((community) => {
                             const name = community.community_type ? community.community_type : (community.full_name || 'Anonymous Creator');
                             const location = [community.city, community.country].filter(Boolean).join(', ');
-                            const flag = community.country ? (countryFlags[community.country] || "🌍") : "🌍";
+                            const cleanCountry = community.country ? community.country.trim().toLowerCase() : '';
+                            const flag = cleanCountry ? (countryFlags[cleanCountry] || "🌍") : "🌍";
                             
                             // Basic slugify for URL
                             const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');

@@ -1,10 +1,113 @@
 import Link from "next/link";
 import { ArrowDown, Shirt, Music, Camera, Users, Hash, UserPlus, Share2 } from "lucide-react";
-import InteractiveGlobe from '@/components/interactive-globe';
 import HowItWorksTimeline from '@/components/how-it-works-timeline';
 import RecentCommunities from '@/components/recent-communities';
+import { createClient } from '@/utils/supabase/server'
 
-export default function WaveTheWhite() {
+import flagsData from '@/utils/flags.json';
+
+// Comprehensive map of country names to flags
+const countryFlags: Record<string, string> = {};
+for (const [key, value] of Object.entries(flagsData)) {
+  countryFlags[key.trim().toLowerCase()] = value as string;
+}
+
+// Add a few common variations just in case
+countryFlags["bénin"] = "🇧🇯";
+countryFlags["nuevo león méxico"] = "🇲🇽";
+
+export default async function WaveTheWhite() {
+    const supabase = await createClient()
+
+    // Fetch founding communities (the oldest ones)
+    const { data: foundingProfiles } = await supabase
+        .from('profiles')
+        .select('id, full_name, community_type, city, country, community_photo_url')
+        .not('community_type', 'is', null)
+        .neq('community_type', '')
+        .order('created_at', { ascending: true })
+        .limit(30)
+
+    const foundingCommunities = foundingProfiles || [];
+    const row1 = foundingCommunities.filter((_, i) => i % 2 === 0);
+    const row2 = foundingCommunities.filter((_, i) => i % 2 !== 0);
+
+    // Helper for rendering a marquee track
+    const renderTrack = (items: typeof foundingCommunities, reverse: boolean) => {
+      // Duplicate items multiple times to ensure seamless scrolling
+      const repeatedItems = [...items, ...items, ...items, ...items];
+      
+      return (
+        <div className="flex overflow-hidden w-full group">
+          <div className={`flex whitespace-nowrap shrink-0 gap-4 sm:gap-6 px-2 sm:px-3 hover:[animation-play-state:paused] ${reverse ? 'animate-marquee-reverse' : 'animate-marquee'}`} style={{ animationDuration: '240s' }}>
+            {repeatedItems.map((community, idx) => {
+              const name = community.community_type ? community.community_type : (community.full_name || 'Anonymous Creator');
+              const cleanCountry = community.country ? community.country.trim().toLowerCase() : '';
+              const flag = cleanCountry ? (countryFlags[cleanCountry] || "🌍") : "🌍";
+              const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+              const location = [community.city, community.community_type || 'Community'].filter(Boolean).join(' · ');
+              
+              // Extract initials (e.g. "Women Cycling" -> "WC")
+              const initials = name.split(' ').map(n => n[0]).filter(Boolean).slice(0, 2).join('').toUpperCase();
+
+              return (
+                <Link href={`/community/${slug}`} key={`${community.id}-${idx}`} className="shrink-0 max-w-[300px] bg-white rounded-full p-2 pr-6 shadow-sm border border-gray-100 flex items-center gap-3 hover:-translate-y-0.5 hover:shadow-md transition-all cursor-pointer">
+                  {community.community_photo_url ? (
+                    <img src={community.community_photo_url} alt={name} className="w-auto h-12 max-w-[80px] object-contain shrink-0" />
+                  ) : (
+                    <div className="w-12 h-12 rounded-full bg-slate-800 text-white flex items-center justify-center text-sm font-bold shrink-0 shadow-inner">
+                      {initials}
+                    </div>
+                  )}
+                  <div className="flex flex-col min-w-0">
+                    <h3 className="text-sm font-bold text-[#222222] leading-tight flex items-center gap-1.5">
+                      <span className="text-base shrink-0">{flag}</span>
+                      <span className="truncate">{name}</span>
+                    </h3>
+                    <p className="text-[11px] text-gray-500 font-medium truncate mt-0.5">
+                      {location}
+                    </p>
+                  </div>
+                </Link>
+              )
+            })}
+          </div>
+          <div className={`flex whitespace-nowrap shrink-0 gap-4 sm:gap-6 px-2 sm:px-3 hover:[animation-play-state:paused] ${reverse ? 'animate-marquee-reverse' : 'animate-marquee'}`} style={{ animationDuration: '240s' }} aria-hidden="true">
+            {repeatedItems.map((community, idx) => {
+              const name = community.community_type ? community.community_type : (community.full_name || 'Anonymous Creator');
+              const cleanCountry = community.country ? community.country.trim().toLowerCase() : '';
+              const flag = cleanCountry ? (countryFlags[cleanCountry] || "🌍") : "🌍";
+              const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+              const location = [community.city, community.community_type || 'Community'].filter(Boolean).join(' · ');
+              
+              const initials = name.split(' ').map(n => n[0]).filter(Boolean).slice(0, 2).join('').toUpperCase();
+
+              return (
+                <Link href={`/community/${slug}`} key={`copy-${community.id}-${idx}`} className="shrink-0 max-w-[300px] bg-white rounded-full p-2 pr-6 shadow-sm border border-gray-100 flex items-center gap-3 hover:-translate-y-0.5 hover:shadow-md transition-all cursor-pointer">
+                  {community.community_photo_url ? (
+                    <img src={community.community_photo_url} alt={name} className="w-auto h-12 max-w-[80px] object-contain shrink-0" />
+                  ) : (
+                    <div className="w-12 h-12 rounded-full bg-slate-800 text-white flex items-center justify-center text-sm font-bold shrink-0 shadow-inner">
+                      {initials}
+                    </div>
+                  )}
+                  <div className="flex flex-col min-w-0">
+                    <h3 className="text-sm font-bold text-[#222222] leading-tight flex items-center gap-1.5">
+                      <span className="text-base shrink-0">{flag}</span>
+                      <span className="truncate">{name}</span>
+                    </h3>
+                    <p className="text-[11px] text-gray-500 font-medium truncate mt-0.5">
+                      {location}
+                    </p>
+                  </div>
+                </Link>
+              )
+            })}
+          </div>
+        </div>
+      );
+    };
+
   return (
     <main className="min-h-screen bg-background text-foreground selection:bg-sky-200 selection:text-sky-900">
       {/* 
@@ -14,7 +117,7 @@ export default function WaveTheWhite() {
       */}
       <section className="relative w-full min-h-[85vh] flex flex-col justify-center overflow-hidden bg-[#FDFBF7]">
         {/* Hero Content */}
-        <div className="relative z-10 container flex flex-col items-center justify-center text-center px-6 sm:px-8 pt-32 pb-24 w-full max-w-5xl mx-auto">
+        <div className="relative z-10 container flex flex-col items-center justify-center text-center px-6 sm:px-8 pt-20 pb-12 md:pt-32 md:pb-24 w-full max-w-5xl mx-auto">
           
           {/* Subtitle */}
           <p className="text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-[#C49232] mb-6">
@@ -40,7 +143,7 @@ export default function WaveTheWhite() {
               See community events
             </Link>
             <Link
-              href="#communities"
+              href="/communities"
               className="bg-transparent text-[#222222] border border-[#222222] font-bold px-8 py-4 rounded-full hover:bg-gray-50 transition-colors"
             >
               Meet the communities
@@ -51,38 +154,26 @@ export default function WaveTheWhite() {
 
       {/* 
         ========================================
-        FOUNDING COMMUNITIES SECTION
+        FOUNDING COMMUNITIES SECTION (OPTION E)
         ========================================
       */}
-      <section id="communities" className="w-full py-12 md:py-16 bg-[#EFE9DF]">
-        <div className="container mx-auto px-4 md:px-6 max-w-7xl">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
-            <div>
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#222222] tracking-tight mb-3">
-                The founding communities
-              </h2>
-              <p className="text-gray-600 font-medium text-sm md:text-base max-w-2xl">
-                The ones who believed first — across 21 countries and five continents. Every one has a home here.
-              </p>
-            </div>
-            <Link href="#" className="text-[#C49232] font-bold text-sm hover:underline flex items-center gap-1 shrink-0">
-              Explore all &rarr;
-            </Link>
-          </div>
+      <section id="communities" className="w-full py-10 md:py-24 bg-[#F8F6F0] overflow-hidden">
+        <div className="container mx-auto px-4 md:px-6 mb-8 md:mb-12 flex flex-col items-center text-center">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-[#222222] tracking-tight mb-3">
+            The founding communities
+          </h2>
+          <p className="text-gray-600 font-medium text-sm md:text-base">
+            A living wall, always moving. Hover to pause.
+          </p>
+        </div>
 
-          <div className="flex flex-wrap gap-3 mt-8">
-            <Link href="/community/five6seven8" className="bg-white text-gray-800 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"><span>🇿🇦</span> Five6seven8</Link>
-            <Link href="/community/girlskate-nairobi" className="bg-white text-gray-800 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"><span>🇰🇪</span> Girlskate Nairobi</Link>
-            <Link href="/community/hycore-run-club" className="bg-white text-gray-800 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"><span>🇮🇳</span> Hycore Run Club</Link>
-            <Link href="/community/goma-breaking" className="bg-white text-gray-800 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"><span>🇨🇩</span> Goma Breaking</Link>
-            <Link href="/community/roller-dolls" className="bg-white text-gray-800 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"><span>🇲🇽</span> Roller Dolls</Link>
-            <Link href="/community/women-cycling-nepal" className="bg-white text-gray-800 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"><span>🇳🇵</span> Women Cycling Nepal</Link>
-            <Link href="/community/ghana-bmx" className="bg-white text-gray-800 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"><span>🇬🇭</span> Ghana BMX</Link>
-            <Link href="/community/caribbean-basketball" className="bg-white text-gray-800 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"><span>🇯🇲</span> Caribbean Basketball</Link>
-            <Link href="/community/kigali-skates" className="bg-white text-gray-800 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"><span>🇷🇼</span> Kigali Skates</Link>
-            <Link href="/community/guetapens-crew" className="bg-white text-gray-800 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"><span>🇫🇷</span> Guetapens Crew</Link>
-            <Link href="/communities" className="bg-white text-gray-600 rounded-full px-4 py-2 text-sm font-medium flex items-center gap-2 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">+ 40 more</Link>
-          </div>
+        <div className="flex flex-col gap-4 sm:gap-6 w-full">
+          {renderTrack(row1, false)}
+          {renderTrack(row2, true)}
+        </div>
+
+        <div className="mt-8 text-center text-xs text-gray-400 font-medium tracking-wide">
+          ↑ these scroll on their own — hover any card to pause and read
         </div>
       </section>
 
@@ -91,9 +182,9 @@ export default function WaveTheWhite() {
         HAPPENING THIS WEEK SECTION
         ========================================
       */}
-      <section id="events" className="w-full py-12 md:py-16 bg-[#FDFBF7]">
+      <section id="events" className="w-full py-10 md:py-16 bg-[#FDFBF7]">
         <div className="container mx-auto px-4 md:px-6 max-w-7xl">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-6 md:mb-10 gap-4">
             <h2 className="text-3xl md:text-4xl font-black text-[#222222] tracking-tight">
               Happening this week
             </h2>
@@ -171,9 +262,9 @@ export default function WaveTheWhite() {
         EXPLORE BY WHAT YOU LOVE SECTION
         ========================================
       */}
-      <section className="w-full py-12 md:py-16 bg-[#FDFBF7]">
+      <section className="w-full py-10 md:py-16 bg-[#FDFBF7]">
         <div className="container mx-auto px-4 md:px-6 max-w-7xl">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-8 gap-4">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-6 md:mb-8 gap-4">
             <h2 className="text-3xl md:text-4xl font-black text-[#222222] tracking-tight">
               Explore by what you love
             </h2>
@@ -207,19 +298,19 @@ export default function WaveTheWhite() {
         WHY YOUNG WORLD SECTION
         ========================================
       */}
-      <section className="w-full py-12 md:py-16 bg-[#FDFBF7]">
+      <section className="w-full py-10 md:py-16 bg-[#FDFBF7]">
         <div className="container mx-auto px-4 md:px-6 max-w-5xl text-center">
           
-          <p className="text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-[#C49232] mb-6">
+          <p className="text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-[#C49232] mb-4 md:mb-6">
             WHY YOUNG WORLD
           </p>
 
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#222222] tracking-tight mb-6 leading-tight">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#222222] tracking-tight mb-4 md:mb-6 leading-tight">
             It&apos;s not an app. It&apos;s a way<br />
             to <span className="text-[#C49232]">belong.</span>
           </h2>
           
-          <p className="text-lg md:text-xl text-slate-600 font-medium max-w-3xl mx-auto leading-relaxed mb-16">
+          <p className="text-lg md:text-xl text-slate-600 font-medium max-w-3xl mx-auto leading-relaxed mb-10 md:mb-16">
             Every city is full of people looking for their people. Young World is where you find them — and where the communities that make life better become easy to discover, join, and love.
           </p>
 
@@ -260,44 +351,110 @@ export default function WaveTheWhite() {
         GLOBAL NETWORK STATS SECTION
         ========================================
       */}
-      <section className="w-full bg-[#1E1B18] text-white py-12 md:py-16">
-        <div className="container mx-auto px-4 md:px-6 max-w-5xl text-center">
+      <section className="w-full bg-[#F8F6F0] py-10 md:py-24">
+        <div className="container mx-auto px-4 md:px-6 max-w-6xl">
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16 max-w-4xl mx-auto">
+          {/* Stats Header */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-10 md:mb-16 text-center">
             <div className="flex flex-col items-center">
               <span className="text-5xl md:text-6xl font-black text-[#C49232] mb-2">100+</span>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">COMMUNITIES</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">COMMUNITIES</span>
             </div>
             <div className="flex flex-col items-center">
               <span className="text-5xl md:text-6xl font-black text-[#C49232] mb-2">21</span>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">COUNTRIES</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">COUNTRIES</span>
             </div>
             <div className="flex flex-col items-center">
               <span className="text-5xl md:text-6xl font-black text-[#C49232] mb-2">5</span>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">CONTINENTS</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">CONTINENTS</span>
             </div>
             <div className="flex flex-col items-center">
               <span className="text-5xl md:text-6xl font-black text-[#C49232] mb-2">10+</span>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">CATEGORIES</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">CATEGORIES</span>
             </div>
           </div>
 
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-10">
-            A living, global network
-          </h2>
-
-          <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto">
-            <span className="bg-[#2A251D] border border-[#3A3328] rounded-full px-5 py-2.5 text-sm font-medium flex items-center gap-2"><span>🇰🇪</span> Girlskate Nairobi</span>
-            <span className="bg-[#2A251D] border border-[#3A3328] rounded-full px-5 py-2.5 text-sm font-medium flex items-center gap-2"><span>🇮🇳</span> Hycore Run Club</span>
-            <span className="bg-[#2A251D] border border-[#3A3328] rounded-full px-5 py-2.5 text-sm font-medium flex items-center gap-2"><span>🇨🇩</span> Goma Breaking</span>
-            <span className="bg-[#2A251D] border border-[#3A3328] rounded-full px-5 py-2.5 text-sm font-medium flex items-center gap-2"><span>🇲🇽</span> Roller Dolls</span>
-            <span className="bg-[#2A251D] border border-[#3A3328] rounded-full px-5 py-2.5 text-sm font-medium flex items-center gap-2"><span>🇿🇦</span> Five6seven8</span>
-            <span className="bg-[#2A251D] border border-[#3A3328] rounded-full px-5 py-2.5 text-sm font-medium flex items-center gap-2"><span>🇳🇵</span> Women Cycling Nepal</span>
-            <span className="bg-[#2A251D] border border-[#3A3328] rounded-full px-5 py-2.5 text-sm font-medium flex items-center gap-2"><span>🇬🇭</span> Ghana BMX</span>
-            <span className="bg-[#2A251D] border border-[#3A3328] rounded-full px-5 py-2.5 text-sm font-medium flex items-center gap-2"><span>🇯🇲</span> Caribbean Basketball</span>
-            <span className="bg-[#2A251D] border border-[#3A3328] rounded-full px-5 py-2.5 text-sm font-medium flex items-center gap-2"><span>🇫🇷</span> Guetapens Crew</span>
-            <span className="bg-[#2A251D] border border-[#3A3328] rounded-full px-5 py-2.5 text-sm font-medium text-gray-400 flex items-center gap-2">+ many more</span>
+          <div className="mb-6 md:mb-10 text-center md:text-left">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-black text-[#222222] tracking-tight mb-3">
+              A living, global network
+            </h2>
+            <p className="text-slate-600 font-medium text-sm md:text-base">
+              A rotating spotlight — one crew featured, the rest a click away.
+            </p>
           </div>
+
+          <div className="flex flex-col lg:flex-row gap-4 md:gap-6">
+            {/* Featured Community (Left) */}
+            {(() => {
+              const featured = foundingCommunities[4] || foundingCommunities[0];
+              if (!featured) return null;
+              
+              const name = featured.community_type || featured.full_name || 'Community';
+              const cleanCountry = featured.country ? featured.country.trim().toLowerCase() : '';
+              const flag = cleanCountry ? (countryFlags[cleanCountry] || "🌍") : "🌍";
+              const category = featured.community_role || 'COMMUNITY';
+              const locationStr = [featured.city, featured.country].filter(Boolean).join(' - ').toUpperCase();
+              const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+              
+              return (
+                <Link href={`/community/${slug}`} className="flex-1 bg-[#2C1A14] text-white rounded-[24px] p-8 md:p-12 shadow-sm flex flex-col items-start justify-end min-h-[400px] lg:min-h-[500px] hover:shadow-md transition-shadow group relative overflow-hidden">
+                  {featured.community_photo_url && (
+                     <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity pointer-events-none">
+                       <img src={featured.community_photo_url} className="w-full h-full object-cover" alt="" />
+                     </div>
+                  )}
+                  <div className="relative z-10 w-full mt-auto">
+                    <p className="text-[#F2B04E] font-bold text-[10px] uppercase tracking-widest flex items-center gap-2 mb-3">
+                      <span>{flag}</span> {locationStr} - {category.toUpperCase()} - FEATURED
+                    </p>
+                    <h3 className="text-4xl md:text-5xl font-serif font-bold mb-4">{name}</h3>
+                    <p className="text-gray-300 font-medium line-clamp-3 mb-2 leading-relaxed">
+                      {featured.story || 'A room full of strangers becomes a room full of friends.'}
+                    </p>
+                  </div>
+                </Link>
+              );
+            })()}
+
+            {/* List of Communities (Right) */}
+            <div className="flex-1 flex flex-col gap-3">
+              {foundingCommunities.slice(1, 6).map((c, idx) => {
+                const name = c.community_type || c.full_name || 'Community';
+                const cleanCountry = c.country ? c.country.trim().toLowerCase() : '';
+                const flag = cleanCountry ? (countryFlags[cleanCountry] || "🌍") : "🌍";
+                const initials = name.split(' ').map((n: string) => n[0]).filter(Boolean).slice(0, 2).join('').toUpperCase();
+                const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+                const category = c.community_role || 'COMMUNITY';
+                const loc = [c.city, c.country].filter(Boolean).join(', ');
+
+                return (
+                  <Link href={`/community/${slug}`} key={c.id} className="bg-white border border-gray-200 rounded-[16px] p-4 flex items-center gap-4 hover:-translate-y-0.5 hover:shadow-sm transition-all text-slate-800">
+                    {c.community_photo_url ? (
+                      <img src={c.community_photo_url} alt={name} className="w-auto h-12 max-w-[60px] object-contain shrink-0" />
+                    ) : (
+                      <div className="w-12 h-12 rounded-full bg-[#4A3B32] text-white flex items-center justify-center text-sm font-bold shrink-0 shadow-inner">
+                        {initials}
+                      </div>
+                    )}
+                    <div className="flex flex-col flex-1 min-w-0">
+                      <h4 className="font-bold text-[15px] truncate">{name}</h4>
+                      <p className="text-xs text-gray-500 font-medium flex items-center gap-1.5 truncate mt-0.5">
+                        <span className="text-sm">{flag}</span> {loc}
+                      </p>
+                    </div>
+                    <div className="text-[10px] font-bold text-[#D67138] uppercase tracking-widest shrink-0 ml-4 hidden sm:block">
+                      {category}
+                    </div>
+                  </Link>
+                )
+              })}
+              
+              <Link href="/communities" className="bg-white border border-gray-200 rounded-full py-4 mt-1 text-center text-[#C49232] font-bold text-sm hover:bg-gray-50 transition-colors">
+                + {foundingCommunities.length > 6 ? foundingCommunities.length - 6 : 45} more — explore all →
+              </Link>
+            </div>
+          </div>
+
         </div>
       </section>
 
@@ -306,7 +463,7 @@ export default function WaveTheWhite() {
         CALL TO ACTION CARDS SECTION
         ========================================
       */}
-      <section className="w-full bg-[#FDFBF7] py-12 md:py-16">
+      <section className="w-full bg-[#FDFBF7] py-10 md:py-16">
         <div className="container mx-auto px-4 md:px-6 max-w-6xl">
           <div className="flex flex-col lg:flex-row gap-6">
             
@@ -352,32 +509,11 @@ export default function WaveTheWhite() {
 
       {/* 
         ========================================
-        GLOBAL COMMUNITY GLOBE SECTION
+        RECENT COMMUNITIES SECTION
         ========================================
       */}
-      <section id="global-community" className="relative w-full py-12 md:py-16 bg-white text-slate-800 border-t border-sky-50 overflow-hidden">
-        {/* Background Effects */}
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-sky-50/50 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-sky-100/30 rounded-full blur-[120px] pointer-events-none" />
 
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div className="text-center mb-12 md:mb-16">
-            <div className="inline-block bg-sky-100 text-black border border-sky-200 px-5 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6">
-              Live Map
-            </div>
-            <h2 className="text-4xl md:text-5xl font-display font-bold uppercase tracking-tight mb-4 text-slate-800">
-              The Global Community
-            </h2>
-            <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto font-light leading-relaxed">
-              Watch the wave spread across the world. Every point is a community or creator who checked in.
-            </p>
-          </div>
-
-          <InteractiveGlobe />
-        </div>
-      </section>
-
-      <RecentCommunities />
+      {/* <RecentCommunities /> */}
 
       {/* 
         ========================================
@@ -557,58 +693,9 @@ export default function WaveTheWhite() {
 
           {/* 
             ========================================
-            STAY CONNECTED SECTION
+            STAY CONNECTED SECTION (Removed)
             ========================================
           */}
-          <div className="max-w-3xl mx-auto mt-8 md:mt-12 text-center pb-12">
-            <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-6">Stay Connected</p>
-            <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 w-full">
-              <a
-                href="https://www.instagram.com/uncleyoung94/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 px-6 py-3 rounded-full border border-sky-100 bg-white hover:border-sky-400 hover:bg-sky-50 transition-all text-slate-700 text-sm font-medium shadow-sm hover:shadow-md group"
-              >
-                <svg className="w-5 h-5 text-pink-500 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                </svg>
-                Follow Uncle Young
-              </a>
-
-              <a
-                href="https://www.instagram.com/youngworld.life/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 px-6 py-3 rounded-full border border-sky-100 bg-white hover:border-sky-400 hover:bg-sky-50 transition-all text-slate-700 text-sm font-medium shadow-sm hover:shadow-md group"
-              >
-                <svg className="w-5 h-5 text-pink-500 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                </svg>
-                Follow YWE on Instagram
-              </a>
-
-              <a
-                href="https://www.youtube.com/channel/UCZXQF9XIs1vV5QwQpSBrrcw"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 px-6 py-3 rounded-full border border-sky-100 bg-white hover:border-sky-400 hover:bg-sky-50 transition-all text-slate-700 text-sm font-medium shadow-sm hover:shadow-md group"
-              >
-                <svg className="w-5 h-5 text-red-500 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/>
-                </svg>
-                Subscribe to YouTube
-              </a>
-
-              <span
-                className="flex items-center gap-3 px-6 py-3 rounded-full border border-sky-100 bg-white text-slate-700 text-sm font-medium shadow-sm opacity-40 cursor-not-allowed pointer-events-none select-none"
-              >
-                <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                </svg>
-                Facebook
-              </span>
-            </div>
-          </div>
 
         </div>
       </section>
