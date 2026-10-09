@@ -154,26 +154,113 @@ export default async function WaveTheWhite() {
 
       {/* 
         ========================================
-        FOUNDING COMMUNITIES SECTION (OPTION E)
+        GLOBAL NETWORK STATS SECTION
         ========================================
       */}
-      <section id="communities" className="w-full py-10 md:py-24 bg-[#F8F6F0] overflow-hidden">
-        <div className="container mx-auto px-4 md:px-6 mb-8 md:mb-12 flex flex-col items-center text-center">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-[#222222] tracking-tight mb-3">
-            The founding communities
-          </h2>
-          <p className="text-gray-600 font-medium text-sm md:text-base">
-            A living wall, always moving. Hover to pause.
-          </p>
-        </div>
+      <section className="w-full bg-[#F8F6F0] py-10 md:py-24">
+        <div className="container mx-auto px-4 md:px-6 max-w-6xl">
+          
+          {/* Stats Header */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-10 md:mb-16 text-center">
+            <div className="flex flex-col items-center">
+              <span className="text-5xl md:text-6xl font-black text-[#C49232] mb-2">100+</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">COMMUNITIES</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="text-5xl md:text-6xl font-black text-[#C49232] mb-2">21</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">COUNTRIES</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="text-5xl md:text-6xl font-black text-[#C49232] mb-2">5</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">CONTINENTS</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <span className="text-5xl md:text-6xl font-black text-[#C49232] mb-2">10+</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">CATEGORIES</span>
+            </div>
+          </div>
 
-        <div className="flex flex-col gap-4 sm:gap-6 w-full">
-          {renderTrack(row1, false)}
-          {renderTrack(row2, true)}
-        </div>
+          <div className="mb-6 md:mb-10 text-center md:text-left">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-black text-[#222222] tracking-tight mb-3">
+              A living, global network
+            </h2>
+            <p className="text-slate-600 font-medium text-sm md:text-base">
+              A rotating spotlight — one crew featured, the rest a click away.
+            </p>
+          </div>
 
-        <div className="mt-8 text-center text-xs text-gray-400 font-medium tracking-wide">
-          ↑ these scroll on their own — hover any card to pause and read
+          <div className="flex flex-col lg:flex-row gap-4 md:gap-6">
+            {/* Featured Community (Left) */}
+            {(() => {
+              const featured = foundingCommunities[4] || foundingCommunities[0];
+              if (!featured) return null;
+              
+              const name = featured.community_type || featured.full_name || 'Community';
+              const cleanCountry = featured.country ? featured.country.trim().toLowerCase() : '';
+              const flag = cleanCountry ? (countryFlags[cleanCountry] || "🌍") : "🌍";
+              const category = featured.community_role || 'COMMUNITY';
+              const locationStr = [featured.city, featured.country].filter(Boolean).join(' - ').toUpperCase();
+              const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+              
+              return (
+                <Link href={`/community/${slug}`} className="flex-1 bg-[#2C1A14] text-white rounded-[24px] p-8 md:p-12 shadow-sm flex flex-col items-start justify-end min-h-[400px] lg:min-h-[500px] hover:shadow-md transition-shadow group relative overflow-hidden">
+                  {featured.community_photo_url && (
+                     <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity pointer-events-none">
+                       <img src={featured.community_photo_url} className="w-full h-full object-cover" alt="" />
+                     </div>
+                  )}
+                  <div className="relative z-10 w-full mt-auto">
+                    <p className="text-[#F2B04E] font-bold text-[10px] uppercase tracking-widest flex items-center gap-2 mb-3">
+                      <span>{flag}</span> {locationStr} - {category.toUpperCase()} - FEATURED
+                    </p>
+                    <h3 className="text-4xl md:text-5xl font-serif font-bold mb-4">{name}</h3>
+                    <p className="text-gray-300 font-medium line-clamp-3 mb-2 leading-relaxed">
+                      {featured.story || 'A room full of strangers becomes a room full of friends.'}
+                    </p>
+                  </div>
+                </Link>
+              );
+            })()}
+
+            {/* List of Communities (Right) */}
+            <div className="flex-1 flex flex-col gap-3">
+              {foundingCommunities.slice(1, 6).map((c, idx) => {
+                const name = c.community_type || c.full_name || 'Community';
+                const cleanCountry = c.country ? c.country.trim().toLowerCase() : '';
+                const flag = cleanCountry ? (countryFlags[cleanCountry] || "🌍") : "🌍";
+                const initials = name.split(' ').map((n: string) => n[0]).filter(Boolean).slice(0, 2).join('').toUpperCase();
+                const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+                const category = c.community_role || 'COMMUNITY';
+                const loc = [c.city, c.country].filter(Boolean).join(', ');
+
+                return (
+                  <Link href={`/community/${slug}`} key={c.id} className="bg-white border border-gray-200 rounded-[16px] p-4 flex items-center gap-4 hover:-translate-y-0.5 hover:shadow-sm transition-all text-slate-800">
+                    {c.community_photo_url ? (
+                      <img src={c.community_photo_url} alt={name} className="w-auto h-12 max-w-[60px] object-contain shrink-0" />
+                    ) : (
+                      <div className="w-12 h-12 rounded-full bg-[#4A3B32] text-white flex items-center justify-center text-sm font-bold shrink-0 shadow-inner">
+                        {initials}
+                      </div>
+                    )}
+                    <div className="flex flex-col flex-1 min-w-0">
+                      <h4 className="font-bold text-[15px] truncate">{name}</h4>
+                      <p className="text-xs text-gray-500 font-medium flex items-center gap-1.5 truncate mt-0.5">
+                        <span className="text-sm">{flag}</span> {loc}
+                      </p>
+                    </div>
+                    <div className="text-[10px] font-bold text-[#D67138] uppercase tracking-widest shrink-0 ml-4 hidden sm:block">
+                      {category}
+                    </div>
+                  </Link>
+                )
+              })}
+              
+              <Link href="/communities" className="bg-white border border-gray-200 rounded-full py-4 mt-1 text-center text-[#C49232] font-bold text-sm hover:bg-gray-50 transition-colors">
+                + {foundingCommunities.length > 6 ? foundingCommunities.length - 6 : 45} more — explore all →
+              </Link>
+            </div>
+          </div>
+
         </div>
       </section>
 
@@ -348,113 +435,26 @@ export default async function WaveTheWhite() {
 
       {/* 
         ========================================
-        GLOBAL NETWORK STATS SECTION
+        FOUNDING COMMUNITIES SECTION (OPTION E)
         ========================================
       */}
-      <section className="w-full bg-[#F8F6F0] py-10 md:py-24">
-        <div className="container mx-auto px-4 md:px-6 max-w-6xl">
-          
-          {/* Stats Header */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-10 md:mb-16 text-center">
-            <div className="flex flex-col items-center">
-              <span className="text-5xl md:text-6xl font-black text-[#C49232] mb-2">100+</span>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">COMMUNITIES</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <span className="text-5xl md:text-6xl font-black text-[#C49232] mb-2">21</span>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">COUNTRIES</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <span className="text-5xl md:text-6xl font-black text-[#C49232] mb-2">5</span>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">CONTINENTS</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <span className="text-5xl md:text-6xl font-black text-[#C49232] mb-2">10+</span>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">CATEGORIES</span>
-            </div>
-          </div>
+      <section id="communities" className="w-full py-10 md:py-24 bg-[#F8F6F0] overflow-hidden">
+        <div className="container mx-auto px-4 md:px-6 mb-8 md:mb-12 flex flex-col items-center text-center">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-[#222222] tracking-tight mb-3">
+            The founding communities
+          </h2>
+          <p className="text-gray-600 font-medium text-sm md:text-base">
+            A living wall, always moving. Hover to pause.
+          </p>
+        </div>
 
-          <div className="mb-6 md:mb-10 text-center md:text-left">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-black text-[#222222] tracking-tight mb-3">
-              A living, global network
-            </h2>
-            <p className="text-slate-600 font-medium text-sm md:text-base">
-              A rotating spotlight — one crew featured, the rest a click away.
-            </p>
-          </div>
+        <div className="flex flex-col gap-4 sm:gap-6 w-full">
+          {renderTrack(row1, false)}
+          {renderTrack(row2, true)}
+        </div>
 
-          <div className="flex flex-col lg:flex-row gap-4 md:gap-6">
-            {/* Featured Community (Left) */}
-            {(() => {
-              const featured = foundingCommunities[4] || foundingCommunities[0];
-              if (!featured) return null;
-              
-              const name = featured.community_type || featured.full_name || 'Community';
-              const cleanCountry = featured.country ? featured.country.trim().toLowerCase() : '';
-              const flag = cleanCountry ? (countryFlags[cleanCountry] || "🌍") : "🌍";
-              const category = featured.community_role || 'COMMUNITY';
-              const locationStr = [featured.city, featured.country].filter(Boolean).join(' - ').toUpperCase();
-              const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
-              
-              return (
-                <Link href={`/community/${slug}`} className="flex-1 bg-[#2C1A14] text-white rounded-[24px] p-8 md:p-12 shadow-sm flex flex-col items-start justify-end min-h-[400px] lg:min-h-[500px] hover:shadow-md transition-shadow group relative overflow-hidden">
-                  {featured.community_photo_url && (
-                     <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity pointer-events-none">
-                       <img src={featured.community_photo_url} className="w-full h-full object-cover" alt="" />
-                     </div>
-                  )}
-                  <div className="relative z-10 w-full mt-auto">
-                    <p className="text-[#F2B04E] font-bold text-[10px] uppercase tracking-widest flex items-center gap-2 mb-3">
-                      <span>{flag}</span> {locationStr} - {category.toUpperCase()} - FEATURED
-                    </p>
-                    <h3 className="text-4xl md:text-5xl font-serif font-bold mb-4">{name}</h3>
-                    <p className="text-gray-300 font-medium line-clamp-3 mb-2 leading-relaxed">
-                      {featured.story || 'A room full of strangers becomes a room full of friends.'}
-                    </p>
-                  </div>
-                </Link>
-              );
-            })()}
-
-            {/* List of Communities (Right) */}
-            <div className="flex-1 flex flex-col gap-3">
-              {foundingCommunities.slice(1, 6).map((c, idx) => {
-                const name = c.community_type || c.full_name || 'Community';
-                const cleanCountry = c.country ? c.country.trim().toLowerCase() : '';
-                const flag = cleanCountry ? (countryFlags[cleanCountry] || "🌍") : "🌍";
-                const initials = name.split(' ').map((n: string) => n[0]).filter(Boolean).slice(0, 2).join('').toUpperCase();
-                const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
-                const category = c.community_role || 'COMMUNITY';
-                const loc = [c.city, c.country].filter(Boolean).join(', ');
-
-                return (
-                  <Link href={`/community/${slug}`} key={c.id} className="bg-white border border-gray-200 rounded-[16px] p-4 flex items-center gap-4 hover:-translate-y-0.5 hover:shadow-sm transition-all text-slate-800">
-                    {c.community_photo_url ? (
-                      <img src={c.community_photo_url} alt={name} className="w-auto h-12 max-w-[60px] object-contain shrink-0" />
-                    ) : (
-                      <div className="w-12 h-12 rounded-full bg-[#4A3B32] text-white flex items-center justify-center text-sm font-bold shrink-0 shadow-inner">
-                        {initials}
-                      </div>
-                    )}
-                    <div className="flex flex-col flex-1 min-w-0">
-                      <h4 className="font-bold text-[15px] truncate">{name}</h4>
-                      <p className="text-xs text-gray-500 font-medium flex items-center gap-1.5 truncate mt-0.5">
-                        <span className="text-sm">{flag}</span> {loc}
-                      </p>
-                    </div>
-                    <div className="text-[10px] font-bold text-[#D67138] uppercase tracking-widest shrink-0 ml-4 hidden sm:block">
-                      {category}
-                    </div>
-                  </Link>
-                )
-              })}
-              
-              <Link href="/communities" className="bg-white border border-gray-200 rounded-full py-4 mt-1 text-center text-[#C49232] font-bold text-sm hover:bg-gray-50 transition-colors">
-                + {foundingCommunities.length > 6 ? foundingCommunities.length - 6 : 45} more — explore all →
-              </Link>
-            </div>
-          </div>
-
+        <div className="mt-8 text-center text-xs text-gray-400 font-medium tracking-wide">
+          ↑ these scroll on their own — hover any card to pause and read
         </div>
       </section>
 
