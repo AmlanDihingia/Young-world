@@ -53,7 +53,7 @@ export default async function WaveTheWhite() {
               return (
                 <Link href={`/community/${slug}`} key={`${community.id}-${idx}`} className="shrink-0 max-w-[300px] bg-white rounded-full p-2 pr-6 shadow-sm border border-gray-100 flex items-center gap-3 hover:-translate-y-0.5 hover:shadow-md transition-all cursor-pointer">
                   {community.community_photo_url ? (
-                    <img src={community.community_photo_url} alt={name} className="w-auto h-12 max-w-[80px] object-contain shrink-0" />
+                    <img src={community.community_photo_url} alt={name} className="w-12 h-12 rounded-full object-cover shrink-0 shadow-sm border border-gray-100 bg-white" />
                   ) : (
                     <div className="w-12 h-12 rounded-full bg-slate-800 text-white flex items-center justify-center text-sm font-bold shrink-0 shadow-inner">
                       {initials}
@@ -85,7 +85,7 @@ export default async function WaveTheWhite() {
               return (
                 <Link href={`/community/${slug}`} key={`copy-${community.id}-${idx}`} className="shrink-0 max-w-[300px] bg-white rounded-full p-2 pr-6 shadow-sm border border-gray-100 flex items-center gap-3 hover:-translate-y-0.5 hover:shadow-md transition-all cursor-pointer">
                   {community.community_photo_url ? (
-                    <img src={community.community_photo_url} alt={name} className="w-auto h-12 max-w-[80px] object-contain shrink-0" />
+                    <img src={community.community_photo_url} alt={name} className="w-12 h-12 rounded-full object-cover shrink-0 shadow-sm border border-gray-100 bg-white" />
                   ) : (
                     <div className="w-12 h-12 rounded-full bg-slate-800 text-white flex items-center justify-center text-sm font-bold shrink-0 shadow-inner">
                       {initials}
@@ -236,7 +236,7 @@ export default async function WaveTheWhite() {
                 return (
                   <Link href={`/community/${slug}`} key={c.id} className="bg-white border border-gray-200 rounded-[16px] p-4 flex items-center gap-4 hover:-translate-y-0.5 hover:shadow-sm transition-all text-slate-800">
                     {c.community_photo_url ? (
-                      <img src={c.community_photo_url} alt={name} className="w-auto h-12 max-w-[60px] object-contain shrink-0" />
+                      <img src={c.community_photo_url} alt={name} className="w-12 h-12 rounded-full object-cover shrink-0 shadow-sm border border-gray-100 bg-white" />
                     ) : (
                       <div className="w-12 h-12 rounded-full bg-[#4A3B32] text-white flex items-center justify-center text-sm font-bold shrink-0 shadow-inner">
                         {initials}
