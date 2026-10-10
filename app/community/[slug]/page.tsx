@@ -159,9 +159,12 @@ export default async function CommunityPage(props: Props) {
           category: dbCommunity.community_role || "Community",
           description: dbCommunity.story || `The official community page for ${name}.`,
           insta: dbCommunity.community_insta || "#",
-          // @ts-ignore
           members: dbCommunity.participation_size || "Growing every day",
           logo: dbCommunity.community_photo_url || null,
+          loveMost: dbCommunity.what_we_love_most || null,
+          proudOf: dbCommunity.proudest_moment || null,
+          featuredReel: dbCommunity.featured_reel || null,
+          coverPhoto: dbCommunity.cover_photo_url || null,
         };
       }
     }
@@ -171,16 +174,29 @@ export default async function CommunityPage(props: Props) {
     notFound();
   }
 
+  // Helper to fix Google Drive links so they can be used as images
+  let finalCoverPhoto = (community as any).coverPhoto;
+  if (finalCoverPhoto && finalCoverPhoto.includes('drive.google.com')) {
+    const match = finalCoverPhoto.match(/\/d\/([a-zA-Z0-9_-]+)/);
+    if (match && match[1]) {
+      finalCoverPhoto = `https://lh3.googleusercontent.com/d/${match[1]}=w2000`;
+    }
+  }
+
   return (
     <main className="min-h-screen bg-[#FDFBF7] text-foreground">
       {/* Hero */}
-      <section className="relative w-full pt-32 pb-20 bg-[#EFE9DF] border-b border-gray-200">
-        <div className="container mx-auto px-4 md:px-6 max-w-5xl">
-          <Link href="/" className="text-[#C49232] font-bold text-sm hover:underline mb-8 inline-block">
-            &larr; Back to Home
-          </Link>
-          
-          <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mt-4">
+      <section className="relative w-full pt-32 pb-20 border-b border-gray-200 bg-[#EFE9DF] overflow-hidden">
+        {finalCoverPhoto && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img 
+            src={finalCoverPhoto} 
+            alt="Cover" 
+            className="absolute inset-0 w-full h-full object-cover z-0" 
+          />
+        )}
+        <div className="container mx-auto px-4 md:px-6 max-w-5xl relative z-10">
+          <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
             <div className="w-24 h-24 md:w-32 md:h-32 bg-white rounded-full flex items-center justify-center text-4xl md:text-5xl shadow-sm border border-gray-100 shrink-0 overflow-hidden">
               {/* @ts-ignore - logo might not exist on all items yet */}
               {community.logo ? (
@@ -195,28 +211,10 @@ export default async function CommunityPage(props: Props) {
                 <span className="bg-[#222222] text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full">
                   {community.category}
                 </span>
-                <span className="text-gray-500 font-medium text-sm flex items-center gap-1">
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  {community.country}
-                </span>
               </div>
-              <h1 className="text-4xl md:text-6xl font-black text-[#222222] tracking-tight mb-4">
+              <h1 className="text-4xl md:text-6xl font-black text-white tracking-tight">
                 {community.name}
               </h1>
-              <a 
-                href={community.insta} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-bold text-[#C49232] hover:text-[#b0832d] transition-colors"
-              >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                </svg>
-                Follow on Instagram
-              </a>
             </div>
           </div>
         </div>
@@ -234,6 +232,24 @@ export default async function CommunityPage(props: Props) {
                   {community.description}
                 </p>
               </div>
+
+              {/* @ts-ignore */}
+              {((community as any).featuredReel || community.slug === 'thirdeye-fitbox-gym') && (
+                <div>
+                  <h3 className="text-xl font-bold text-[#222222] mb-4">Featured Reel</h3>
+                  <div className="w-full sm:w-[400px] rounded-2xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 bg-white">
+                    <iframe 
+                      src={(community as any).featuredReel ? ((community as any).featuredReel.split('?')[0].replace(/\/$/, '') + '/embed') : "https://www.instagram.com/reel/Dbif1GkRPuf/embed"} 
+                      width="100%" 
+                      height="500" 
+                      style={{ border: 'none' }}
+                      scrolling="no" 
+                      allowtransparency="true" 
+                      allow="encrypted-media"
+                    ></iframe>
+                  </div>
+                </div>
+              )}
 
               {/* @ts-ignore */}
               {(community as any).loveMost && (
@@ -286,6 +302,22 @@ export default async function CommunityPage(props: Props) {
                     {/* @ts-ignore */}
                     <span className="text-[#222222] font-medium">{(community as any).members || "Growing every day"}</span>
                   </div>
+                  {community.insta && community.insta !== '#' && (
+                    <div>
+                      <span className="text-xs font-bold uppercase tracking-widest text-gray-400 block mb-1">Instagram</span>
+                      <a 
+                        href={community.insta} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-sm font-bold text-[#C49232] hover:text-[#b0832d] transition-colors"
+                      >
+                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                        Follow on Instagram
+                      </a>
+                    </div>
+                  )}
                 </div>
 
                 <button className="w-full mt-8 bg-[#C49232] text-white font-bold py-4 rounded-full hover:bg-[#b0832d] transition-colors">

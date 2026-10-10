@@ -19,6 +19,10 @@ export async function updateCommunity(id: string, formData: FormData) {
     const instagram = formData.get('instagram') as string
     const photoUrl = formData.get('photo_url') as string
     const country = formData.get('country') as string
+    const whatWeLoveMost = formData.get('what_we_love_most') as string
+    const proudestMoment = formData.get('proudest_moment') as string
+    const featuredReel = formData.get('featured_reel') as string
+    const coverPhotoUrl = formData.get('cover_photo_url') as string
 
     // Update the profile in the database
     // We are mapping the admin inputs to the correct columns we use on the community page
@@ -31,7 +35,11 @@ export async function updateCommunity(id: string, formData: FormData) {
             story: story,
             community_insta: instagram,
             community_photo_url: photoUrl,
-            country: country
+            country: country,
+            what_we_love_most: whatWeLoveMost,
+            proudest_moment: proudestMoment,
+            featured_reel: featuredReel,
+            cover_photo_url: coverPhotoUrl
         })
         .eq('id', id)
 

@@ -119,6 +119,47 @@ export default async function EditCommunityPage({ params }: { params: Promise<{ 
                             />
                         </div>
 
+                        <div>
+                            <label className="block text-sm font-medium text-slate-700 mb-2">What We Love Most</label>
+                            <textarea 
+                                name="what_we_love_most" 
+                                rows={3}
+                                defaultValue={profile.what_we_love_most || ''} 
+                                className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 focus:outline-none focus:border-blue-500 transition-colors resize-none"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-slate-700 mb-2">Proudest Moment</label>
+                            <textarea 
+                                name="proudest_moment" 
+                                rows={3}
+                                defaultValue={profile.proudest_moment || ''} 
+                                className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 focus:outline-none focus:border-blue-500 transition-colors resize-none"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-slate-700 mb-2">Featured Reel (Instagram URL)</label>
+                            <input 
+                                name="featured_reel" 
+                                type="url" 
+                                defaultValue={profile.featured_reel || ''} 
+                                className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 focus:outline-none focus:border-blue-500 transition-colors"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-slate-700 mb-2">Cover Photo URL</label>
+                            <p className="text-xs text-slate-500 mb-2">Public URL for the community page cover image.</p>
+                            <input 
+                                name="cover_photo_url" 
+                                type="url" 
+                                defaultValue={profile.cover_photo_url || ''} 
+                                className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 focus:outline-none focus:border-blue-500 transition-colors"
+                            />
+                        </div>
+
                         <div className="pt-4 border-t border-slate-100 flex justify-end gap-3">
                             <Link href="/admin" className="px-5 py-2.5 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
                                 Cancel

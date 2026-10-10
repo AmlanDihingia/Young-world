@@ -28,7 +28,33 @@ export default async function CommunitiesPage() {
         .order('created_at', { ascending: false })
 
     const communities = profiles || [];
-    const uniqueCountries = new Set(communities.map(c => c.country?.trim().toLowerCase()).filter(Boolean)).size;
+    const uniqueCountriesSet = new Set(communities.map(c => c.country?.trim().toLowerCase()).filter(Boolean));
+    const uniqueCountries = uniqueCountriesSet.size > 0 ? uniqueCountriesSet.size : 0;
+
+    const getContinent = (country: string) => {
+      const c = country.toLowerCase().trim();
+      const africa = ['algeria', 'angola', 'benin', 'botswana', 'burkina faso', 'burundi', 'cabo verde', 'cameroon', 'central african republic', 'chad', 'comoros', 'congo - kinshasa', 'congo - brazzaville', 'congo (kinshasa)', 'congo (brazzaville)', 'drc', "cote d'ivoire", 'djibouti', 'egypt', 'equatorial guinea', 'eritrea', 'eswatini', 'ethiopia', 'gabon', 'gambia', 'ghana', 'guinea', 'guinea-bissau', 'ivory coast', 'kenya', 'lesotho', 'liberia', 'libya', 'madagascar', 'malawi', 'mali', 'mauritania', 'mauritius', 'morocco', 'mozambique', 'namibia', 'niger', 'nigeria', 'rwanda', 'sao tome & principe', 'senegal', 'seychelles', 'sierra leone', 'somalia', 'south africa', 'south sudan', 'sudan', 'tanzania', 'togo', 'tunisia', 'uganda', 'zambia', 'zimbabwe', 'cape verde', 'réunion', 'western sahara', 'mayotte', 'st. helena'];
+      const asia = ['afghanistan', 'armenia', 'azerbaijan', 'bahrain', 'bangladesh', 'bhutan', 'brunei', 'cambodia', 'china', 'cyprus', 'georgia', 'india', 'indonesia', 'iran', 'iraq', 'israel', 'japan', 'jordan', 'kazakhstan', 'kuwait', 'kyrgyzstan', 'laos', 'lebanon', 'malaysia', 'maldives', 'mongolia', 'myanmar (burma)', 'myanmar', 'nepal', 'north korea', 'oman', 'pakistan', 'palestinian territories', 'palestine', 'philippines', 'qatar', 'saudi arabia', 'singapore', 'south korea', 'sri lanka', 'syria', 'taiwan', 'tajikistan', 'thailand', 'timor-leste', 'turkey', 'turkmenistan', 'united arab emirates', 'uzbekistan', 'vietnam', 'yemen', 'macau sar china', 'hong kong sar china', 'british indian ocean territory'];
+      const europe = ['albania', 'andorra', 'austria', 'belarus', 'belgium', 'bosnia & herzegovina', 'bulgaria', 'croatia', 'czechia', 'denmark', 'estonia', 'finland', 'france', 'germany', 'greece', 'hungary', 'iceland', 'ireland', 'italy', 'kosovo', 'latvia', 'liechtenstein', 'lithuania', 'luxembourg', 'malta', 'moldova', 'monaco', 'montenegro', 'netherlands', 'macedonia', 'norway', 'poland', 'portugal', 'romania', 'russia', 'san marino', 'serbia', 'slovakia', 'slovenia', 'spain', 'sweden', 'switzerland', 'ukraine', 'united kingdom', 'uk', 'england', 'scotland', 'wales', 'isle of man', 'jersey', 'guernsey', 'faroe islands', 'gibraltar', 'svalbard & jan mayen', 'åland islands'];
+      const northAmerica = ['antigua & barbuda', 'bahamas', 'barbados', 'belize', 'canada', 'costa rica', 'cuba', 'dominica', 'dominican republic', 'el salvador', 'grenada', 'guatemala', 'haiti', 'honduras', 'jamaica', 'mexico', 'nicaragua', 'panama', 'st. kitts & nevis', 'st. lucia', 'st. vincent & grenadines', 'trinidad & tobago', 'united states', 'usa', 'us', 'america', 'bermuda', 'greenland', 'puerto rico', 'u.s. virgin islands', 'british virgin islands', 'cayman islands', 'turks & caicos islands', 'st. martin', 'sint maarten', 'aruba', 'curaçao', 'caribbean netherlands', 'st. barthélemy', 'martinique', 'guadeloupe', 'st. pierre & miquelon'];
+      const southAmerica = ['argentina', 'bolivia', 'brazil', 'chile', 'colombia', 'ecuador', 'guyana', 'paraguay', 'peru', 'suriname', 'uruguay', 'venezuela', 'french guiana', 'falkland islands'];
+      const oceania = ['australia', 'fiji', 'kiribati', 'marshall islands', 'micronesia', 'nauru', 'new zealand', 'palau', 'papua new guinea', 'samoa', 'solomon islands', 'tonga', 'tuvalu', 'vanuatu', 'french polynesia', 'new caledonia', 'guam', 'northern mariana islands', 'american samoa', 'wallis & futuna', 'cook islands', 'niue', 'tokelau', 'pitcairn islands', 'norfolk island'];
+      
+      if (africa.includes(c)) return 'Africa';
+      if (asia.includes(c)) return 'Asia';
+      if (europe.includes(c)) return 'Europe';
+      if (northAmerica.includes(c)) return 'North America';
+      if (southAmerica.includes(c)) return 'South America';
+      if (oceania.includes(c)) return 'Oceania';
+      return 'Unknown';
+    };
+
+    const uniqueContinentsSet = new Set(
+      Array.from(uniqueCountriesSet)
+        .map(country => getContinent(country as string))
+        .filter(continent => continent !== 'Unknown')
+    );
+    const totalContinents = uniqueContinentsSet.size > 0 ? uniqueContinentsSet.size : 0;
 
     return (
         <main className="min-h-screen bg-[#FDFBF7] text-foreground">
@@ -84,7 +110,7 @@ export default async function CommunitiesPage() {
                                     <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500">COUNTRIES</span>
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className="text-4xl md:text-5xl font-black text-[#C49232] mb-1">5</span>
+                                    <span className="text-4xl md:text-5xl font-black text-[#C49232] mb-1">{totalContinents}</span>
                                     <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-gray-500">CONTINENTS</span>
                                 </div>
                             </div>
