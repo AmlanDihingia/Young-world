@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowDown, Shirt, Music, Camera, Users, Hash, UserPlus, Share2 } from "lucide-react";
 import HowItWorksTimeline from '@/components/how-it-works-timeline';
 import RecentCommunities from '@/components/recent-communities';
+import FeaturedNetwork from '@/components/featured-network';
 import { createClient } from '@/utils/supabase/server'
 
 import flagsData from '@/utils/flags.json';
@@ -241,76 +242,7 @@ export default async function WaveTheWhite() {
             </p>
           </div>
 
-          <div className="flex flex-col lg:flex-row gap-4 md:gap-6">
-            {/* Featured Community (Left) */}
-            {(() => {
-              const featured = foundingCommunities[4] || foundingCommunities[0];
-              if (!featured) return null;
-              
-              const name = featured.community_type || featured.full_name || 'Community';
-              const cleanCountry = featured.country ? featured.country.trim().toLowerCase() : '';
-              const flag = cleanCountry ? (countryFlags[cleanCountry] || "🌍") : "🌍";
-              const category = featured.community_role || 'COMMUNITY';
-              const locationStr = [featured.city, featured.country].filter(Boolean).join(' - ').toUpperCase();
-              const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
-              
-              return (
-                <Link href={`/community/${slug}`} className="flex-1 bg-[#2C1A14] text-white rounded-[24px] p-8 md:p-12 shadow-sm flex flex-col items-start justify-end min-h-[400px] lg:min-h-[500px] hover:shadow-md transition-shadow group relative overflow-hidden">
-                  {featured.community_photo_url && (
-                     <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity pointer-events-none">
-                       <img src={featured.community_photo_url} className="w-full h-full object-cover" alt="" />
-                     </div>
-                  )}
-                  <div className="relative z-10 w-full mt-auto">
-                    <p className="text-[#F2B04E] font-bold text-[10px] uppercase tracking-widest flex items-center gap-2 mb-3">
-                      <span>{flag}</span> {locationStr} - {category.toUpperCase()} - FEATURED
-                    </p>
-                    <h3 className="text-4xl md:text-5xl font-serif font-bold mb-4">{name}</h3>
-                    <p className="text-gray-300 font-medium line-clamp-3 mb-2 leading-relaxed">
-                      {featured.story || 'A room full of strangers becomes a room full of friends.'}
-                    </p>
-                  </div>
-                </Link>
-              );
-            })()}
-
-            {/* List of Communities (Right) */}
-            <div className="flex-1 flex flex-col gap-3">
-              {foundingCommunities.slice(1, 6).map((c, idx) => {
-                const name = c.community_type || c.full_name || 'Community';
-                const cleanCountry = c.country ? c.country.trim().toLowerCase() : '';
-                const flag = cleanCountry ? (countryFlags[cleanCountry] || "🌍") : "🌍";
-                const initials = name.split(' ').map((n: string) => n[0]).filter(Boolean).slice(0, 2).join('').toUpperCase();
-                const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
-                const category = c.community_role || 'COMMUNITY';
-                const loc = [c.city, c.country].filter(Boolean).join(', ');
-
-                return (
-                  <Link href={`/community/${slug}`} key={c.id} className="bg-white border border-gray-200 rounded-[16px] p-4 flex items-center gap-4 hover:-translate-y-0.5 hover:shadow-sm transition-all text-slate-800">
-                    {c.community_photo_url ? (
-                      <img src={c.community_photo_url} alt={name} className="w-12 h-12 rounded-full object-cover shrink-0 shadow-sm border border-gray-100 bg-white" />
-                    ) : (
-                      <div className="w-12 h-12 rounded-full bg-[#4A3B32] text-white flex items-center justify-center text-sm font-bold shrink-0 shadow-inner">
-                        {initials}
-                      </div>
-                    )}
-                    <div className="flex flex-col flex-1 min-w-0">
-                      <h4 className="font-bold text-[15px] truncate">{name}</h4>
-                      <p className="text-xs text-gray-500 font-medium flex items-center gap-1.5 truncate mt-0.5">
-                        <span className="text-sm">{flag}</span> {loc}
-                      </p>
-                    </div>
-                    <div className="text-[10px] font-bold text-[#D67138] uppercase tracking-widest shrink-0 ml-4 hidden sm:block">
-                      {category}
-                    </div>
-                  </Link>
-                )
-              })}
-              <Link href="/communities" className="bg-white border border-gray-200 rounded-full py-4 mt-1 text-center text-[#C49232] font-bold text-sm hover:bg-gray-50 transition-colors">
-                + {totalCommunities > 6 ? totalCommunities - 6 : 45} more — explore all →
-              </Link>
-            </div>
-          </div>
+          <FeaturedNetwork foundingCommunities={foundingCommunities} totalCommunities={totalCommunities} />
 
         </div>
       </section>
@@ -408,9 +340,6 @@ export default async function WaveTheWhite() {
             <h2 className="text-3xl md:text-4xl font-black text-[#222222] tracking-tight">
               Explore by what you love
             </h2>
-            <Link href="#" className="text-[#C49232] font-bold text-sm hover:underline flex items-center gap-1 pb-1">
-              All categories &rarr;
-            </Link>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6">
@@ -424,7 +353,7 @@ export default async function WaveTheWhite() {
               { emoji: "🏋️", title: "Fitness", subtitle: "Gyms & groups" },
               { emoji: "🤍", title: "Purpose", subtitle: "NGOs & volunteers" },
             ].map((category, index) => (
-              <Link href="#" key={index} className="bg-white rounded-[20px] p-6 flex flex-col items-center justify-center text-center shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+              <Link href={`/communities?category=${encodeURIComponent(category.title.toLowerCase())}`} key={index} className="bg-white rounded-[20px] p-6 flex flex-col items-center justify-center text-center shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
                 <span className="text-2xl mb-3 block">{category.emoji}</span>
                 <h3 className="font-bold text-[#222222] text-[15px] mb-1">{category.title}</h3>
                 <p className="text-xs text-gray-500 font-medium">{category.subtitle}</p>
