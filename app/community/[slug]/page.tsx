@@ -130,7 +130,7 @@ export default async function CommunityPage(props: Props) {
   const params = await props.params;
   
   // 1. Try to find it in the mock data first (the founding communities)
-  let community = mockCommunities.find(c => c.slug === params.slug);
+  let community: any = mockCommunities.find(c => c.slug === params.slug);
 
   // 2. If not found, fetch from Supabase and match the slug dynamically
   if (!community) {
@@ -244,7 +244,7 @@ export default async function CommunityPage(props: Props) {
                       height="500" 
                       style={{ border: 'none' }}
                       scrolling="no" 
-                      allowtransparency="true" 
+                      allowTransparency={true}
                       allow="encrypted-media"
                     ></iframe>
                   </div>
