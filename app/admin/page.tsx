@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { LogOut, ExternalLink, Image as ImageIcon, Users, Clock, Map, Activity, Shield, MoreHorizontal, ChevronRight, Search } from 'lucide-react'
 import Image from 'next/image'
 import DeleteButton from './DeleteButton'
-import { deleteProfile } from './actions'
+import HideButton from './HideButton'
+import { deleteProfile, toggleHideProfile } from './actions'
 
 const ADMIN_EMAIL = 'admin@youngworld.life'
 
@@ -267,6 +268,7 @@ export default async function AdminDashboardPage() {
                                                     >
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
                                                     </Link>
+                                                    <HideButton id={profile.id} isHidden={profile.is_hidden || false} onToggle={toggleHideProfile} />
                                                     <DeleteButton id={profile.id} onDelete={deleteProfile} />
                                                 </div>
                                             </td>

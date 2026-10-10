@@ -50,6 +50,7 @@ export default function RootLayout({
       </head>
       <body
         className={`antialiased bg-background text-foreground bg-gradient-to-br from-white to-sky-50 min-h-screen font-light selection:bg-sky-200 selection:text-sky-900 flex flex-col`}
+        suppressHydrationWarning
       >
         <noscript>
           <img

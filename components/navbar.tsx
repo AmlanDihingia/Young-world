@@ -118,32 +118,32 @@ export default function Navbar() {
 
                             <div className="flex flex-col gap-4 w-full mt-10">
                                 <Link
-                                    href="/about"
+                                    href="/#events"
                                     onClick={() => setMobileMenuOpen(false)}
                                     className="w-full bg-white/50 border border-slate-100 text-slate-800 py-4 rounded-full text-lg font-bold uppercase tracking-widest hover:bg-slate-50 hover:text-slate-900 transition-all shadow-sm"
                                 >
-                                    About Us
+                                    Events
                                 </Link>
                                 <Link
-                                    href="/privacy"
+                                    href="#"
                                     onClick={() => setMobileMenuOpen(false)}
                                     className="w-full bg-white/50 border border-slate-100 text-slate-800 py-4 rounded-full text-lg font-bold uppercase tracking-widest hover:bg-slate-50 hover:text-slate-900 transition-all shadow-sm"
                                 >
-                                    Privacy
+                                    Explore
                                 </Link>
                                 <Link
-                                    href="/terms-of-participation"
+                                    href="/communities"
                                     onClick={() => setMobileMenuOpen(false)}
                                     className="w-full bg-white/50 border border-slate-100 text-slate-800 py-4 rounded-full text-lg font-bold uppercase tracking-widest hover:bg-slate-50 hover:text-slate-900 transition-all shadow-sm"
                                 >
-                                    Terms
+                                    Communities
                                 </Link>
                                 <Link
-                                    href="/contact"
+                                    href="#"
                                     onClick={() => setMobileMenuOpen(false)}
                                     className="w-full bg-white/50 border border-slate-100 text-slate-800 py-4 rounded-full text-lg font-bold uppercase tracking-widest hover:bg-slate-50 hover:text-slate-900 transition-all shadow-sm"
                                 >
-                                    Contact
+                                    The Movement
                                 </Link>
                                 {/* Mobile Login and Sign Up links removed */}
                             </div>
