@@ -3,6 +3,7 @@ import { ArrowDown, Shirt, Music, Camera, Users, Hash, UserPlus, Share2 } from "
 import HowItWorksTimeline from '@/components/how-it-works-timeline';
 import RecentCommunities from '@/components/recent-communities';
 import FeaturedNetwork from '@/components/featured-network';
+import CountUpStats from '@/components/count-up-stats';
 import { createClient } from '@/utils/supabase/server'
 
 import flagsData from '@/utils/flags.json';
@@ -97,7 +98,7 @@ export default async function WaveTheWhite() {
               const name = community.community_type ? community.community_type : (community.full_name || 'Anonymous Creator');
               const cleanCountry = community.country ? community.country.trim().toLowerCase() : '';
               const flag = cleanCountry ? (countryFlags[cleanCountry] || "🌍") : "🌍";
-              const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+              const slug = name.toLowerCase().replace(/[^a-z0-9]/g, '');
               const location = [community.city, community.community_type || 'Community'].filter(Boolean).join(' · ');
               
               // Extract initials (e.g. "Women Cycling" -> "WC")
@@ -130,7 +131,7 @@ export default async function WaveTheWhite() {
               const name = community.community_type ? community.community_type : (community.full_name || 'Anonymous Creator');
               const cleanCountry = community.country ? community.country.trim().toLowerCase() : '';
               const flag = cleanCountry ? (countryFlags[cleanCountry] || "🌍") : "🌍";
-              const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+              const slug = name.toLowerCase().replace(/[^a-z0-9]/g, '');
               const location = [community.city, community.community_type || 'Community'].filter(Boolean).join(' · ');
               
               const initials = String(name).split(' ').map((n: string) => n[0]).filter(Boolean).slice(0, 2).join('').toUpperCase();
@@ -162,7 +163,7 @@ export default async function WaveTheWhite() {
     };
 
   return (
-    <div className="min-h-screen bg-background text-foreground selection:bg-sky-200 selection:text-sky-900">
+    <div suppressHydrationWarning className="min-h-screen bg-background text-foreground selection:bg-sky-200 selection:text-sky-900">
       {/* 
         ========================================
         HERO SECTION
@@ -170,7 +171,7 @@ export default async function WaveTheWhite() {
       */}
       <section className="relative w-full min-h-[85vh] flex flex-col justify-center overflow-hidden bg-[#FDFBF7]">
         {/* Hero Content */}
-        <div className="relative z-10 container flex flex-col items-center justify-center text-center px-6 sm:px-8 pt-20 pb-12 md:pt-32 md:pb-24 w-full max-w-5xl mx-auto">
+        <div className="relative z-10 container flex flex-col items-center justify-center text-center px-6 sm:px-8 pt-32 pb-12 md:pt-32 md:pb-24 w-full max-w-5xl mx-auto">
           
           {/* Subtitle */}
           <p className="text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-[#C49232] mb-6">
@@ -214,30 +215,18 @@ export default async function WaveTheWhite() {
         <div className="container mx-auto px-4 md:px-6 max-w-6xl">
           
           {/* Stats Header */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-10 md:mb-16 text-center">
-            <div className="flex flex-col items-center">
-              <span className="text-5xl md:text-6xl font-black text-[#C49232] mb-2">{totalCommunities}</span>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">COMMUNITIES</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <span className="text-5xl md:text-6xl font-black text-[#C49232] mb-2">{totalCountries}</span>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">COUNTRIES</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <span className="text-5xl md:text-6xl font-black text-[#C49232] mb-2">{totalContinents}</span>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">CONTINENTS</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <span className="text-5xl md:text-6xl font-black text-[#C49232] mb-2">{totalCategories}</span>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">CATEGORIES</span>
-            </div>
-          </div>
+          <CountUpStats
+            communities={totalCommunities}
+            countries={totalCountries}
+            continents={totalContinents}
+            categories={totalCategories}
+          />
 
-          <div className="mb-6 md:mb-10 text-center md:text-left">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-black text-[#222222] tracking-tight mb-3">
+          <div className="mb-6 md:mb-10 text-center">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-[#222222] tracking-tight mb-3">
               A living, global network
             </h2>
-            <p className="text-slate-600 font-medium text-sm md:text-base">
+            <p className="text-gray-600 font-medium text-sm md:text-base max-w-xl mx-auto">
               A rotating spotlight — one crew featured, the rest a click away.
             </p>
           </div>
@@ -334,15 +323,20 @@ export default async function WaveTheWhite() {
         EXPLORE BY WHAT YOU LOVE SECTION
         ========================================
       */}
-      <section className="w-full py-10 md:py-16 bg-[#FDFBF7]">
+      {/* 
+        ========================================
+        EXPLORE BY WHAT YOU LOVE SECTION
+        ========================================
+      */}
+      <section id="explore" className="w-full py-10 md:py-16 bg-[#FDFBF7]">
         <div className="container mx-auto px-4 md:px-6 max-w-7xl">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-6 md:mb-8 gap-4">
-            <h2 className="text-3xl md:text-4xl font-black text-[#222222] tracking-tight">
+          <div className="mb-6 md:mb-12 text-center">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-[#222222] tracking-tight mb-3">
               Explore by what you love
             </h2>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-6">
+          <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
             {[
               { emoji: "🏃", title: "Running", subtitle: "Run clubs" },
               { emoji: "🛹", title: "Skating", subtitle: "Skate & roller crews" },
@@ -353,7 +347,11 @@ export default async function WaveTheWhite() {
               { emoji: "🏋️", title: "Fitness", subtitle: "Gyms & groups" },
               { emoji: "🤍", title: "Purpose", subtitle: "NGOs & volunteers" },
             ].map((category, index) => (
-              <Link href={`/communities?category=${encodeURIComponent(category.title.toLowerCase())}`} key={index} className="bg-white rounded-[20px] p-6 flex flex-col items-center justify-center text-center shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 hover:-translate-y-1 hover:shadow-md transition-all duration-300">
+              <Link
+                href={`/communities?category=${encodeURIComponent(category.title.toLowerCase())}`}
+                key={index}
+                className="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-1rem)] md:w-[calc(25%-1.125rem)] lg:w-[calc(16.666%-1.25rem)] bg-white rounded-[20px] p-6 flex flex-col items-center justify-center text-center shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 hover:-translate-y-1 hover:shadow-md transition-all duration-300"
+              >
                 <span className="text-2xl mb-3 block">{category.emoji}</span>
                 <h3 className="font-bold text-[#222222] text-[15px] mb-1">{category.title}</h3>
                 <p className="text-xs text-gray-500 font-medium">{category.subtitle}</p>
@@ -367,7 +365,7 @@ export default async function WaveTheWhite() {
         WHY YOUNG WORLD SECTION
         ========================================
       */}
-      <section className="w-full py-10 md:py-16 bg-[#FDFBF7]">
+      <section id="movement" className="w-full py-10 md:py-16 bg-[#FDFBF7]">
         <div className="container mx-auto px-4 md:px-6 max-w-5xl text-center">
           
           <p className="text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-[#C49232] mb-4 md:mb-6">
@@ -445,7 +443,7 @@ export default async function WaveTheWhite() {
         CALL TO ACTION CARDS SECTION
         ========================================
       */}
-      <section className="w-full bg-[#FDFBF7] py-10 md:py-16">
+      <section id="partners" className="w-full bg-[#FDFBF7] py-10 md:py-16">
         <div className="container mx-auto px-4 md:px-6 max-w-6xl">
           <div className="flex flex-col lg:flex-row gap-6">
             
@@ -479,7 +477,7 @@ export default async function WaveTheWhite() {
                 Authentic, mission-first access to the world&apos;s communities — ethically, at global scale. Enable moments that matter.
               </p>
               <div className="mt-auto pt-4">
-                <Link href="#" className="bg-[#C49232] text-black font-bold py-4 px-8 rounded-full hover:bg-[#b0832d] transition-colors inline-block">
+                <Link href="/contact" className="bg-[#C49232] text-black font-bold py-4 px-8 rounded-full hover:bg-[#b0832d] transition-colors inline-block">
                   Partner with us
                 </Link>
               </div>
@@ -488,146 +486,6 @@ export default async function WaveTheWhite() {
           </div>
         </div>
       </section>
-
-      {/* 
-        ========================================
-        RECENT COMMUNITIES SECTION
-        ========================================
-      */}
-
-      {/* <RecentCommunities /> */}
-
-      {/* 
-        ========================================
-        LIVE CITY WALL SECTION (HIDDEN)
-        ========================================
-      */}
-      {false && (<>
-        <section className="w-full py-28 md:py-40 bg-gradient-to-b from-white to-sky-50/50 border-t border-sky-50">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="flex flex-col items-center text-center mb-20">
-            <div className="inline-block bg-sky-100 text-sky-800 px-5 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6 animate-pulse">
-              Coming Soon
-            </div>
-            <h2 className="text-4xl md:text-5xl font-display font-bold uppercase tracking-tight mb-6 text-slate-800">
-              Live City Wall
-            </h2>
-            <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto font-light leading-relaxed">
-              The wave is spreading. Watch creators from around the globe join the movement in real-time.
-            </p>
-          </div>
-
-          {/* City Wall Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-8">
-            {[
-              { name: "Kathmandu", delay: "0s", image: "https://images.unsplash.com/photo-1623492701902-47dc207df5dc?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-              { name: "Shillong", delay: "0.2s", image: "https://images.unsplash.com/photo-1625826415766-001bd75aaf52?q=80&w=1035&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-              { name: "Colombo", delay: "0.4s", image: "https://images.unsplash.com/photo-1623595289196-007a22dd8560?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-              { name: "Bali", delay: "0.6s", image: "https://images.unsplash.com/photo-1577717903315-1691ae25ab3f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-              { name: "Guwahati", delay: "0.8s", image: "https://images.unsplash.com/photo-1611336814186-914161b9bdb6?q=80&w=3135&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-            ].map((city, idx) => (
-              <div key={idx} className="flex flex-col gap-3 group">
-                <div className="relative aspect-[9/16] bg-sky-100/50 rounded-3xl overflow-hidden shadow-sm border border-sky-100 group-hover:shadow-[0_8px_30px_rgba(212,156,7,0.15)] group-hover:-translate-y-1 transition-all duration-500">
-                  {/* City Background Image */}
-                  <img src={city.image} alt={city.name} className="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-105 transition-transform duration-700" />
-                  
-                  {/* Gradient Overlay for Text Readability */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-sky-900/80 via-sky-900/10 to-transparent z-10"></div>
-
-                  <div className="absolute inset-0 flex items-center justify-center opacity-40 z-10 text-white group-hover:opacity-80 transition-opacity">
-                    <svg className="w-12 h-12 drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  
-                  <div className="absolute bottom-5 left-5 right-5 z-20 flex flex-col">
-                    <span className="text-[10px] uppercase font-bold tracking-widest text-sky-100 drop-shadow-md mb-1">Coming Soon</span>
-                    <h3 className="text-white font-medium text-xl tracking-wide drop-shadow-md">
-                      {city.name}
-                    </h3>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 
-        ========================================
-        FEATURED CREATOR REELS SECTION
-        ========================================
-      */}
-      <section className="w-full py-28 md:py-40 bg-white text-slate-800 border-t border-sky-50 overflow-hidden relative">
-        {/* Dynamic Background Effects */}
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-sky-50 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/4 pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-sky-100/40 rounded-full blur-[150px] translate-y-1/4 -translate-x-1/4 pointer-events-none"></div>
-
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-6">
-            <div className="max-w-2xl">
-              <div className="inline-block bg-sky-100 text-sky-800 border border-sky-200 px-5 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6">
-                Featured
-              </div>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold uppercase tracking-tight mb-6 drop-shadow-sm text-slate-800">
-                Creator Reels
-              </h2>
-              <p className="text-lg md:text-xl text-slate-500 font-light leading-relaxed">
-                Best clips, emotional edits, and city waves. Experience the energy.
-              </p>
-            </div>
-            <a href="#" className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-sky-600 hover:text-sky-800 transition-colors group pb-2 border-b-2 border-sky-100 hover:border-sky-500">
-              Watch All
-              <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-            </a>
-          </div>
-
-          {/* Reels Carousel/Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-            {[
-              { title: "The Best of NYC", type: "City Wave", views: "1.2M", delay: "0s" },
-              { title: "Moments of Peace", type: "Emotional Edit", views: "850K", delay: "0.2s" },
-              { title: "Skating the White", type: "Action", views: "2.1M", delay: "0.4s" },
-              { title: "Global Montage", type: "Best Reel", views: "3.5M", delay: "0.6s" },
-            ].map((reel, idx) => (
-              <div key={idx} className="group relative aspect-[9/16] bg-sky-50 rounded-3xl overflow-hidden cursor-pointer shadow-md border border-sky-100 hover:shadow-[0_8px_30px_rgba(212,156,7,0.15)] hover:border-sky-300 transition-all duration-500 hover:-translate-y-2">
-                
-                {/* Simulated Video Background */}
-                <div className="absolute inset-0 bg-sky-200/50 animate-pulse" style={{ animationDelay: reel.delay }}></div>
-                <div className="absolute inset-0 bg-gradient-to-t from-sky-900/80 via-sky-900/20 to-transparent opacity-80 group-hover:opacity-70 transition-opacity duration-500 z-10"></div>
-                
-                {/* Play Button Overlay */}
-                <div className="absolute inset-0 flex items-center justify-center z-20">
-                  <div className="w-16 h-16 bg-white/40 backdrop-blur-md rounded-full flex items-center justify-center border border-white/60 group-hover:scale-110 group-hover:bg-white group-hover:text-sky-500 transition-all duration-500 text-white shadow-lg">
-                    <svg className="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  </div>
-                </div>
-
-                {/* Content Overlay */}
-                <div className="absolute bottom-6 left-5 right-5 z-20 transform group-hover:-translate-y-2 transition-transform duration-500">
-                  <div className="flex items-center gap-2 mb-3 flex-wrap">
-                    <span className="bg-sky-500 text-white px-2 py-1 rounded text-[10px] font-bold uppercase tracking-widest shadow-sm">
-                      {reel.type}
-                    </span>
-                    <span className="text-[10px] font-bold text-sky-100 drop-shadow-md">
-                      {reel.views} Views
-                    </span>
-                  </div>
-                  <h3 className="text-xl font-medium text-white leading-tight drop-shadow-md">
-                    {reel.title}
-                  </h3>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-      </>)}
 
       {/* 
         ========================================
@@ -640,45 +498,6 @@ export default async function WaveTheWhite() {
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-sky-100/50 rounded-full blur-[100px] pointer-events-none"></div>
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
-
-          {/* Reinforcement Block (HIDDEN) */}
-          {false && (
-          <div className="max-w-4xl mx-auto text-center border border-sky-50 shadow-[0_8px_40px_rgba(212,156,7,0.06)] rounded-3xl p-10 md:p-14 mb-16 bg-white relative overflow-hidden">
-            {/* Inner Glare Effect */}
-            <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-sky-50/50 to-transparent pointer-events-none"></div>
-
-            <h4 className="text-3xl md:text-4xl font-light mb-6 tracking-tight text-slate-800">That&apos;s it.</h4>
-            <div className="text-lg md:text-xl text-slate-500 space-y-2 font-light">
-              <p>No choreography. No location required.</p>
-              <p>From your home to the beach to the streets —</p>
-              <p className="font-normal text-sky-600 mt-4 text-2xl drop-shadow-sm">peace can start anywhere.</p>
-            </div>
-
-            <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link
-                href="/checkyourcommunityin"
-                className="bg-sky-500 text-white font-medium py-3.5 px-8 rounded-full text-lg shadow-[0_4px_14px_rgba(212,156,7,0.39)] hover:bg-sky-600 hover:scale-105 transition-all w-full sm:w-auto"
-              >
-                JOIN THE ROLL CALL
-              </Link>
-              <a
-                href="#listen"
-                className="bg-sky-50 border border-sky-100 text-sky-700 hover:bg-sky-100 font-medium py-3.5 px-8 rounded-full flex items-center justify-center gap-2 transition-all shadow-sm w-full sm:w-auto"
-              >
-                <Music className="w-4 h-4" /> Listen to the Track
-              </a>
-            </div>
-          </div>
-          )}
-
-
-
-          {/* 
-            ========================================
-            STAY CONNECTED SECTION (Removed)
-            ========================================
-          */}
-
         </div>
       </section>
 

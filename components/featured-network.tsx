@@ -56,7 +56,7 @@ export default function FeaturedNetwork({ foundingCommunities, totalCommunities 
   const featuredFlag = featuredCleanCountry ? (countryFlags[featuredCleanCountry] || "🌍") : "🌍";
   const featuredCategory = featured.community_role || 'COMMUNITY';
   const featuredLocationStr = [featured.city, featured.country].filter(Boolean).join(' - ').toUpperCase();
-  const featuredSlug = featuredName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+  const featuredSlug = featuredName.toLowerCase().replace(/[^a-z0-9]/g, '');
 
   // Get 5 communities to show in the list (starting from the current featured)
   const visibleList = [];
@@ -94,7 +94,7 @@ export default function FeaturedNetwork({ foundingCommunities, totalCommunities 
           const cleanCountry = c.country ? c.country.trim().toLowerCase() : '';
           const flag = cleanCountry ? (countryFlags[cleanCountry] || "🌍") : "🌍";
           const initials = name.split(' ').map((n: string) => n[0]).filter(Boolean).slice(0, 2).join('').toUpperCase();
-          const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+          const slug = name.toLowerCase().replace(/[^a-z0-9]/g, '');
           const category = c.community_role || 'COMMUNITY';
           const loc = [c.city, c.country].filter(Boolean).join(', ');
           const isActive = idx === 0;

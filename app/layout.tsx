@@ -3,21 +3,31 @@ import "./globals.css";
 import Script from "next/script";
 
 export const metadata: Metadata = {
-  title: "Young World Entertainment | Wave the White",
-  description: "The World's Biggest Friendship Roll Call. Where communities from all corners of the world check in on Friendship Day to make sure nobody gets left out.",
-  keywords: ["Young World Entertainment", "Wave the White", "Friendship Day", "Global Community", "Roll Call"],
+  metadataBase: new URL("https://www.youngworld.live"),
+  title: "Young World — A global network of communities",
+  description: "Discover communities and their events, all over the world. Find your people. Find something to do.",
+  keywords: ["Young World", "Young World Entertainment", "Global Network", "Communities", "Events", "Find your people"],
   openGraph: {
-    title: "Young World Entertainment | Wave the White",
-    description: "The World's Biggest Friendship Roll Call. Where communities from all corners of the world check in on Friendship Day.",
-    url: "https://youngworld.life",
-    siteName: "Young World Entertainment",
+    title: "Young World — A global network of communities",
+    description: "Discover communities and their events, all over the world. Find your people. Find something to do.",
+    url: "https://www.youngworld.live",
+    siteName: "Young World",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "/logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Young World",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Young World Entertainment | Wave the White",
-    description: "The World's Biggest Friendship Roll Call. Where communities from all corners of the world check in on Friendship Day.",
+    title: "Young World — A global network of communities",
+    description: "Discover communities and their events, all over the world. Find your people. Find something to do.",
+    images: ["/logo.png"],
   },
 };
 

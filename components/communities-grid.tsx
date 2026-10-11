@@ -67,8 +67,8 @@ export default function CommunitiesGrid({ initialCommunities, error }: { initial
                         const cleanCountry = community.country ? community.country.trim().toLowerCase() : '';
                         const flag = cleanCountry ? (countryFlags[cleanCountry] || "🌍") : "🌍";
 
-                        // Basic slugify for URL
-                        const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+                        // Generate slug without hyphens
+                        const slug = name.toLowerCase().replace(/[^a-z0-9]/g, '');
 
                         return (
                             <Link href={`/community/${slug}`} key={community.id} className="bg-white rounded-[24px] p-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 flex flex-col hover:-translate-y-1 hover:shadow-md transition-all group">

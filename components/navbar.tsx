@@ -38,9 +38,15 @@ export default function Navbar() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between">
                         <Link href="/" className="flex items-center group">
-                            <div className="flex flex-col">
-                                <span className="text-[#C49232] font-black text-xl tracking-tight leading-none group-hover:text-[#b0832d] transition-colors">YOUNG WORLD</span>
-                                <span className="text-gray-500 text-[10px] font-bold tracking-[0.25em] mt-0.5 group-hover:text-gray-700 transition-colors">ENTERTAINMENT</span>
+                            <div className="relative w-44 h-14">
+                                <Image
+                                    src="/logo.png"
+                                    alt="Young World Logo"
+                                    fill
+                                    sizes="176px"
+                                    className="object-contain object-left group-hover:scale-105 transition-transform duration-300"
+                                    priority
+                                />
                             </div>
                         </Link>
 
@@ -48,28 +54,28 @@ export default function Navbar() {
 
                         <div className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
                             <Link
-                                href="#"
-                                className="text-gray-600 hover:text-black transition-colors text-[15px] font-medium"
-                            >
-                                Events
-                            </Link>
-                            <Link
-                                href="#"
-                                className="text-gray-600 hover:text-black transition-colors text-[15px] font-medium"
-                            >
-                                Explore
-                            </Link>
-                            <Link
-                                href="#"
+                                href="/communities"
                                 className="text-gray-600 hover:text-black transition-colors text-[15px] font-medium"
                             >
                                 Communities
                             </Link>
                             <Link
-                                href="#"
+                                href="/#explore"
+                                className="text-gray-600 hover:text-black transition-colors text-[15px] font-medium"
+                            >
+                                Explore
+                            </Link>
+                            <Link
+                                href="/#movement"
                                 className="text-gray-600 hover:text-black transition-colors text-[15px] font-medium"
                             >
                                 The Movement
+                            </Link>
+                            <Link
+                                href="/about"
+                                className="text-gray-600 hover:text-black transition-colors text-[15px] font-medium"
+                            >
+                                About Us
                             </Link>
                         </div>
 
@@ -99,7 +105,7 @@ export default function Navbar() {
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: '100%' }}
                         transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                        className="fixed inset-0 z-[60] bg-white/90 backdrop-blur-[60px] flex flex-col justify-center items-center md:hidden"
+                        className="fixed inset-0 z-[60] bg-white/95 backdrop-blur-[60px] flex flex-col justify-between items-center md:hidden px-6 py-8 overflow-y-auto"
                     >
                         {/* Liquid Glass Subtle Highlights */}
                         <div className="absolute inset-0 bg-gradient-to-br from-sky-50 via-transparent to-white pointer-events-none"></div>
@@ -108,45 +114,52 @@ export default function Navbar() {
 
                         <button
                             onClick={() => setMobileMenuOpen(false)}
-                            className="absolute top-6 right-6 text-slate-400 hover:text-slate-800 transition-colors"
+                            className="absolute top-6 right-6 text-slate-400 hover:text-slate-800 transition-colors z-20"
+                            aria-label="Close menu"
                         >
                             <X className="w-8 h-8" />
                         </button>
 
-                        <div className="flex flex-col gap-8 text-center relative z-10 w-full px-6">
+                        <div className="flex flex-col gap-4 text-center relative z-10 w-full mt-12 my-auto">
+                            <Link
+                                href="/communities"
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="w-full bg-white/70 border border-slate-100 text-slate-800 py-3.5 rounded-full text-base font-bold uppercase tracking-wider hover:bg-slate-50 hover:text-slate-900 transition-all shadow-sm"
+                            >
+                                Communities
+                            </Link>
+                            <Link
+                                href="/#explore"
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="w-full bg-white/70 border border-slate-100 text-slate-800 py-3.5 rounded-full text-base font-bold uppercase tracking-wider hover:bg-slate-50 hover:text-slate-900 transition-all shadow-sm"
+                            >
+                                Explore
+                            </Link>
+                            <Link
+                                href="/#movement"
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="w-full bg-white/70 border border-slate-100 text-slate-800 py-3.5 rounded-full text-base font-bold uppercase tracking-wider hover:bg-slate-50 hover:text-slate-900 transition-all shadow-sm"
+                            >
+                                The Movement
+                            </Link>
+                            <Link
+                                href="/about"
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="w-full bg-white/70 border border-slate-100 text-slate-800 py-3.5 rounded-full text-base font-bold uppercase tracking-wider hover:bg-slate-50 hover:text-slate-900 transition-all shadow-sm"
+                            >
+                                About Us
+                            </Link>
+                        </div>
 
-
-                            <div className="flex flex-col gap-4 w-full mt-10">
-                                <Link
-                                    href="/#events"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                    className="w-full bg-white/50 border border-slate-100 text-slate-800 py-4 rounded-full text-lg font-bold uppercase tracking-widest hover:bg-slate-50 hover:text-slate-900 transition-all shadow-sm"
-                                >
-                                    Events
-                                </Link>
-                                <Link
-                                    href="#"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                    className="w-full bg-white/50 border border-slate-100 text-slate-800 py-4 rounded-full text-lg font-bold uppercase tracking-widest hover:bg-slate-50 hover:text-slate-900 transition-all shadow-sm"
-                                >
-                                    Explore
-                                </Link>
-                                <Link
-                                    href="/communities"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                    className="w-full bg-white/50 border border-slate-100 text-slate-800 py-4 rounded-full text-lg font-bold uppercase tracking-widest hover:bg-slate-50 hover:text-slate-900 transition-all shadow-sm"
-                                >
-                                    Communities
-                                </Link>
-                                <Link
-                                    href="#"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                    className="w-full bg-white/50 border border-slate-100 text-slate-800 py-4 rounded-full text-lg font-bold uppercase tracking-widest hover:bg-slate-50 hover:text-slate-900 transition-all shadow-sm"
-                                >
-                                    The Movement
-                                </Link>
-                                {/* Mobile Login and Sign Up links removed */}
-                            </div>
+                        {/* Bottom CTA for Mobile */}
+                        <div className="relative z-10 w-full pt-6 pb-2">
+                            <Link
+                                href="/checkyourcommunityin"
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="block w-full text-center bg-[#222222] text-white py-4 rounded-full text-base font-bold hover:bg-black transition-colors shadow-lg"
+                            >
+                                List your community
+                            </Link>
                         </div>
                     </motion.div>
                 )}

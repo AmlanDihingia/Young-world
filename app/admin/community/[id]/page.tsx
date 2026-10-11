@@ -78,6 +78,16 @@ export default async function EditCommunityPage({ params }: { params: Promise<{ 
                             </div>
 
                             <div>
+                                <label className="block text-sm font-medium text-slate-700 mb-2">City</label>
+                                <input 
+                                    name="city" 
+                                    type="text" 
+                                    defaultValue={profile.city || ''} 
+                                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 focus:outline-none focus:border-blue-500 transition-colors"
+                                />
+                            </div>
+
+                            <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-2">Members (e.g., "Growing every day", "50+")</label>
                                 <input 
                                     name="members" 
@@ -94,6 +104,16 @@ export default async function EditCommunityPage({ params }: { params: Promise<{ 
                                 name="instagram" 
                                 type="url" 
                                 defaultValue={profile.community_insta || profile.social_url || ''} 
+                                className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 focus:outline-none focus:border-blue-500 transition-colors"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-slate-700 mb-2">Facebook URL</label>
+                            <input 
+                                name="community_facebook" 
+                                type="url" 
+                                defaultValue={profile.community_facebook || ''} 
                                 className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 focus:outline-none focus:border-blue-500 transition-colors"
                             />
                         </div>

@@ -78,8 +78,8 @@ export default function LoginPage({
                     <Link href="/" className="inline-flex items-center gap-2 mb-8 hover:opacity-80 transition-opacity group">
                         <div className="relative w-80 h-40">
                             <Image
-                                src="/rollcall-logo.png"
-                                alt="Roll Call Logo"
+                                src="/logo.png"
+                                alt="Young World Logo"
                                 fill
                                 className="object-contain group-hover:scale-105 transition-transform duration-300"
                             />
