@@ -239,6 +239,13 @@ export default async function CommunityPage(props: Props) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             
             <div className="md:col-span-2 space-y-12">
+              <div>
+                <h2 className="text-2xl font-bold text-[#222222] mb-6">About the Community</h2>
+                <p className="text-lg text-slate-600 leading-relaxed">
+                  {community.description}
+                </p>
+              </div>
+
               <div className="bg-white rounded-[24px] p-8 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100">
                 <h3 className="text-xl font-bold text-[#222222] mb-4">Upcoming Events</h3>
                 <div className="text-center py-10 bg-gray-50 rounded-xl border border-dashed border-gray-200">
@@ -315,13 +322,6 @@ export default async function CommunityPage(props: Props) {
                     defaultCountry={community.country !== 'Unknown' ? community.country : ''}
                   />
                 </div>
-              </div>
-
-              <div>
-                <h2 className="text-2xl font-bold text-[#222222] mb-6">About the Community</h2>
-                <p className="text-lg text-slate-600 leading-relaxed">
-                  {community.description}
-                </p>
               </div>
 
               {/* Featured Reel from Admin Dashboard */}
