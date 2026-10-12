@@ -16,10 +16,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/logo.png",
+        url: "/share-card.jpeg",
         width: 1200,
-        height: 630,
-        alt: "Young World",
+        height: 1200,
+        alt: "Young World — Find your people. Find something to do.",
       },
     ],
   },
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Young World — A global network of communities",
     description: "Discover communities and their events, all over the world. Find your people. Find something to do.",
-    images: ["/logo.png"],
+    images: ["/share-card.jpeg"],
   },
 };
 
